@@ -9686,15 +9686,18 @@ $('#sidebar a').each(function () {
     var id = that.attr('href').substring(1);
     that.click(function (e) {
         var header = $('article a[name="'+ id +'"]')
-        if (!header.parent().hasClass('active')) header.trigger('click');
-        $('html, body').animate({ scrollTop: header.offset().top }, 'fast');
+        if (header.length) {
+            if (!header.parent().hasClass('active')) header.trigger('click');
+            $('html, body').animate({ scrollTop: header.offset().top }, 'fast');
+        } else {
+            $('html, body').animate({ scrollTop: 0 }, 'fast');
+        }
     });
 
     var id2 = id.substring(1);
     // If we find a link in the body with similar anchor, add the same behavior
     $('.body a[href="#'+ id2 +'"]').click(function (e) {
         $('#sidebar a[href="#'+ id +'"]').trigger('click');
-
     });
 });
 

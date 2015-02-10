@@ -18,18 +18,15 @@ layout: default
 	{% endif %}
 {% endfor %}
 {% for category in site.categories %}
-	<!-- <h2>{{ category | first }}</h2> -->
-	{% for posts in category %}
-		{% for post in posts %}
-			{% if post.url %}
-			<article class='{{ post.type }}'>
-				<a name='{{ post.url }}' href='#{{ post.url }}'><h2>{% if post.type %}<code><b>{{ post.type }}</b> {{ post.path }}</code> {% endif %}{{ post.title }}</h2></a>
-				<section class='body'>
-					{{ post.content }}
-				</section>
-			</article>
-			{% endif %}
-		{% endfor %}
+	<!--<h2>{{ category[0] }}</h2>-->
+	{% assign sorted_posts = (category[1] | sort: 'order', 'last') %}
+	{% for post in sorted_posts %}
+		<article class='{{ post.type }}'>
+			<a name='{{ post.url }}' href='#{{ post.url }}'><h2>{% if post.type %}<code><b>{{ post.type }}</b> {{ post.path }}</code> {% endif %}{{ post.title }}</h2></a>
+			<section class='body'>
+				{{ post.content }}
+			</section>
+		</article>
 	{% endfor %}
 {% endfor %}
 </section>
