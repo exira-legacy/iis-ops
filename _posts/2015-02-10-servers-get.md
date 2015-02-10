@@ -1,5 +1,5 @@
 ---
-category: Servers
+category: 'Servers'
 path: '/servers'
 title: 'Get servers'
 type: 'GET'
