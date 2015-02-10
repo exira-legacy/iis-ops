@@ -441,7 +441,7 @@ code {
 #sidebar {
   background: #191919;
   color: #fff;
-  float: left;  
+  float: left;
   height: 100%;
   overflow: auto;
   position: fixed;
@@ -475,6 +475,7 @@ code {
 
 #sidebar ul ul {
   padding-left: 20px;
+  margin-top: 15px;
 }
 
 #sidebar ul li a {
