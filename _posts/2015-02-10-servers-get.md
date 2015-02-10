@@ -3,11 +3,12 @@ category: 'Servers'
 path: '/servers'
 title: 'Get servers'
 type: 'GET'
+order: 1
 
 layout: null
 ---
 
-This method allows users to see a list of all servers managed by this API.
+This method allows to see a list of all managed servers.
 
 ### Request
 
@@ -15,17 +16,17 @@ This method allows users to see a list of all servers managed by this API.
 
 ### Response
 
-Sends back a collection of servers managed by this API.
+Sends back a collection of managed servers.
 
 ```Status: 200 OK```
 ```{
     {
-        id: 'win1',
+        slug: 'win1',
         dns: 'win1.exira.com',
         description: 'Windows 2012 R2 @ Frankfurt'
     },
     {
-        id: 'win2',
+        slug: 'win2',
         dns: 'win2.exira.com',
         description: 'Windows 2008 @ Dublin'
     }
