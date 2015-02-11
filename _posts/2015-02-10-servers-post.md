@@ -13,8 +13,8 @@ This method allows to add a new server to be managed.
 ### Request
 
 ```POST /servers
-Authentication: bearer TOKEN```
-```{
+Authentication: bearer TOKEN
+{
     "dns": "win3.exira.com",
     "description": "Windows 2012 R2 @ Oregon"
 }```
@@ -32,7 +32,12 @@ Location: https://api/servers/d2f4g6```
         "href": "https://api/servers/d2f4g6"
     },
     "dns": "win3.exira.com",
-    "description": "Windows 2012 R2 @ Oregon"
+    "description": "Windows 2012 R2 @ Oregon",
+    "sites": {
+        "meta": {
+            "href": "https://api/servers/d2f4g6/sites"
+        }
+    }
 }```
 
 For errors responses, see the [response status codes documentation](#response-status-codes).

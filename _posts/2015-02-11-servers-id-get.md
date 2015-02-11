@@ -27,6 +27,11 @@ Sends back all details of a managed server.
     },
     "dns": "win1.exira.com",
     "description": "Windows 2012 R2 @ Frankfurt",
+    "sites": {
+        "meta": {
+            "href": "https://api/servers/a1b2c3/sites"
+        }
+    },
     ...
 }```
 

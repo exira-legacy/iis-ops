@@ -28,13 +28,23 @@ Sends back a collection of managed servers.
         },
         "dns": "win1.exira.com",
         "description": "Windows 2012 R2 @ Frankfurt",
+        "sites": {
+            "meta": {
+                "href": "https://api/servers/a1b2c3/sites"
+            }
+        }
     },
     {
         "meta": {
             "href": "https://api/servers/b5c3a1"
         },
         "dns": "win2.exira.com",
-        "description": "Windows 2008 @ Dublin"
+        "description": "Windows 2008 @ Dublin",
+        "sites": {
+            "meta": {
+                "href": "https://api/servers/b5c3a1/sites"
+            }
+        }
     }
 }```
 
