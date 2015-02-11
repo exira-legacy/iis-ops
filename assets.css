@@ -514,7 +514,7 @@ code {
 #content {
   padding: 20px;
   padding-left: 260px;
-  max-width: 700px;
+  /*max-width: 700px;*/
 }
 
 #content .control {
@@ -637,4 +637,15 @@ code {
   display: block;
   padding: 15px;
   white-space: pre;
+}
+
+@media (max-width: 900px) {
+    #sidebar {
+        display: none;
+    }
+    
+    #content {
+      padding: 20px;
+      padding-left: 20px;
+    }
 }
