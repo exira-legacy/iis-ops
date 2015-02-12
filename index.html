@@ -17,6 +17,7 @@ layout: default
 	</article>
 	{% endif %}
 {% endfor %}
+
 {% for category in site.categories %}
 	<!--<h2>{{ category[0] }}</h2>-->
 	{% assign sorted_posts = (category[1] | sort: 'order', 'last') %}
