@@ -1,6 +1,6 @@
 ---
 category: 'Sites'
-path: '/servers/{server}/site'
+path: '/servers/{server}/sites'
 title: 'Create a site'
 type: 'POST'
 order: 2
