@@ -19,7 +19,6 @@ layout: default
 {% endfor %}
 
 {% for category in site.categories %}
-	<!--<h2>{{ category[0] }}</h2>-->
 	{% assign sorted_posts = (category[1] | sort: 'order', 'last') %}
 	{% for post in sorted_posts %}
 		<article class='{{ post.type }}'>
