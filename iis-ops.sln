@@ -1,10 +1,32 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{B16DCD5C-F3E1-44BF-B738-B884F8D52A9A}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6EB3F2B3-9D36-4E67-BAF3-6280C7036B3D}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Tests", "tests\Exira.IIS.Tests\Exira.IIS.Tests.fsproj", "{9F489D8C-4057-41BE-92A2-D5208EF83A53}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9F489D8C-4057-41BE-92A2-D5208EF83A53} = {6EB3F2B3-9D36-4E67-BAF3-6280C7036B3D}
 	EndGlobalSection
 EndGlobal
