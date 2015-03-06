@@ -1,0 +1,16 @@
+﻿Feature: Create websites
+  In order to host their sites
+  API users should be able to 
+  Create websites in IIS based on their master DNS name (example.org)
+
+  Scenario: Create a new website
+    Given a server web1
+    When I request a new website example.org on server web1
+    Then a new website example.org should be added to server web1
+    And a new binding www.example.org should be added to website example.org on server web1
+
+  Scenario: Cannot create a website which already exists
+    Given a server web1
+    And a website example.org on server web1
+    When I request a new website example.org on server web1
+    Then no website should be created
