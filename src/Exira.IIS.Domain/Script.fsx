@@ -2,7 +2,7 @@
 // for more guidance on F# programming.
 
 #load "Library1.fs"
-open Exira.IIS.Tests
+open Exira.IIS.Domain
 
 // Define your library scripting code here
 

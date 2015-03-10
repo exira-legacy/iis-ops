@@ -5,7 +5,7 @@ open System.IO
 open System.Reflection
 open TickSpec
 
-let assembly = Assembly.GetExecutingAssembly() 
+let assembly = Assembly.GetExecutingAssembly()
 let definitions = new StepDefinitions(assembly)
 
 /// Inherit from FeatureFixture to define a feature fixture

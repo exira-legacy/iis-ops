@@ -7,13 +7,13 @@ open NUnit.Framework
 
 let mutable stockItem = { Count = 0 }
 
-let [<Given>] ``a server (.*)``  (serverName:string) = 
+let [<Given>] ``a server (.*)``  (serverName:string) =
     ()
-      
-let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =  
+
+let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
     ()
     //stockItem <- { stockItem with Count = n }
-      
+
 let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
     ()
     //stockItem <- { stockItem with Count = stockItem.Count + 1 }
