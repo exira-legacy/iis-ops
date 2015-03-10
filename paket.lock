@@ -2,6 +2,8 @@ NUGET
   remote: https://nuget.org/api/v2
   specs:
     FSharp.Configuration (0.5.0)
+    GNaP.WebApi.Versioning (1.0.6.0)
+      Microsoft.AspNet.WebApi.Core (>= 5.2.2)
     Microsoft.AspNet.Cors (5.2.3)
     Microsoft.AspNet.WebApi.Client (5.2.3)
       Microsoft.Net.Http (>= 2.2.22) - framework: portable-wp80+win+net45+wp81+wpa81
@@ -18,7 +20,7 @@ NUGET
     Microsoft.Bcl (1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Bcl.Build (1.0.21)
-    Microsoft.Net.Http (2.2.29) - framework: portable-wp80+win+net45+wp81+wpa81
+    Microsoft.Net.Http (2.2.29)
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Owin (3.0.1)
@@ -26,7 +28,7 @@ NUGET
     Microsoft.Owin.Host.SystemWeb (3.0.1)
       Microsoft.Owin (>= 3.0.1)
       Owin (>= 1.0)
-    Newtonsoft.Json (6.0.8) - framework: portable-wp80+win+net45+wp81+wpa81, >= net45
+    Newtonsoft.Json (6.0.8) - framework: >= net45
     NUnit (2.6.4)
     Owin (1.0)
     TickSpec (1.0.1.1)

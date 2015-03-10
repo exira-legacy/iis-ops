@@ -3,6 +3,7 @@
 open System.Net
 open System.Net.Http
 open System.Web.Http
+open GNaP.WebApi.Versioning
 
 type Server =
     { Dns : string
@@ -18,10 +19,10 @@ type ServersController() =
            { Dns = "win2.exira.com"
              Description = "Windows 2008 @ Dublin" } |]
 
-    [<Route>]
+    [<VersionedRoute>]
     member this.Get() = values
 
-    [<Route("{id:int:min(1)}")>]
+    [<VersionedRoute("{id:int:min(1)}")>]
     member this.Get(request : HttpRequestMessage, id : int) =
         if id >= 0 && values.Length > id then
             request.CreateResponse(values.[id])
