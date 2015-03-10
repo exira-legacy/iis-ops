@@ -1,26 +1,48 @@
 ﻿namespace Exira.IIS
 
 open Owin
-//open Microsoft.Owin
-//open System
-//open System.Net.Http
-//open System.Web
+open Microsoft.Owin.Extensions
 open System.Web.Http
-//open System.Web.Http.Owin
 open Newtonsoft.Json.Serialization
+open System.Web.Http.Cors
+open FSharp.Configuration
+
+type WebConfig = YamlConfig<"Web.yaml">
 
 [<Sealed>]
 type Startup() =
 
-    static member RegisterWebApi(config: HttpConfiguration) =
-        config.MapHttpAttributeRoutes()
+    let webConfig = WebConfig()
 
+    let configureRouting (config: HttpConfiguration) =
+        config.MapHttpAttributeRoutes()
+        config
+
+    let configureFormatters (config: HttpConfiguration)  =
         config.Formatters.Remove config.Formatters.XmlFormatter |> ignore
         config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- CamelCasePropertyNamesContractResolver()
+        config
 
-    member __.Configuration(app: IAppBuilder) =
+    let configureCors (config: HttpConfiguration) =
+        let urls = System.String.Join(",",  webConfig.Web.CORS.AllowedOrigins)
+        let cors = new EnableCorsAttribute(urls, "*", "*")
+        config.EnableCors(cors);
+        config
+
+    let configureApi (inner: IAppBuilder) (config: HttpConfiguration) =
+        inner.UseWebApi config |> ignore
+        inner.UseStageMarker(PipelineStage.MapHandler) |> ignore
+
+    let registerWebApi (app: IAppBuilder) (basePath: string) =
         let config = new HttpConfiguration()
 
-        Startup.RegisterWebApi(config)
+        config
+        |> configureRouting
+        |> configureFormatters
+        |> configureCors
+        |> ignore
 
-        app.UseWebApi config |> ignore
+        app.Map(basePath, fun inner -> configureApi inner config) |> ignore
+
+    member __.Configuration(app: IAppBuilder) =
+        registerWebApi app "/api"

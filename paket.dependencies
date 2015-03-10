@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 
+nuget FSharp.Configuration
 nuget Microsoft.AspNet.WebApi.Cors
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
