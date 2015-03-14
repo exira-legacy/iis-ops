@@ -100,6 +100,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Sites.fs" />
     <Compile Include="Servers.fs" />
     <Compile Include="Startup.fs" />
     <None Include="Web.yaml" />
