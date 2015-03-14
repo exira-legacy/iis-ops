@@ -46,3 +46,4 @@ type Startup() =
 
     member __.Configuration(app: IAppBuilder) =
         registerWebApi app "/api"
+        app.Run(fun c -> c.Response.WriteAsync("Hello iis-ops!"))
