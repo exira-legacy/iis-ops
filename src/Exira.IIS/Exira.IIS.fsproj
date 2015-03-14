@@ -100,6 +100,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="WebStartup.fs" />
     <Compile Include="Sites.fs" />
     <Compile Include="Servers.fs" />
     <Compile Include="Startup.fs" />
@@ -122,6 +123,24 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Exira.EventStore\Exira.EventStore.fsproj">
+      <Name>Exira.EventStore</Name>
+      <Project>{2414b97b-ca6f-4e43-bd2d-d55cc8c52a34}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="EventStore.ClientAPI">
+          <HintPath>..\..\packages\EventStore.Client\lib\net40\EventStore.ClientAPI.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
       <ItemGroup>

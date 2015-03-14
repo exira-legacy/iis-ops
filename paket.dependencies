@@ -1,6 +1,7 @@
-redirects on
+redirects: on
 source https://nuget.org/api/v2
 
+nuget EventStore.Client
 nuget FSharp.Configuration
 nuget GNaP.WebApi.Versioning
 nuget Microsoft.AspNet.WebApi.Cors

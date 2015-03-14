@@ -1,6 +1,7 @@
 ﻿namespace Exira.IIS
 
 module Servers =
+    open WebStartup
     open System.Net
     open System.Net.Http
     open System.Web.Http
