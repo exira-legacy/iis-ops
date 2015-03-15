@@ -1,4 +1,4 @@
-﻿namespace Exira.IIS.Contract
+﻿namespace Exira.IIS.Domain
 
 module Commands =
     open System

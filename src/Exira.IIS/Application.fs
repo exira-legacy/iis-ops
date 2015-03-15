@@ -5,8 +5,8 @@ module Application =
     open System.Net.Http
     open System.Web.Http
     open Exira.EventStore.EventStore
-    open Exira.IIS.Contract.Railway
-    open Exira.IIS.Contract.Commands
+    open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.Commands
 
     let es = connect()
 
@@ -14,8 +14,8 @@ module Application =
         match f with
         | _ -> "Doh!"
 
-    let matchToResult (controller:'T when 'T :> ApiController) res =
-        match res with
+    let matchToResult (controller:'T when 'T :> ApiController) result =
+        match result with
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)
         | Failure f -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (map f))
 

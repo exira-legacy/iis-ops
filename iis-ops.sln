@@ -18,7 +18,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS", "src\Exira.IIS\
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.EventStore", "src\Exira.EventStore\Exira.EventStore.fsproj", "{2414B97B-CA6F-4E43-BD2D-D55CC8C52A34}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Contract", "src\Exira.IIS.Contract\Exira.IIS.Contract.fsproj", "{8F95E21D-2C91-42DE-B07E-181A49110A50}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Domain", "src\Exira.IIS.Domain\Exira.IIS.Domain.fsproj", "{8F95E21D-2C91-42DE-B07E-181A49110A50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

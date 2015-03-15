@@ -7,7 +7,7 @@ module Servers =
     open System.Net.Http
     open System.Web.Http
     open GNaP.WebApi.Versioning
-    open Exira.IIS.Contract.Commands
+    open Exira.IIS.Domain.Commands
 
     type Server =
         { Dns : string

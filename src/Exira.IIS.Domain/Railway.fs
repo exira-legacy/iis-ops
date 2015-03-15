@@ -1,4 +1,4 @@
-﻿namespace Exira.IIS.Contract
+﻿namespace Exira.IIS.Domain
 
 module Railway =
     type Error =
