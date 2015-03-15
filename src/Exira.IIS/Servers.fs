@@ -29,7 +29,6 @@ module Servers =
         [<VersionedRoute>]
         member this.Post(command: InitializeServerCommand) =
             command |> application this
-            ()
 
         [<VersionedRoute("{id:int:min(1)}")>]
         member this.Get(id: int) =
@@ -41,4 +40,3 @@ module Servers =
         [<VersionedRoute("{serverId:guid}")>]
         member this.Delete(serverId: Guid, command: RetireServerCommand) =
             {command with ServerId = serverId} |> application this
-            ()

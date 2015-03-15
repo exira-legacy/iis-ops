@@ -5,8 +5,11 @@ module Commands =
     open Railway
 
     type Command =
-        | InitializeServerCommand of InitializeServerCommand
-        | RetireServerCommand of RetireServerCommand
+        | Server of ServerCommand
+
+    and ServerCommand =
+        | InitializeServer of InitializeServerCommand
+        | RetireServer of RetireServerCommand
 
     and InitializeServerCommand = {
         ServerId: Guid
@@ -20,11 +23,6 @@ module Commands =
 
     let parseCommand (command: obj) =
         match command with
-        | :? InitializeServerCommand as d -> Success (Command.InitializeServerCommand(d))
-        | :? RetireServerCommand as d -> Success (Command.RetireServerCommand(d))
+        | :? InitializeServerCommand as cmd -> Success (ServerCommand.InitializeServer(cmd))
+        | :? RetireServerCommand as cmd -> Success (ServerCommand.RetireServer(cmd))
         | _ -> Failure (UnknownDto (command.GetType().Name))
-
-//    type Command =
-//        | ServerCommand of ServerCommand
-//    and ServerCommand =
-//        | InitializeServerCommand of ServerId:Guid * Name:string * Description:string
