@@ -50,9 +50,13 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Exira.EventStore\Exira.EventStore.fsproj">
+    <ProjectReference Include="..\..\src\Exira.EventStore\Exira.EventStore.fsproj">
       <Project>{2414b97b-ca6f-4e43-bd2d-d55cc8c52a34}</Project>
       <Name>Exira.EventStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Exira.IIS.Domain\Exira.IIS.Domain.fsproj">
+      <Project>{8f95e21d-2c91-42de-b07e-181a49110a50}</Project>
+      <Name>Exira.IIS.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Exira.IIS\Exira.IIS.fsproj">
       <Project>{7207af8e-5d26-4c1b-9388-4ecf16871d03}</Project>

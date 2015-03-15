@@ -2,7 +2,7 @@
 
 module Railway =
     type Error =
-        | UnknownDto of string
+        | UnknownCommand of string
 
     type Result<'T> =
         | Success of 'T

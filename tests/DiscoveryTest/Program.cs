@@ -10,8 +10,6 @@ namespace DiscoveryTest
     {
         static void Main(string[] args)
         {
-            var a = new Exira.IIS.Servers.Server();
-            a.
         }
     }
 }
