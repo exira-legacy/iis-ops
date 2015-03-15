@@ -2,7 +2,6 @@
 
 module Commands =
     open System
-    open Railway
 
     type Command =
         | Server of ServerCommand
@@ -20,9 +19,3 @@ module Commands =
     and RetireServerCommand = {
         ServerId: Guid
     }
-
-    let parseCommand (command: obj) =
-        match command with
-        | :? InitializeServerCommand as cmd -> Success (ServerCommand.InitializeServer(cmd))
-        | :? RetireServerCommand as cmd -> Success (ServerCommand.RetireServer(cmd))
-        | _ -> Failure (UnknownDto (command.GetType().Name))

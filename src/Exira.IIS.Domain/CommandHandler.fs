@@ -4,5 +4,5 @@ module CommandHandler =
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.Server
 
-    let handle deps = function
+    let handle = function
         | Command.Server(serverCommand) -> handleServer serverCommand
