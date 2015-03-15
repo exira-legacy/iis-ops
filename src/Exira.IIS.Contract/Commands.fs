@@ -4,20 +4,24 @@ module Commands =
     open System
     open Railway
 
-    type InitializeServerCommand = {
+    type Command =
+        | InitializeServerCommand of InitializeServerCommand
+        | RetireServerCommand of RetireServerCommand
+
+    and InitializeServerCommand = {
         ServerId: Guid
         Name: string
         Description: string
     }
 
-    type RetireServerCommand = {
+    and RetireServerCommand = {
         ServerId: Guid
     }
 
     let parseCommand (command: obj) =
         match command with
-        | :? InitializeServerCommand as d -> Success d
-        //| :? RetireServerCommand as d -> Success d
+        | :? InitializeServerCommand as d -> Success (Command.InitializeServerCommand(d))
+        | :? RetireServerCommand as d -> Success (Command.RetireServerCommand(d))
         | _ -> Failure (UnknownDto (command.GetType().Name))
 
 //    type Command =
