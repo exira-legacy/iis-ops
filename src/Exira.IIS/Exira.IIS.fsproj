@@ -100,7 +100,7 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="WebStartup.fs" />
+    <Compile Include="Application.fs" />
     <Compile Include="Sites.fs" />
     <Compile Include="Servers.fs" />
     <Compile Include="Startup.fs" />
@@ -124,9 +124,14 @@
     <Reference Include="System.Xml.Linq.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Exira.EventStore\Exira.EventStore.fsproj">
+    <ProjectReference Include="..\Exira.EventStore\Exira.EventStore.fsproj">
       <Name>Exira.EventStore</Name>
       <Project>{2414b97b-ca6f-4e43-bd2d-d55cc8c52a34}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Exira.IIS.Contract\Exira.IIS.Contract.fsproj">
+      <Name>Exira.IIS.Contract</Name>
+      <Project>{8f95e21d-2c91-42de-b07e-181a49110a50}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

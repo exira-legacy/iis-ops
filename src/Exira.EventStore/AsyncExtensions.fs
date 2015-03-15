@@ -1,5 +1,7 @@
 ﻿namespace Exira.EventStore
 
+// This module implements AwaitTask for non generic Task
+// It should be useless in F# 4 since it should be implemented in FSharp.Core
 [<AutoOpen>]
 module internal AsyncExtensions =
     open System
@@ -29,10 +31,10 @@ module internal AsyncExtensions =
         member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())
 
         member this.AsyncReadStreamEventsForward stream resolveLinkTos =
-            Async.AwaitTask(this.ReadStreamEventsForwardAsync(stream, 0, System.Int32.MaxValue, resolveLinkTos))
+            Async.AwaitTask(this.ReadStreamEventsForwardAsync(stream, 0, Int32.MaxValue, resolveLinkTos))
 
         member this.AsyncAppendToStream stream expectedVersion events =
             Async.AwaitTask(this.AppendToStreamAsync(stream, expectedVersion, events))
 
-        member this.AsyncSubscribeToAll(resolveLinkTos, eventAppeared, userCredentials) =
+        member this.AsyncSubscribeToAll resolveLinkTos eventAppeared userCredentials =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))

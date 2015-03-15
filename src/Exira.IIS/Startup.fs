@@ -24,7 +24,9 @@ type Startup() =
         config
 
     let configureCors (config: HttpConfiguration) =
-        let urls = System.String.Join(",",  webConfig.Web.CORS.AllowedOrigins)
+        // TODO: Need to make this more robust, apparently it adds a trailing slash
+        //let urls = System.String.Join(",",  webConfig.Web.CORS.AllowedOrigins)
+        let urls = "*"
         let cors = new EnableCorsAttribute(urls, "*", "*")
         config.EnableCors(cors);
         config
