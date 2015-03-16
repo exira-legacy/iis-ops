@@ -10,5 +10,5 @@ module Sites =
         inherit ApiController()
 
         [<VersionedRoute("servers/{id:int:min(1)}/sites")>]
-        member this.Get(id : int) =
+        member this.Get(id: int) =
             this.Request.CreateResponse(HttpStatusCode.OK, "sites")

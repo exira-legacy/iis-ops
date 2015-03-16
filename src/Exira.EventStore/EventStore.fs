@@ -8,11 +8,11 @@ module EventStore =
     // TODO: All of this should be configurable
     let connect() =
         let ipadress = IPAddress.Parse("127.0.0.1")
-        let endpoint = new IPEndPoint(ipadress, 1113)
+        let endpoint = IPEndPoint(ipadress, 1113)
         let esSettings =
             let s = ConnectionSettings.Create()
                         .UseConsoleLogger()
-                        .SetDefaultUserCredentials(new UserCredentials("admin", "changeit"))
+                        .SetDefaultUserCredentials(UserCredentials("admin", "changeit"))
                         .Build()
             s
 

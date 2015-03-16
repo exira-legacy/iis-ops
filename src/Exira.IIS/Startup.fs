@@ -26,25 +26,23 @@ type Startup() =
     let configureCors (config: HttpConfiguration) =
         let urls =
             webConfig.Web.CORS.AllowedOrigins
-            |> Seq.map (fun uri -> uri.ToString().Trim('/'))
+            |> Seq.map (fun uri -> uri.ToString().TrimEnd('/'))
             |> String.concat ","
 
-        let cors = new EnableCorsAttribute(urls, "*", "*")
-        config.EnableCors(cors);
+        let cors = EnableCorsAttribute(urls, "*", "*")
+        config.EnableCors cors
         config
 
     let configureApi (inner: IAppBuilder) (config: HttpConfiguration) =
         inner.UseWebApi config |> ignore
-        inner.UseStageMarker(PipelineStage.MapHandler) |> ignore
+        inner.UseStageMarker PipelineStage.MapHandler |> ignore
 
     let registerWebApi (app: IAppBuilder) (basePath: string) =
-        let config = new HttpConfiguration()
-
-        config
-        |> configureRouting
-        |> configureFormatters
-        |> configureCors
-        |> ignore
+        let config =
+            new HttpConfiguration()
+            |> configureRouting
+            |> configureFormatters
+            |> configureCors
 
         app.Map(basePath, fun inner -> configureApi inner config) |> ignore
 

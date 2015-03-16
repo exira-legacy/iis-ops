@@ -11,7 +11,7 @@ module internal AsyncExtensions =
         static member Raise(ex) = Async.FromContinuations(fun (_, econt, _) -> econt ex)
 
         static member AwaitTask (t: Task) =
-            let tcs = new TaskCompletionSource<unit>(TaskContinuationOptions.None)
+            let tcs = TaskCompletionSource<unit> TaskContinuationOptions.None
 
             t.ContinueWith((fun _ ->
                 if t.IsFaulted then tcs.SetException t.Exception
