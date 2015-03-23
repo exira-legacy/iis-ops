@@ -3,7 +3,7 @@ NUGET
   remote: https://nuget.org/api/v2
   specs:
     EventStore.Client (3.0.2)
-    FSharp.Configuration (0.5.0)
+    FSharp.Configuration (0.5.1)
     GNaP.WebApi.Versioning (1.0.6.0)
       Microsoft.AspNet.WebApi.Core (>= 5.2.2)
     Microsoft.AspNet.Cors (5.2.3)

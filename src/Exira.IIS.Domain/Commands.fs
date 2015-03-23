@@ -13,6 +13,7 @@ module Commands =
     and InitializeServerCommand = {
         ServerId: Guid
         Name: string
+        Dns: string
         Description: string
     }
 

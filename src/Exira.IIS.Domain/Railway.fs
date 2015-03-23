@@ -3,6 +3,8 @@
 module Railway =
     type Error =
         | UnknownCommand of string
+        | InvalidState of string
+        | InvalidStateTransition of string
 
     type Result<'T> =
         | Success of 'T
