@@ -56,11 +56,13 @@ module Server =
 
     // This is your real command handler ------
     let createServer (command: InitializeServerCommand) (version, state) =
+        let serverCreated = { ServerCreatedEvent.ServerId = command.ServerId
+                              Name = command.Name
+                              Dns = command.Dns
+                              Description = command.Description}
+
         match state with
-        | Init -> Success (command.ServerId, version, [{ServerCreatedEvent.ServerId = command.ServerId
-                                                        Name = command.Name
-                                                        Dns = command.Dns
-                                                        Description = command.Description}])
+        | Init -> Success (command.ServerId, version, [Event.ServerCreated(serverCreated)])
         | _ -> Failure (InvalidState "Server")
 
     let handleInitializeServer es (command: InitializeServerCommand) =

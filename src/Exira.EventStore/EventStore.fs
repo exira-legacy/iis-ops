@@ -28,14 +28,11 @@ module EventStore =
         settings.TypeNameHandling <- TypeNameHandling.Auto
         settings
 
-    let getTypeName o = o.GetType().Name
-
     let serialize (event:'a)=
         let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
         let data = System.Text.Encoding.UTF8.GetBytes(serializedEvent)
-        //let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
-        //EventData(Guid.NewGuid(), case.Name, true, data, null)
-        EventData(Guid.NewGuid(), getTypeName event, true, data, null) // TODO: This needs to change to something that can be deserialized
+        let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
+        EventData(Guid.NewGuid(), case.Name, true, data, null)
 
     let deserialize<'a> (event: ResolvedEvent) =
         let serializedString = System.Text.Encoding.UTF8.GetString(event.Event.Data)
