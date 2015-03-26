@@ -5,6 +5,7 @@ module Server =
     open System
     open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.Helpers
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.Events
 
@@ -22,12 +23,6 @@ module Server =
     // --------------------------------------
 
     // Helper stuff -------------------------
-    let evolve evolveOne initState =
-        List.fold (fun result e -> result >>= fun (v,s) -> evolveOne s e >>= fun s -> Success (v+1, s)) (Success (-1, initState))
-
-    let getTypeName o = o.GetType().Name
-    let stateTransitionFail event state = Failure (InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName)))
-
     let toStreamId (id: Guid) = sprintf "server-%O" id
 
     // This will be generic for all handlers after they are done

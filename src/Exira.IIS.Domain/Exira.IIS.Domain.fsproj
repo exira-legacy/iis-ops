@@ -51,6 +51,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="Railway.fs" />
+    <Compile Include="Helpers.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Server.fs" />
