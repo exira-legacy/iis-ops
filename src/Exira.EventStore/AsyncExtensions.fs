@@ -6,6 +6,7 @@
 module internal AsyncExtensions =
     open System
     open System.Threading.Tasks
+    open Exira.EventStore.Types
 
     type Microsoft.FSharp.Control.Async with
         static member Raise(ex) = Async.FromContinuations(fun (_, econt, _) -> econt ex)
@@ -31,10 +32,12 @@ module internal AsyncExtensions =
         member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())
 
         member this.AsyncReadStreamEventsForward stream resolveLinkTos =
-            Async.AwaitTask(this.ReadStreamEventsForwardAsync(stream, 0, Int32.MaxValue, resolveLinkTos))
+            let (StreamId streamName) = stream
+            Async.AwaitTask(this.ReadStreamEventsForwardAsync(streamName, 0, Int32.MaxValue, resolveLinkTos))
 
         member this.AsyncAppendToStream stream expectedVersion events =
-            Async.AwaitTask(this.AppendToStreamAsync(stream, expectedVersion, events))
+            let (StreamId streamName) = stream
+            Async.AwaitTask(this.AppendToStreamAsync(streamName, expectedVersion, events))
 
         member this.AsyncSubscribeToAll resolveLinkTos eventAppeared userCredentials =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))

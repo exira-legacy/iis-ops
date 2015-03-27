@@ -7,6 +7,7 @@ module EventStore =
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
     open Microsoft.FSharp.Reflection
+    open Exira.EventStore.Types
 
     // TODO: All of this should be configurable
     let connect() =
@@ -39,8 +40,9 @@ module EventStore =
         let event = JsonConvert.DeserializeObject<'a>(serializedString, jsonSettings)
         event
 
-    let readFromStream (store: IEventStoreConnection) streamId =
-        let slice = store.ReadStreamEventsForwardAsync(streamId, 0, Int32.MaxValue, false).Result
+    let readFromStream (store: IEventStoreConnection) stream =
+        let (StreamId streamName) = stream
+        let slice = store.ReadStreamEventsForwardAsync(streamName, 0, Int32.MaxValue, false).Result
 
         let events: seq<'a> =
             slice.Events
@@ -54,6 +56,6 @@ module EventStore =
 
         slice.LastEventNumber, (events |> Seq.toList)
 
-    let appendToStream (store:IEventStoreConnection) streamId expectedVersion newEvents =
+    let appendToStream (store:IEventStoreConnection) stream expectedVersion newEvents =
         let serializedEvents = newEvents |> List.map serialize |> List.toArray
-        Async.RunSynchronously <| store.AsyncAppendToStream streamId expectedVersion serializedEvents
+        Async.RunSynchronously <| store.AsyncAppendToStream stream expectedVersion serializedEvents

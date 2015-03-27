@@ -3,6 +3,7 @@
 //module internal Server =
 module Server =
     open System
+    open Exira.EventStore.Types
     open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Helpers
@@ -23,7 +24,7 @@ module Server =
     // --------------------------------------
 
     // Helper stuff -------------------------
-    let toStreamId (id: Guid) = sprintf "server-%O" id
+    let toStreamId (id: Guid) = sprintf "server-%O" id |> StreamId
 
     // This will be generic for all handlers after they are done
     let save es (id, version, events) =
