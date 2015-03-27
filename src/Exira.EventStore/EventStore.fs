@@ -57,4 +57,4 @@ module EventStore =
 
     let appendToStream (store:IEventStoreConnection) stream expectedVersion newEvents =
         let serializedEvents = newEvents |> List.map serialize |> List.toArray
-        Async.RunSynchronously <| store.AsyncAppendToStream stream expectedVersion serializedEvents
+        store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.RunSynchronously
