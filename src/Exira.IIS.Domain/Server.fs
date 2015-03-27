@@ -24,12 +24,7 @@ module Server =
     // --------------------------------------
 
     // Helper stuff -------------------------
-    let toStreamId (id: Guid) = sprintf "server-%O" id |> StreamId
-
-    // This will be generic for all handlers after they are done
-    let save es (id, version, events) =
-        appendToStream es (toStreamId id) version events |> ignore
-        Success events
+    let toServerStreamId = toStreamId "server"
     // --------------------------------------
 
     // This is the state machine which controls valid transitions
@@ -58,11 +53,11 @@ module Server =
                               Description = command.Description}
 
         match state with
-        | Init -> Success (command.ServerId, version, [Event.ServerCreated(serverCreated)])
+        | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
         | _ -> Failure (InvalidState "Server")
 
     let handleInitializeServer es (command: InitializeServerCommand) =
-        let events = readFromStream es (toStreamId command.ServerId)
+        let events = readFromStream es (toServerStreamId command.ServerId)
         let getServerState = evolveServer Init (events |> (fun (_, e) -> e))
 
         getServerState

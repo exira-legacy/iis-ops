@@ -1,6 +1,9 @@
 ﻿namespace Exira.IIS.Domain
 
 module Helpers =
+    open System
+    open Exira.EventStore.Types
+    open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
 
     let getTypeName o = o.GetType().Name
@@ -15,3 +18,9 @@ module Helpers =
                     evolveOne state event
                     >>= fun state -> Success (version + 1, state))
             (Success (-1, initState))
+
+    let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
+
+    let save es (id, version, events) =
+        appendToStream es id version events |> ignore
+        Success events
