@@ -19,6 +19,7 @@ module Application =
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
         | _ -> "Doh!"
 
+    // TODO: HttpStatusCode should also be mapped from FailureType
     let matchToResult (controller:'T when 'T :> ApiController) result =
         match result with
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)

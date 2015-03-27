@@ -50,34 +50,36 @@ module Server =
     let getServerState id = getState (evolve evolveOneServer) Init (toServerStreamId id)
     // --------------------------------------
 
-    // This is your real command handler ------
     let createServer (command: InitializeServerCommand) (version, state) =
         let serverCreated = { ServerCreatedEvent.ServerId = command.ServerId
                               Name = command.Name
                               Dns = command.Dns
                               Description = command.Description }
 
+        // Anything else than coming from Init is invalid
         match state with
         | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
         | _ -> Failure (InvalidState "Server")
 
+    let deleteServer (command: RetireServerCommand) (version, state) =
+        let serverDeleted = { ServerDeletedEvent.ServerId = command.ServerId }
+
+        // Only previously created servers can be deleted
+        match state with
+        | Created(server) -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
+        | _ -> Failure (InvalidState "Server")
+
+    // This is your real command handler ------
     let handleInitializeServer (command: InitializeServerCommand) es =
         getServerState command.ServerId es
         >>= createServer command
         >>= save es
-    // --------------------------------------
-
-    let deleteServer (command: RetireServerCommand) (version, state) =
-        let serverDeleted = { ServerDeletedEvent.ServerId = command.ServerId }
-
-        match state with
-        | Created(server) -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
-        | _ -> Failure (InvalidState "Server")
 
     let handleRetireServer (command: RetireServerCommand) es =
         getServerState command.ServerId es
         >>= deleteServer command
         >>= save es
+    // --------------------------------------
 
     let handleServer = function
         | InitializeServer(serverCommand) -> handleInitializeServer serverCommand
