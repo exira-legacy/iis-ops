@@ -21,6 +21,7 @@ module Server =
     type Server =
         | Init
         | Created of ServerInfo
+        | Deleted
     // --------------------------------------
 
     // This is the state machine which controls valid transitions
@@ -34,7 +35,14 @@ module Server =
                                   Dns = e.Dns
                                   Description = e.Description })
             | _ -> stateTransitionFail event state
+
         | Created info ->
+            match event with
+            | ServerDeleted(e) ->
+                Success(Deleted)
+            | _ -> stateTransitionFail event state
+
+        | Deleted ->
             match event with
             | _ -> stateTransitionFail event state
 
@@ -47,7 +55,7 @@ module Server =
         let serverCreated = { ServerCreatedEvent.ServerId = command.ServerId
                               Name = command.Name
                               Dns = command.Dns
-                              Description = command.Description}
+                              Description = command.Description }
 
         match state with
         | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
@@ -59,9 +67,18 @@ module Server =
         >>= save es
     // --------------------------------------
 
-    let handleRetireServer command es =
-        Success ()
+    let deleteServer (command: RetireServerCommand) (version, state) =
+        let serverDeleted = { ServerDeletedEvent.ServerId = command.ServerId }
+
+        match state with
+        | Created(server) -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
+        | _ -> Failure (InvalidState "Server")
+
+    let handleRetireServer (command: RetireServerCommand) es =
+        getServerState command.ServerId es
+        >>= deleteServer command
+        >>= save es
 
     let handleServer = function
         | InitializeServer(serverCommand) -> handleInitializeServer serverCommand
-        //| RetireServer(serverCommand) -> handleRetireServer serverCommand
+        | RetireServer(serverCommand) -> handleRetireServer serverCommand
