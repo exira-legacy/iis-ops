@@ -25,8 +25,7 @@ module EventStore =
         connection
 
     let jsonSettings =
-        let settings = JsonSerializerSettings()
-        settings.TypeNameHandling <- TypeNameHandling.Auto
+        let settings = JsonSerializerSettings(TypeNameHandling = TypeNameHandling.Auto)
         settings
 
     let serialize (event:'a)=
