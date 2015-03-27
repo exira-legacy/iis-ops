@@ -19,4 +19,4 @@ module Servers =
 
         [<VersionedRoute("{serverId:guid}")>]
         member this.Delete(serverId: Guid, command: RetireServerCommand) =
-            {command with ServerId = serverId} |> application this
+            { command with ServerId = serverId } |> application this
