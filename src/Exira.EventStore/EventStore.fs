@@ -3,6 +3,7 @@
 module EventStore =
     open System
     open System.Net
+    open System.Text
     open Newtonsoft.Json
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
@@ -30,12 +31,12 @@ module EventStore =
 
     let serialize (event:'a)=
         let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
-        let data = System.Text.Encoding.UTF8.GetBytes(serializedEvent)
+        let data = Encoding.UTF8.GetBytes(serializedEvent)
         let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
         EventData(Guid.NewGuid(), case.Name, true, data, null)
 
     let deserialize<'a> (event: ResolvedEvent) =
-        let serializedString = System.Text.Encoding.UTF8.GetString(event.Event.Data)
+        let serializedString = Encoding.UTF8.GetString(event.Event.Data)
         let event = JsonConvert.DeserializeObject<'a>(serializedString, jsonSettings)
         event
 
