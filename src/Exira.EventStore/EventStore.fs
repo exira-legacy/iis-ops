@@ -15,11 +15,10 @@ module EventStore =
         let ipadress = IPAddress.Parse("127.0.0.1")
         let endpoint = IPEndPoint(ipadress, 1113)
         let esSettings =
-            let s = ConnectionSettings.Create()
-                        .UseConsoleLogger()
-                        .SetDefaultUserCredentials(UserCredentials("admin", "changeit"))
-                        .Build()
-            s
+            ConnectionSettings.Create()
+                .UseConsoleLogger()
+                .SetDefaultUserCredentials(UserCredentials("admin", "changeit"))
+                .Build()
 
         let connection = EventStoreConnection.Create(esSettings, endpoint, null)
         connection.AsyncConnect() |> Async.RunSynchronously
@@ -29,7 +28,7 @@ module EventStore =
         let settings = JsonSerializerSettings(TypeNameHandling = TypeNameHandling.Auto)
         settings
 
-    let serialize (event:'a)=
+    let serialize (event: 'a)=
         let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
         let data = Encoding.UTF8.GetBytes(serializedEvent)
         let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
@@ -57,5 +56,9 @@ module EventStore =
         slice.LastEventNumber, (events |> Seq.toList)
 
     let appendToStream (store:IEventStoreConnection) stream expectedVersion newEvents =
-        let serializedEvents = newEvents |> List.map serialize |> List.toArray
+        let serializedEvents =
+            newEvents
+            |> List.map serialize
+            |> List.toArray
+
         store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.RunSynchronously
