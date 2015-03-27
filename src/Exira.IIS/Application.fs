@@ -8,11 +8,10 @@ module Application =
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
 
-    let parseCommand (command: obj) =
-        match command with
-        | :? InitializeServerCommand as cmd -> Success (Server(InitializeServer(cmd)))
-        | :? RetireServerCommand as cmd -> Success (Server(RetireServer(cmd)))
-        | _ -> Failure (UnknownCommand (command.GetType().Name))
+    let parseCommand: obj -> Result<Command> = function
+        | :? InitializeServerCommand as cmd -> Success (Server(InitializeServer(cmd))) // Success <| Server(InitializeServer cmd)
+        | :? RetireServerCommand as cmd -> Success (Server(RetireServer(cmd))) // Success <| Server(RetireServer cmd)
+        | cmd -> Failure (UnknownCommand (cmd.GetType().Name))
 
     let map error =
         match error with
@@ -25,8 +24,7 @@ module Application =
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)
         | Failure error -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (map error))
 
-    let application controller command =
-        command
-        |> parseCommand
-        >>= handleCommand
-        |> matchToResult controller
+    let application controller =
+        parseCommand
+        >> bind handleCommand
+        >> matchToResult controller
