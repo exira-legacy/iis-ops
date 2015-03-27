@@ -23,10 +23,6 @@ module Server =
         | Created of ServerInfo
     // --------------------------------------
 
-    // Helper stuff -------------------------
-    let toServerStreamId = toStreamId "server"
-    // --------------------------------------
-
     // This is the state machine which controls valid transitions
     let evolveOneServer state event =
         match state with
@@ -42,7 +38,8 @@ module Server =
             match event with
             | _ -> stateTransitionFail event state
 
-    let evolveServer = evolve evolveOneServer
+    let toServerStreamId = toStreamId "server"
+    let getServerState id = getState (evolve evolveOneServer) Init (toServerStreamId id)
     // --------------------------------------
 
     // This is your real command handler ------
@@ -56,18 +53,15 @@ module Server =
         | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
         | _ -> Failure (InvalidState "Server")
 
-    let handleInitializeServer es (command: InitializeServerCommand) =
-        let events = readFromStream es (toServerStreamId command.ServerId)
-        let getServerState = evolveServer Init (events |> (fun (_, e) -> e))
-
-        getServerState
-        >>= (createServer command)
+    let handleInitializeServer (command: InitializeServerCommand) es =
+        getServerState command.ServerId es
+        >>= createServer command
         >>= save es
     // --------------------------------------
 
-    let handleRetireServer es command =
+    let handleRetireServer command es =
         Success ()
 
-    let handleServer es = function
-        | InitializeServer(serverCommand) -> handleInitializeServer es serverCommand
-        //| RetireServer(serverCommand) -> handleRetireServer es serverCommand
+    let handleServer = function
+        | InitializeServer(serverCommand) -> handleInitializeServer serverCommand
+        //| RetireServer(serverCommand) -> handleRetireServer serverCommand

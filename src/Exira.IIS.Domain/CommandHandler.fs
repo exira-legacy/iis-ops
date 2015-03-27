@@ -8,4 +8,4 @@ module CommandHandler =
     let es = connect()
 
     let handleCommand = function
-        | Server(c) -> handleServer es c
+        | Server(command) -> handleServer command es

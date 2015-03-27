@@ -19,6 +19,9 @@ module Helpers =
                     >>= fun state -> Success (version + 1, state))
             (Success (-1, initState))
 
+    let getState evolveOne initState id es =
+        evolveOne initState ((readFromStream es id) |> (fun (_, e) -> e))
+
     let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
 
     let save es (id, version, events) =

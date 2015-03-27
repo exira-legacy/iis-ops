@@ -9,3 +9,7 @@ artifacts/
 *.userprefs
 *DS_Store
 *.sln.ide
+
+ges/
+!ges/iis-ops.cmd
+!ges/iis-ops.esconfig
