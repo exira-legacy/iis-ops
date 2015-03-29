@@ -1,34 +1,52 @@
-﻿module StockStepDefinitions
+﻿namespace Exira.IIS.Tests
 
-type StockItem = { Count : int }
+module WebsiteStepDefinitions =
+    open Exira.IIS.Tests.InMemoryEventStoreRunner
+    open TickSpec
+    open NUnit.Framework
 
-open TickSpec
-open NUnit.Framework
+    open System
+    open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.Commands
+    open Exira.IIS.Domain.CommandHandler
+    open Exira.IIS.Domain.Events
 
-let mutable stockItem = { Count = 0 }
+    let es = startInMemoryEventStore()
 
-let [<Given>] ``a server (.*)``  (serverName:string) =
-    ()
+    let mutable dto: RetireServerCommand = { RetireServerCommand.ServerId = Guid.NewGuid() }
+    let mutable events: Result<list<Event>> = Success []
 
-let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
-    ()
-    //stockItem <- { stockItem with Count = n }
+    let [<Given>] ``a server (.*)``  (serverName:string) =
+        //dto <- { RetireServerCommand.ServerId = Guid.NewGuid() }
+        ()
 
-let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
-    ()
-    //stockItem <- { stockItem with Count = stockItem.Count + 1 }
+    let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
+        ()
 
-let [<Then>] ``a new website (.*) should be added to server (.*)`` (siteName:string, serverName:string) =
-    ()
-    //let passed = (stockItem.Count = n)
-    //Assert.True(passed)
+    let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
+        events <-
+            parseCommand dto
+            |> bind (handleCommand es.Connection)
 
-let [<Then>] ``a new binding (.*) should be added to website (.*) on server (.*)`` (bindingName:string, siteName:string, serverName:string) =
-    ()
-    //let passed = (stockItem.Count = n)
-    //Assert.True(passed)
+    let [<Then>] ``a new website (.*) should be added to server (.*)`` (siteName:string, serverName:string) =
+        let containsEvent =
+            match events with
+            | Success s ->
+                s
+                |> List.length = 1
+                |> Success
+            | Failure f -> Failure f
 
-let [<Then>] ``no website should be created`` () =
-    ()
-    //let passed = (stockItem.Count = n)
-    //Assert.True(passed)
+        match containsEvent with
+            | Success s -> Assert.IsTrue(s)
+            | Failure f -> Assert.IsTrue(false, sprintf "%O" f)
+
+    let [<Then>] ``a new binding (.*) should be added to website (.*) on server (.*)`` (bindingName:string, siteName:string, serverName:string) =
+        ()
+        //let passed = (stockItem.Count = n)
+        //Assert.True(passed)
+
+    let [<Then>] ``no website should be created`` () =
+        ()
+        //let passed = (stockItem.Count = n)
+        //Assert.True(passed)
