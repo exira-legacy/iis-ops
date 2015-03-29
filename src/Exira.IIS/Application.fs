@@ -19,10 +19,24 @@ module Application =
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)
         | Failure error -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (map error))
 
-    let application (controller: ApiController) =
-        let owinEnvironment = controller.Request.GetOwinEnvironment()
-        let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
+    let application (controller: ApiController) command =
+        async {
+            let owinEnvironment = controller.Request.GetOwinEnvironment()
+            let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
 
-        parseCommand
-        >> bind (handleCommand es)
-        >> matchToResult controller
+            let parsedCommandResult = parseCommand command
+            match parsedCommandResult with
+            | Success parsedCommand ->
+                let! handled = handleCommand es parsedCommand
+
+                return matchToResult controller handled
+            | Failure _ ->
+                return matchToResult controller parsedCommandResult
+        }
+
+//        let owinEnvironment = controller.Request.GetOwinEnvironment()
+//        let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
+//
+//        parseCommand
+//        >> bind (handleCommand es)
+//        >> matchToResult controller

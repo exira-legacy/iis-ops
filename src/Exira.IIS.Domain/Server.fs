@@ -70,12 +70,24 @@ module Server =
 
     // This is your real command handler ------
     let handleInitializeServer (command: InitializeServerCommand) es =
-        getServerState command.ServerId es
-        >>= createServer command
-        >>= save es
+        async {
+            let! x = getServerState command.ServerId es
+            return x
+                   >>= createServer command
+                   >>= save es
+        }
+//        getServerState command.ServerId es
+//        >>= createServer command
+//        >>= save es
 
     let handleRetireServer (command: RetireServerCommand) es =
-        getServerState command.ServerId es
-        >>= deleteServer command
-        >>= save es
+        async {
+            let! x = getServerState command.ServerId es
+            return x
+                   >>= deleteServer command
+                   >>= save es
+        }
+//        getServerState command.ServerId es
+//        >>= deleteServer command
+//        >>= save es
     // --------------------------------------

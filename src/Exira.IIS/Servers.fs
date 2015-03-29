@@ -15,8 +15,12 @@ module Servers =
 
         [<VersionedRoute>]
         member this.Post(command: InitializeServerCommand) =
-            command |> application this
+            async {
+                return! command |> application this
+            } |> Async.StartAsTask
 
         [<VersionedRoute("{serverId:guid}")>]
         member this.Delete(serverId: Guid, command: RetireServerCommand) =
-            { command with ServerId = serverId } |> application this
+            async {
+                return! { command with ServerId = serverId } |> application this
+            } |> Async.StartAsTask

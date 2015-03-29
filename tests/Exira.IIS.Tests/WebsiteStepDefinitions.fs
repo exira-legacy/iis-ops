@@ -24,9 +24,10 @@ module WebsiteStepDefinitions =
         ()
 
     let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
-        events <-
-            parseCommand dto
-            |> bind (handleCommand es.Connection)
+//        events <-
+//            parseCommand dto
+//            |> bind (handleCommand es.Connection)
+        ()
 
     let [<Then>] ``a new website (.*) should be added to server (.*)`` (siteName:string, serverName:string) =
         let containsEvent =

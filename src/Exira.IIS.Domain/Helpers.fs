@@ -20,12 +20,16 @@ module Helpers =
             (Success (-1, initState))
 
     let getState evolveOne initState id es =
-        let events =
-            readFromStream es id 0 Int32.MaxValue
-            |> Async.RunSynchronously // TODO: Temporary sync, needs to turn into full async
-            |> (fun (e, _, _) -> e)
+        async {
+            let! streamEvents =
+                readFromStream es id 0 Int32.MaxValue
 
-        evolveOne initState events
+            let events =
+                streamEvents
+                |> (fun (e, _, _) -> e)
+
+            return evolveOne initState events
+        }
 
     let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
 
