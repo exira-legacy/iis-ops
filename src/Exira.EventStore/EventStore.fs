@@ -11,6 +11,13 @@ module EventStore =
 
     type StreamId = StreamId of string
 
+    type Configuration = {
+        Address: IPAddress // IPAddress.Parse("127.0.0.1")
+        Port: int // 1113
+        Username: string // "admin"
+        Password: string // "changeit"
+    }
+
     type private IEventStoreConnection with
         member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())
 
@@ -25,14 +32,12 @@ module EventStore =
         member this.AsyncSubscribeToAll resolveLinkTos eventAppeared userCredentials =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))
 
-    // TODO: All of this should be configurable
-    let connect() =
-        let ipadress = IPAddress.Parse("127.0.0.1")
-        let endpoint = IPEndPoint(ipadress, 1113)
+    let connect configuration =
+        let endpoint = IPEndPoint(configuration.Address, configuration.Port)
         let esSettings =
             ConnectionSettings.Create()
                 .UseConsoleLogger()
-                .SetDefaultUserCredentials(UserCredentials("admin", "changeit"))
+                .SetDefaultUserCredentials(UserCredentials(configuration.Username, configuration.Password))
                 .Build()
 
         let connection = EventStoreConnection.Create(esSettings, endpoint, null)

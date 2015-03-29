@@ -9,7 +9,7 @@ module Application =
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
 
-    let private es = connect()
+    let private es = connect { Address = IPAddress.Parse("127.0.0.1"); Port = 1113; Username = "admin"; Password = "changeit" }
 
     let map error =
         match error with
