@@ -50,7 +50,7 @@ type Startup() =
 
     let registerEventStore (app: IAppBuilder) =
         let config =
-            new EventStoreOptions(Configuration =
+            EventStoreOptions(Configuration =
                 {
                     Address = IPAddress.Parse(webConfig.EventStore.Address)
                     Port = webConfig.EventStore.Port

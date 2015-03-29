@@ -3,6 +3,7 @@
     Port: 1113
     Username: admin
     Password: changeit
+
 Web:
     CORS:
         AllowedOrigins:
