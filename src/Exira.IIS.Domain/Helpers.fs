@@ -20,7 +20,11 @@ module Helpers =
             (Success (-1, initState))
 
     let getState evolveOne initState id es =
-        evolveOne initState ((readFromStream es id) |> (fun (_, e) -> e))
+        let events =
+            readFromStream es id
+            |> (fun (_, e) -> e)
+
+        evolveOne initState events
 
     let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
 

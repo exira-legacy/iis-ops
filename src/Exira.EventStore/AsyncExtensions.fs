@@ -7,7 +7,7 @@ module internal AsyncExtensions =
     open System
     open System.Threading.Tasks
 
-    type Microsoft.FSharp.Control.Async with
+    type Async with
         static member Raise(ex) = Async.FromContinuations(fun (_, econt, _) -> econt ex)
 
         static member AwaitTask (t: Task) =
