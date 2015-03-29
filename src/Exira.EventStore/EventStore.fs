@@ -2,17 +2,18 @@
 
 open System.Net
 
-type StreamId = StreamId of string
+type ServerPort = ServerPort of int
 
 type Configuration = {
     Address: IPAddress
-    Port: int // TODO: turn into valid ServerPort type
+    Port: ServerPort
     Username: string
     Password: string
 }
 
+type StreamId = StreamId of string
+
 module EventStore =
-    open System
     open System.Net
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
@@ -34,7 +35,8 @@ module EventStore =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))
 
     let connect configuration =
-        let endpoint = IPEndPoint(configuration.Address, configuration.Port)
+        let (ServerPort port) = configuration.Port
+        let endpoint = IPEndPoint(configuration.Address, port)
         let esSettings =
             ConnectionSettings.Create()
                 .UseConsoleLogger()

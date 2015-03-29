@@ -12,7 +12,13 @@ open Exira.EventStore.EventStore
 // TODO: Add some more checking for valid options
 
 type EventStoreOptions() =
-    let defaultConfiguration = { Address = IPAddress.Parse("127.0.0.1"); Port = 1113; Username = "admin"; Password = "changeit" }
+    let defaultConfiguration =
+        {
+            Address = IPAddress.Parse("127.0.0.1")
+            Port = ServerPort 1113
+            Username = "admin"
+            Password = "changeit"
+        }
 
     member val Configuration = defaultConfiguration with get, set
 

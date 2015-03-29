@@ -7,6 +7,7 @@ open System.Web.Http
 open System.Web.Http.Cors
 open Newtonsoft.Json.Serialization
 open FSharp.Configuration
+open Exira.EventStore
 open Exira.EventStore.Owin
 
 type WebConfig = YamlConfig<"Web.yaml">
@@ -53,7 +54,7 @@ type Startup() =
             EventStoreOptions(Configuration =
                 {
                     Address = IPAddress.Parse(webConfig.EventStore.Address)
-                    Port = webConfig.EventStore.Port
+                    Port = ServerPort webConfig.EventStore.Port
                     Username = webConfig.EventStore.Username
                     Password = webConfig.EventStore.Password
                 })
