@@ -21,18 +21,15 @@ type EventStoreMiddleware(next: Func<IDictionary<string, obj>, Task>, options: E
 
     let es = connect options.Configuration
 
-    // TODO: Can we make this more F#-y?
-    // https://github.com/jack-pappas/ExtCore/blob/master/ExtCore/Collections.Dict.fs
     member this.Invoke (environment: IDictionary<string, obj>) : Task =
-        if (environment.ContainsKey("ges.configuration") = false) then
-            environment.Add("ges.configuration", options.Configuration)
-
-        if (environment.ContainsKey("ges.connection") = false) then
-            environment.Add("ges.connection", es)
+        let updatedEnvironment =
+            environment
+            |> Dict.updateOrAdd "ges.configuration" (options.Configuration :> obj)
+            |> Dict.updateOrAdd "ges.connection" (es :> obj)
 
         async {
             do!
-                next.Invoke environment |> awaitTask
+                next.Invoke updatedEnvironment |> awaitTask
         } |> Async.StartAsTask :> Task
 
 [<ExtensionAttribute>]
