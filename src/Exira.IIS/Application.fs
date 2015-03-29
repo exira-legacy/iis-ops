@@ -8,11 +8,6 @@ module Application =
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
 
-    let parseCommand: obj -> Result<Command> = function
-        | :? InitializeServerCommand as cmd -> Success (Server(InitializeServer(cmd)))
-        | :? RetireServerCommand as cmd -> Success (Server(RetireServer(cmd)))
-        | cmd -> Failure (UnknownCommand (cmd.GetType().Name))
-
     let map error =
         match error with
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd

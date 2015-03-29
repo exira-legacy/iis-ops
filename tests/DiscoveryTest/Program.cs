@@ -10,7 +10,10 @@ namespace DiscoveryTest
     {
         static void Main(string[] args)
         {
-            //Exira.EventStore.EventStore
+            //var a = Exira.EventStore.EventStore.connect();
+
+            //var a = Exira.IIS.Domain.CommandHandler.parseCommand(5);
+            //Console.WriteLine(a.IsFailure);
         }
     }
 }
