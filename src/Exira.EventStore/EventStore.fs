@@ -11,6 +11,8 @@ type Configuration = {
     Password: string
 }
 
+// TODO: Have a look at https://github.com/CumpsD/FsUno.Prod/blob/master/FsUno.Persistence.EventStore/Serialization.fs
+
 module EventStore =
     open System
     open System.Net
