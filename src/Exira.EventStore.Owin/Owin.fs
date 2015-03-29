@@ -45,4 +45,4 @@ type EventStoreMiddleware(next: Func<IDictionary<string, obj>, Task>, options: E
 type AppBuilderExtensions =
     [<ExtensionAttribute>]
     static member UseEventStore(appBuilder: IAppBuilder, options: EventStoreOptions) =
-        appBuilder.Use<EventStoreMiddleware>(options);
+        appBuilder.Use<EventStoreMiddleware>(options)

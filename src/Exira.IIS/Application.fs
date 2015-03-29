@@ -5,9 +5,7 @@ module Application =
     open System.Net.Http
     open System.Web.Http
     open EventStore.ClientAPI
-    open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
-    open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
 
     let map error =
