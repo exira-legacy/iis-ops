@@ -4,9 +4,12 @@ module Application =
     open System.Net
     open System.Net.Http
     open System.Web.Http
+    open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
+
+    let private es = connect()
 
     let map error =
         match error with
@@ -21,5 +24,5 @@ module Application =
 
     let application controller =
         parseCommand
-        >> bind handleCommand
+        >> bind (handleCommand es)
         >> matchToResult controller

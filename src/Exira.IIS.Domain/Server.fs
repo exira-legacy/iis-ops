@@ -79,7 +79,3 @@ module Server =
         >>= deleteServer command
         >>= save es
     // --------------------------------------
-
-    let handleServer = function
-        | InitializeServer(serverCommand) -> handleInitializeServer serverCommand
-        | RetireServer(serverCommand) -> handleRetireServer serverCommand
