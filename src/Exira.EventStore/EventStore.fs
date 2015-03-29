@@ -45,8 +45,8 @@ module EventStore =
         connection.AsyncConnect() |> Async.RunSynchronously
         connection
 
-    let readFromStream (store: IEventStoreConnection) stream =
-        let slice = store.AsyncReadStreamEventsForward stream 0 Int32.MaxValue false |> Async.RunSynchronously
+    let readFromStream (store: IEventStoreConnection) stream version count =
+        let slice = store.AsyncReadStreamEventsForward stream version count true |> Async.RunSynchronously
 
         let events: list<'a> =
             slice.Events

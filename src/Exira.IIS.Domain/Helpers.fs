@@ -21,7 +21,7 @@ module Helpers =
 
     let getState evolveOne initState id es =
         let events =
-            readFromStream es id
+            readFromStream es id 0 Int32.MaxValue
             |> (fun (e, _, _) -> e)
 
         evolveOne initState events
