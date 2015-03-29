@@ -22,6 +22,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Domain", "src\Exi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoveryTest", "tests\DiscoveryTest\DiscoveryTest.csproj", "{85FF64ED-178E-43F8-AD20-BFDD1084F618}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.EventStore.Owin", "src\Exira.EventStore.Owin\Exira.EventStore.Owin.fsproj", "{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,5 +63,6 @@ Global
 		{7207AF8E-5D26-4C1B-9388-4ECF16871D03} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 		{2414B97B-CA6F-4E43-BD2D-D55CC8C52A34} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 		{8F95E21D-2C91-42DE-B07E-181A49110A50} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
+		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 	EndGlobalSection
 EndGlobal

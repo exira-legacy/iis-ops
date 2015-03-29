@@ -1,4 +1,9 @@
-﻿Web:
+﻿EventStore:
+    Address: 127.0.0.1
+    Port: 1113
+    Username: admin
+    Password: changeit
+Web:
     CORS:
         AllowedOrigins:
             - http://localhost:9090

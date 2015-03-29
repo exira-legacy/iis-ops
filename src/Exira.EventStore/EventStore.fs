@@ -1,5 +1,16 @@
 ﻿namespace Exira.EventStore
 
+open System.Net
+
+type StreamId = StreamId of string
+
+type Configuration = {
+    Address: IPAddress
+    Port: int
+    Username: string
+    Password: string
+}
+
 module EventStore =
     open System
     open System.Net
@@ -8,15 +19,6 @@ module EventStore =
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
     open Microsoft.FSharp.Reflection
-
-    type StreamId = StreamId of string
-
-    type Configuration = {
-        Address: IPAddress // IPAddress.Parse("127.0.0.1")
-        Port: int // 1113
-        Username: string // "admin"
-        Password: string // "changeit"
-    }
 
     type private IEventStoreConnection with
         member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())

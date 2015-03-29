@@ -2,10 +2,12 @@
 
 open Owin
 open Microsoft.Owin.Extensions
+open System.Net
 open System.Web.Http
-open Newtonsoft.Json.Serialization
 open System.Web.Http.Cors
+open Newtonsoft.Json.Serialization
 open FSharp.Configuration
+open Exira.EventStore.Owin
 
 type WebConfig = YamlConfig<"Web.yaml">
 
@@ -46,6 +48,19 @@ type Startup() =
 
         app.Map(basePath, fun inner -> configureApi inner config) |> ignore
 
+    let registerEventStore (app: IAppBuilder) =
+        let config =
+            new EventStoreOptions(Configuration =
+                {
+                    Address = IPAddress.Parse(webConfig.EventStore.Address)
+                    Port = webConfig.EventStore.Port
+                    Username = webConfig.EventStore.Username
+                    Password = webConfig.EventStore.Password
+                })
+
+        app.UseEventStore(config) |> ignore
+
     member __.Configuration(app: IAppBuilder) =
+        registerEventStore app
         registerWebApi app "/api"
         app.Run(fun c -> c.Response.WriteAsync("Hello iis-ops!"))

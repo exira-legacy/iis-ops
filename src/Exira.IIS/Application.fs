@@ -4,12 +4,11 @@ module Application =
     open System.Net
     open System.Net.Http
     open System.Web.Http
+    open EventStore.ClientAPI
     open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
-
-    let private es = connect { Address = IPAddress.Parse("127.0.0.1"); Port = 1113; Username = "admin"; Password = "changeit" }
 
     let map error =
         match error with
@@ -22,7 +21,10 @@ module Application =
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)
         | Failure error -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (map error))
 
-    let application controller =
+    let application (controller: ApiController) =
+        let owinEnvironment = controller.Request.GetOwinEnvironment()
+        let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
+
         parseCommand
         >> bind (handleCommand es)
         >> matchToResult controller
