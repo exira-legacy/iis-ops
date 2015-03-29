@@ -59,7 +59,7 @@ module EventStore =
             then None
             else Some slice.NextEventNumber
 
-        slice.LastEventNumber, events
+        events, slice.LastEventNumber, nextEventNumber
 
     let appendToStream (store: IEventStoreConnection) stream expectedVersion newEvents =
         let serializedEvents =

@@ -22,7 +22,7 @@ module Helpers =
     let getState evolveOne initState id es =
         let events =
             readFromStream es id
-            |> (fun (_, e) -> e)
+            |> (fun (e, _, _) -> e)
 
         evolveOne initState events
 
