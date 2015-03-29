@@ -50,6 +50,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="Serialization.fs" />
     <Compile Include="AsyncExtensions.fs" />
     <Compile Include="EventStore.fs" />
     <None Include="paket.references" />

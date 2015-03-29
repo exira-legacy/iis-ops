@@ -11,27 +11,24 @@ type Configuration = {
     Password: string
 }
 
-// TODO: Have a look at https://github.com/CumpsD/FsUno.Prod/blob/master/FsUno.Persistence.EventStore/Serialization.fs
-
 module EventStore =
     open System
     open System.Net
-    open System.Text
-    open Newtonsoft.Json
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
-    open Microsoft.FSharp.Reflection
+    open Serialization
 
     type private IEventStoreConnection with
-        member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())
+        member this.AsyncConnect() =
+            Async.AwaitTask(this.ConnectAsync())
 
-        member this.AsyncReadStreamEventsForward stream resolveLinkTos =
-            let (StreamId streamName) = stream
-            Async.AwaitTask(this.ReadStreamEventsForwardAsync(streamName, 0, Int32.MaxValue, resolveLinkTos))
+        member this.AsyncReadStreamEventsForward stream start count resolveLinkTos =
+            let (StreamId streamId) = stream
+            Async.AwaitTask(this.ReadStreamEventsForwardAsync(streamId, start, count, resolveLinkTos))
 
         member this.AsyncAppendToStream stream expectedVersion events =
-            let (StreamId streamName) = stream
-            Async.AwaitTask(this.AppendToStreamAsync(streamName, expectedVersion, events))
+            let (StreamId streamId) = stream
+            Async.AwaitTask(this.AppendToStreamAsync(streamId, expectedVersion, events))
 
         member this.AsyncSubscribeToAll resolveLinkTos eventAppeared userCredentials =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))
@@ -48,38 +45,23 @@ module EventStore =
         connection.AsyncConnect() |> Async.RunSynchronously
         connection
 
-    let private jsonSettings =
-        let settings = JsonSerializerSettings(TypeNameHandling = TypeNameHandling.Auto)
-        settings
-
-    let private serialize (event: 'a)=
-        let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
-        let data = Encoding.UTF8.GetBytes(serializedEvent)
-        let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
-        EventData(Guid.NewGuid(), case.Name, true, data, null)
-
-    let private deserialize<'a> (event: ResolvedEvent) =
-        let serializedString = Encoding.UTF8.GetString(event.Event.Data)
-        let event = JsonConvert.DeserializeObject<'a>(serializedString, jsonSettings)
-        event
-
     let readFromStream (store: IEventStoreConnection) stream =
-        let (StreamId streamName) = stream
-        let slice = store.ReadStreamEventsForwardAsync(streamName, 0, Int32.MaxValue, false).Result
+        let slice = store.AsyncReadStreamEventsForward stream 0 Int32.MaxValue false |> Async.RunSynchronously
 
-        let events: seq<'a> =
+        let events: list<'a> =
             slice.Events
             |> Seq.map deserialize<'a>
             |> Seq.cast
+            |> Seq.toList
 
         let nextEventNumber =
             if slice.IsEndOfStream
             then None
             else Some slice.NextEventNumber
 
-        slice.LastEventNumber, (events |> Seq.toList)
+        slice.LastEventNumber, events
 
-    let appendToStream (store:IEventStoreConnection) stream expectedVersion newEvents =
+    let appendToStream (store: IEventStoreConnection) stream expectedVersion newEvents =
         let serializedEvents =
             newEvents
             |> List.map serialize
