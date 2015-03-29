@@ -6,7 +6,7 @@ type StreamId = StreamId of string
 
 type Configuration = {
     Address: IPAddress
-    Port: int
+    Port: int // TODO: turn into valid ServerPort type
     Username: string
     Password: string
 }
