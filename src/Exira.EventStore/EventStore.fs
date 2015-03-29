@@ -39,7 +39,8 @@ module EventStore =
             let (ServerPort port) = configuration.Port
             let endpoint = IPEndPoint(configuration.Address, port)
             let esSettings =
-                ConnectionSettings.Create()
+                ConnectionSettings
+                    .Create()
                     .UseConsoleLogger()
                     .SetDefaultUserCredentials(UserCredentials(configuration.Username, configuration.Password))
                     .Build()
