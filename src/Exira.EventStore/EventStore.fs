@@ -35,17 +35,19 @@ module EventStore =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))
 
     let connect configuration =
-        let (ServerPort port) = configuration.Port
-        let endpoint = IPEndPoint(configuration.Address, port)
-        let esSettings =
-            ConnectionSettings.Create()
-                .UseConsoleLogger()
-                .SetDefaultUserCredentials(UserCredentials(configuration.Username, configuration.Password))
-                .Build()
+        async {
+            let (ServerPort port) = configuration.Port
+            let endpoint = IPEndPoint(configuration.Address, port)
+            let esSettings =
+                ConnectionSettings.Create()
+                    .UseConsoleLogger()
+                    .SetDefaultUserCredentials(UserCredentials(configuration.Username, configuration.Password))
+                    .Build()
 
-        let connection = EventStoreConnection.Create(esSettings, endpoint, null)
-        connection.AsyncConnect() |> Async.RunSynchronously
-        connection
+            let connection = EventStoreConnection.Create(esSettings, endpoint, null)
+            do! connection.AsyncConnect()
+            return connection
+        }
 
     let readFromStream (store: IEventStoreConnection) stream version count =
         let slice = store.AsyncReadStreamEventsForward stream version count true |> Async.RunSynchronously

@@ -25,7 +25,7 @@ type EventStoreOptions() =
 type EventStoreMiddleware(next: Func<IDictionary<string, obj>, Task>, options: EventStoreOptions) =
     let awaitTask = Async.AwaitIAsyncResult >> Async.Ignore
 
-    let es = connect options.Configuration
+    let es = connect options.Configuration |> Async.RunSynchronously
 
     let updateOrAdd key value (dict : dict<'Key, 'T>) =
         lock dict <| fun () -> dict.[key] <- value
@@ -38,8 +38,7 @@ type EventStoreMiddleware(next: Func<IDictionary<string, obj>, Task>, options: E
             |> updateOrAdd "ges.connection" (es :> obj)
 
         async {
-            do!
-                next.Invoke updatedEnvironment |> awaitTask
+            do! next.Invoke updatedEnvironment |> awaitTask
         } |> Async.StartAsTask :> Task
 
 [<ExtensionAttribute>]
