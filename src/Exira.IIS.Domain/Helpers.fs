@@ -2,7 +2,6 @@
 
 module Helpers =
     open System
-    open Exira.EventStore.Types
     open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
 

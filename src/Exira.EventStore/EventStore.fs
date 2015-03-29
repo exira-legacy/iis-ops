@@ -8,7 +8,22 @@ module EventStore =
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
     open Microsoft.FSharp.Reflection
-    open Exira.EventStore.Types
+
+    type StreamId = StreamId of string
+
+    type private IEventStoreConnection with
+        member this.AsyncConnect() = Async.AwaitTask(this.ConnectAsync())
+
+        member this.AsyncReadStreamEventsForward stream resolveLinkTos =
+            let (StreamId streamName) = stream
+            Async.AwaitTask(this.ReadStreamEventsForwardAsync(streamName, 0, Int32.MaxValue, resolveLinkTos))
+
+        member this.AsyncAppendToStream stream expectedVersion events =
+            let (StreamId streamName) = stream
+            Async.AwaitTask(this.AppendToStreamAsync(streamName, expectedVersion, events))
+
+        member this.AsyncSubscribeToAll resolveLinkTos eventAppeared userCredentials =
+            Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared, userCredentials = userCredentials))
 
     // TODO: All of this should be configurable
     let connect() =
@@ -24,17 +39,17 @@ module EventStore =
         connection.AsyncConnect() |> Async.RunSynchronously
         connection
 
-    let jsonSettings =
+    let private jsonSettings =
         let settings = JsonSerializerSettings(TypeNameHandling = TypeNameHandling.Auto)
         settings
 
-    let serialize (event: 'a)=
+    let private serialize (event: 'a)=
         let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
         let data = Encoding.UTF8.GetBytes(serializedEvent)
         let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
         EventData(Guid.NewGuid(), case.Name, true, data, null)
 
-    let deserialize<'a> (event: ResolvedEvent) =
+    let private deserialize<'a> (event: ResolvedEvent) =
         let serializedString = Encoding.UTF8.GetString(event.Event.Data)
         let event = JsonConvert.DeserializeObject<'a>(serializedString, jsonSettings)
         event

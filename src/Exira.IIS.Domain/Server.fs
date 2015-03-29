@@ -3,7 +3,6 @@
 //module internal Server =
 module Server =
     open System
-    open Exira.EventStore.Types
     open Exira.EventStore.EventStore
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Helpers

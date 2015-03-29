@@ -10,6 +10,7 @@ namespace DiscoveryTest
     {
         static void Main(string[] args)
         {
+            //Exira.EventStore.EventStore
         }
     }
 }
