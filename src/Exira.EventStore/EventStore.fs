@@ -72,3 +72,31 @@ module EventStore =
             |> List.toArray
 
         store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.RunSynchronously
+
+//    let readFromStream (store: IEventStoreConnection) stream version count =
+//        async {
+//            let! slice = store.AsyncReadStreamEventsForward stream version count true
+//
+//            let events: list<'a> =
+//                slice.Events
+//                |> Seq.map deserialize<'a>
+//                |> Seq.cast
+//                |> Seq.toList
+//
+//            let nextEventNumber =
+//                if slice.IsEndOfStream
+//                then None
+//                else Some slice.NextEventNumber
+//
+//            return events, slice.LastEventNumber, nextEventNumber
+//        }
+
+//    let appendToStream (store:IEventStoreConnection) stream expectedVersion newEvents =
+//        async {
+//            let serializedEvents =
+//                newEvents
+//                |> List.map serialize
+//                |> List.toArray
+//
+//            do! store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.Ignore
+//        }
