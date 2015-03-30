@@ -21,12 +21,8 @@ module Helpers =
 
     let getState evolveOne initState id es =
         async {
-            let! streamEvents =
+            let! (events, _, _) =
                 readFromStream es id 0 Int32.MaxValue
-
-            let events =
-                streamEvents
-                |> (fun (e, _, _) -> e)
 
             return evolveOne initState events
         }
