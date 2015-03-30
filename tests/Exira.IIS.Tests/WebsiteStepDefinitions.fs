@@ -17,13 +17,24 @@ module WebsiteStepDefinitions =
     let mutable events: Result<list<Event>> = Success []
 
     let [<Given>] ``a server (.*)``  (serverName:string) =
-        //dto <- { RetireServerCommand.ServerId = Guid.NewGuid() }
-        ()
+        dto <- { RetireServerCommand.ServerId = Guid.NewGuid() }
 
     let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
         ()
 
     let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
+        async {
+            let parsedCommandResult = parseCommand dto
+
+            match parsedCommandResult with
+            | Success parsedCommand ->
+                let! handled = handleCommand es.Connection parsedCommand
+
+                events <- handled
+            | Failure _ ->
+                events <- Success []
+        } |> Async.RunSynchronously
+
 //        events <-
 //            parseCommand dto
 //            |> bind (handleCommand es.Connection)
@@ -40,7 +51,7 @@ module WebsiteStepDefinitions =
 
         match containsEvent with
             | Success s -> Assert.IsTrue(s)
-            | Failure f -> Assert.IsTrue(false, sprintf "%O" f)
+            | Failure f -> Assert.Fail(sprintf "%O" f)
 
     let [<Then>] ``a new binding (.*) should be added to website (.*) on server (.*)`` (bindingName:string, siteName:string, serverName:string) =
         ()
