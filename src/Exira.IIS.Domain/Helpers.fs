@@ -1,5 +1,12 @@
 ﻿namespace Exira.IIS.Domain
 
+module Async =
+    let map f workflow =
+        async {
+            let! res = workflow
+            return f res
+        }
+
 module Helpers =
     open System
     open Exira.EventStore
@@ -20,12 +27,9 @@ module Helpers =
             (Success (-1, initState))
 
     let getState evolveOne initState id es =
-        async {
-            let! (events, _, _) =
-                readFromStream es id 0 Int32.MaxValue
-
-            return evolveOne initState events
-        }
+        readFromStream es id 0 Int32.MaxValue
+        |> Async.map (fun (events, _, _) -> events)
+        |> Async.map (evolveOne initState)
 
     let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
 
