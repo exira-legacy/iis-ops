@@ -13,14 +13,15 @@ module Servers =
     type ServersController() =
         inherit ApiController()
 
+        let await f =
+            async {
+                return! f
+            } |> Async.StartAsTask
+
         [<VersionedRoute>]
         member this.Post(command: InitializeServerCommand) =
-            async {
-                return! command |> application this
-            } |> Async.StartAsTask
+            command |> application this |> await
 
         [<VersionedRoute("{serverId:guid}")>]
         member this.Delete(serverId: Guid, command: RetireServerCommand) =
-            async {
-                return! { command with ServerId = serverId } |> application this
-            } |> Async.StartAsTask
+            { command with ServerId = serverId } |> application this |> await
