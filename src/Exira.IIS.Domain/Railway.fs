@@ -14,4 +14,8 @@ module Railway =
         | Success s -> switchFunction s
         | Failure f -> Failure f
 
+    let bindAsync switchFunction = function
+        | Success s -> switchFunction s
+        | Failure f -> async { return Failure f }
+
     let (>>=) input switchFunction = bind switchFunction input

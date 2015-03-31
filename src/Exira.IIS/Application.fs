@@ -1,5 +1,12 @@
 ﻿namespace Exira.IIS
 
+module Async =
+    let map f workflow =
+        async {
+            let! res = workflow
+            return f res
+        }
+
 module Application =
     open System.Net
     open System.Net.Http
@@ -19,24 +26,25 @@ module Application =
         | Success _ -> controller.Request.CreateResponse(HttpStatusCode.Accepted)
         | Failure error -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (map error))
 
-    let application (controller: ApiController) command =
-        async {
-            let owinEnvironment = controller.Request.GetOwinEnvironment()
-            let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
-
-            let parsedCommandResult = parseCommand command
-            match parsedCommandResult with
-            | Success parsedCommand ->
-                let! handled = handleCommand es parsedCommand
-
-                return matchToResult controller handled
-            | Failure _ ->
-                return matchToResult controller parsedCommandResult
-        }
-
+//    let either fSuccess fFailure = function
+//        | Success x -> fSuccess x
+//        | Failure error -> fFailure error
+//
+//    let application2 (controller: ApiController) command =
 //        let owinEnvironment = controller.Request.GetOwinEnvironment()
 //        let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
 //
-//        parseCommand
-//        >> bind (handleCommand es)
-//        >> matchToResult controller
+//        command
+//        |> parseCommand
+//        |> either
+//            (fun command -> handleCommand es command)
+//            (fun error -> async { return Failure error } )
+//        |> Async.map (matchToResult controller)
+
+    let application (controller: ApiController) =
+        let owinEnvironment = controller.Request.GetOwinEnvironment()
+        let es = owinEnvironment.["ges.connection"] :?> IEventStoreConnection
+
+        parseCommand
+        >> bindAsync (handleCommand es)
+        >> Async.map (matchToResult controller)
