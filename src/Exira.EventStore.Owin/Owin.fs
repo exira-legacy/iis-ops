@@ -27,11 +27,11 @@ type EventStoreMiddleware(next: Func<IDictionary<string, obj>, Task>, options: E
 
     let es = connect options.Configuration |> Async.RunSynchronously
 
-    let updateOrAdd key value (dict : dict<'Key, 'T>) =
+    let updateOrAdd key value (dict: dict<'Key, 'T>) =
         lock dict <| fun () -> dict.[key] <- value
         dict
 
-    member this.Invoke (environment: IDictionary<string, obj>) : Task =
+    member this.Invoke (environment: IDictionary<string, obj>) =
         let updatedEnvironment =
             environment
             |> updateOrAdd "ges.configuration" (options.Configuration :> obj)

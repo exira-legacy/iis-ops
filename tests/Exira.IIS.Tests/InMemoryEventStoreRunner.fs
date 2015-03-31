@@ -10,10 +10,10 @@ module InMemoryEventStoreRunner =
     open EventStore.ClientAPI.SystemData
 
     type EventStoreAccess =
-        { Process : Process
+        { Process: Process
           Connection: IEventStoreConnection
-          TcpPort : int
-          HttpPort : int }
+          TcpPort: int
+          HttpPort: int }
         interface IDisposable with
          member this.Dispose() =
              try
