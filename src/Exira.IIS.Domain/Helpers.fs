@@ -1,12 +1,5 @@
 ﻿namespace Exira.IIS.Domain
 
-module Async =
-    let map f workflow =
-        async {
-            let! res = workflow
-            return f res
-        }
-
 module Helpers =
     open System
     open Exira.EventStore

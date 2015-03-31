@@ -50,6 +50,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Compile Include="..\Utility.fs">
+      <Link>Utility.fs</Link>
+    </Compile>
     <Compile Include="Railway.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Commands.fs" />
