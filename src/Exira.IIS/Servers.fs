@@ -4,17 +4,13 @@ module Servers =
     open System.Web.Http
     open GNaP.WebApi.Versioning
 
+    open Exira
     open Model
     open Application
 
     [<RoutePrefix("servers")>]
     type ServersController() =
         inherit ApiController()
-
-        let await f =
-            async {
-                return! f
-            } |> Async.StartAsTask
 
         [<VersionedRoute>]
         member this.Post dto =

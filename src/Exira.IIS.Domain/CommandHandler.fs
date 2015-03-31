@@ -1,10 +1,10 @@
 ﻿namespace Exira.IIS.Domain
 
 module CommandHandler =
-    open Exira.IIS.Domain.Railway
-    open Exira.IIS.Domain.Helpers
-    open Exira.IIS.Domain.Commands
-    open Exira.IIS.Domain.Server
+    open Exira
+    open Railway
+    open Commands
+    open Server
 
     let parseCommand: obj -> Result<Command> = function
         | :? InitializeServerCommand as command -> Success (Server(InitializeServer(command)))

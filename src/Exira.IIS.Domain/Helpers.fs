@@ -2,11 +2,12 @@
 
 module Helpers =
     open System
+
+    open Exira
     open Exira.EventStore
     open Exira.EventStore.EventStore
-    open Exira.IIS.Domain.Railway
+    open Railway
 
-    let getTypeName o = o.GetType().Name
     let stateTransitionFail event state = Failure (InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName)))
 
     // Apply each event on itself to get to the final state

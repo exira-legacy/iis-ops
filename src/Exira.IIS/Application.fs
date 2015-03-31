@@ -5,6 +5,8 @@ module Application =
     open System.Net.Http
     open System.Web.Http
     open EventStore.ClientAPI
+
+    open Exira
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.CommandHandler
 

@@ -3,11 +3,11 @@
 //module internal Server =
 module Server =
     open System
-    open Exira.EventStore.EventStore
-    open Exira.IIS.Domain.Railway
-    open Exira.IIS.Domain.Helpers
-    open Exira.IIS.Domain.Commands
-    open Exira.IIS.Domain.Events
+
+    open Railway
+    open Helpers
+    open Commands
+    open Events
 
     // This is your real domain -------------
     type ServerInfo = {
@@ -65,7 +65,7 @@ module Server =
 
         // Only previously created servers can be deleted
         match state with
-        | Created(server) -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
+        | Created _ -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
         | _ -> Failure (InvalidState "Server")
 
     // This is your real command handler ------

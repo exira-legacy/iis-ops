@@ -7,6 +7,7 @@ open System.Web.Http
 open System.Web.Http.Cors
 open Newtonsoft.Json.Serialization
 open FSharp.Configuration
+
 open Exira.EventStore
 open Exira.EventStore.Owin
 
