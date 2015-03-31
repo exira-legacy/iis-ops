@@ -1,11 +1,11 @@
 ﻿namespace Exira.IIS
 
 module Servers =
-    open Application
-    open System
     open System.Web.Http
     open GNaP.WebApi.Versioning
-    open Exira.IIS.Domain.Commands
+
+    open Model
+    open Application
 
     [<RoutePrefix("servers")>]
     type ServersController() =
@@ -17,9 +17,9 @@ module Servers =
             } |> Async.StartAsTask
 
         [<VersionedRoute>]
-        member this.Post(command: InitializeServerCommand) =
-            command |> application this |> await
+        member this.Post dto =
+            Dto.CreateServer dto |> application this |> await
 
         [<VersionedRoute("{serverId:guid}")>]
-        member this.Delete(serverId: Guid) =
-            { ServerId = serverId } |> application this |> await
+        member this.Delete serverId =
+            Dto.DeleteServer { ServerId = serverId } |> application this |> await

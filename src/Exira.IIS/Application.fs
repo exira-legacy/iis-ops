@@ -8,6 +8,8 @@ module Application =
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.CommandHandler
 
+    open Model
+
     let map error =
         match error with
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
@@ -23,7 +25,8 @@ module Application =
         let owinEnvironment = controller.Request.GetOwinEnvironment()
         owinEnvironment.["ges.connection"] :?> IEventStoreConnection
 
-    let application controller  =
-        parseCommand
+    let application controller =
+        toCommand
+        >> bind parseCommand
         >> bindAsync (controller |> getConnection |> handleCommand)
         >> Async.map (matchToResult controller)

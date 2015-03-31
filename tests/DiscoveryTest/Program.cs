@@ -5,6 +5,7 @@
     using Exira.EventStore.Owin;
     using Exira.IIS.Domain;
     using Owin;
+    using System;
 
     class Program
     {

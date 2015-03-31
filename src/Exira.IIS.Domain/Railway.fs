@@ -2,6 +2,7 @@
 
 module Railway =
     type Error =
+        | UnknownDto of string
         | UnknownCommand of string
         | InvalidState of string
         | InvalidStateTransition of string

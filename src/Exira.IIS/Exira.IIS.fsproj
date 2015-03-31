@@ -103,6 +103,7 @@
     <Compile Include="..\Utility.fs">
       <Link>Utility.fs</Link>
     </Compile>
+    <Compile Include="Model.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Servers.fs" />
     <Compile Include="Startup.fs" />
