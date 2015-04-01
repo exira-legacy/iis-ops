@@ -1,16 +1,13 @@
 ﻿namespace Exira.IIS.Domain
 
-//module internal Server =
-module Server =
+open Railway
+open Helpers
+open Commands
+open Events
+
+module internal Server =
     open System
 
-    open Exira
-    open Railway
-    open Helpers
-    open Commands
-    open Events
-
-    // This is your real domain -------------
     type ServerInfo = {
         ServerId: Guid // TODO: Change to ServerId type
         Name: string
@@ -22,9 +19,10 @@ module Server =
         | Init
         | Created of ServerInfo
         | Deleted
-    // --------------------------------------
 
-    // This is the state machine which controls valid transitions
+module internal ServerState =
+    open Server
+
     let evolveOneServer state event =
         match state with
         | Init ->
@@ -48,7 +46,10 @@ module Server =
 
     let toServerStreamId = toStreamId "server"
     let getServerState id = getState (evolve evolveOneServer) Init (toServerStreamId id)
-    // --------------------------------------
+
+module internal ServerCommandHandler =
+    open Server
+    open ServerState
 
     let createServer (command: InitializeServerCommand) (version, state) =
         let serverCreated = { ServerCreatedEvent.ServerId = command.ServerId
@@ -69,7 +70,6 @@ module Server =
         | Created _ -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
         | _ -> Failure (InvalidState "Server")
 
-    // This is your real command handler ------
     let handleInitializeServer (command: InitializeServerCommand) es =
         async {
             let! state = getServerState command.ServerId es
@@ -89,4 +89,3 @@ module Server =
                 >>= deleteServer command
                 >>=! save es
         }
-    // --------------------------------------

@@ -4,7 +4,7 @@ module CommandHandler =
     open Exira
     open Railway
     open Commands
-    open Server
+    open ServerCommandHandler
 
     let parseCommand: obj -> Result<Command> = function
         | :? InitializeServerCommand as command -> Success (Server(InitializeServer(command)))
