@@ -4,6 +4,7 @@
 module Server =
     open System
 
+    open Exira
     open Railway
     open Helpers
     open Commands
@@ -28,17 +29,17 @@ module Server =
         match state with
         | Init ->
             match event with
-            | ServerCreated(e) ->
-                Success(Created { ServerId = e.ServerId
-                                  Name = e.Name
-                                  Dns = e.Dns
-                                  Description = e.Description })
+            | ServerCreated e ->
+                Success (Created { ServerId = e.ServerId
+                                   Name = e.Name
+                                   Dns = e.Dns
+                                   Description = e.Description })
             | _ -> stateTransitionFail event state
 
-        | Created info ->
+        | Created _ ->
             match event with
-            | ServerDeleted(e) ->
-                Success(Deleted)
+            | ServerDeleted _ ->
+                Success (Deleted)
             | _ -> stateTransitionFail event state
 
         | Deleted ->
@@ -71,23 +72,21 @@ module Server =
     // This is your real command handler ------
     let handleInitializeServer (command: InitializeServerCommand) es =
         async {
-            let! x = getServerState command.ServerId es
-            return x
-                   >>= createServer command
-                   >>= save es
+            let! state = getServerState command.ServerId es
+
+            return!
+                state
+                >>= createServer command
+                >>=! save es
         }
-//        getServerState command.ServerId es
-//        >>= createServer command
-//        >>= save es
 
     let handleRetireServer (command: RetireServerCommand) es =
         async {
-            let! x = getServerState command.ServerId es
-            return x
-                   >>= deleteServer command
-                   >>= save es
+            let! state = getServerState command.ServerId es
+
+            return!
+                state
+                >>= deleteServer command
+                >>=! save es
         }
-//        getServerState command.ServerId es
-//        >>= deleteServer command
-//        >>= save es
     // --------------------------------------

@@ -20,3 +20,4 @@ module Railway =
         | Failure f -> async { return Failure f }
 
     let (>>=) input switchFunction = bind switchFunction input
+    let (>>=!) input switchFunction = bindAsync switchFunction input

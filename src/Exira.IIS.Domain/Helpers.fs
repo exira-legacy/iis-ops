@@ -28,5 +28,7 @@ module Helpers =
     let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
 
     let save es (id, version, events) =
-        appendToStream es id version events |> Async.RunSynchronously // TODO: Temporary sync, needs to turn into full async
-        Success events
+        async {
+            do! appendToStream es id version events
+            return Success events
+        }
