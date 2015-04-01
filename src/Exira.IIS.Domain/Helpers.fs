@@ -2,6 +2,7 @@
 
 module Helpers =
     open System
+    open ExtCore.Control
 
     open Exira
     open Exira.EventStore

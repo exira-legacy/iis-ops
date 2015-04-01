@@ -4,9 +4,9 @@ module Application =
     open System.Net
     open System.Net.Http
     open System.Web.Http
+    open ExtCore.Control
     open EventStore.ClientAPI
 
-    open Exira
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.CommandHandler
 
@@ -14,6 +14,7 @@ module Application =
 
     let map error =
         match error with
+        | UnknownDto dto -> sprintf "Unknown dto '%s'" dto
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
         | _ -> "Doh!"
 

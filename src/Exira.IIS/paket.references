@@ -4,3 +4,4 @@ Microsoft.Owin.Host.SystemWeb
 FSharp.Configuration
 GNaP.WebApi.Versioning
 EventStore.Client
+ExtCore
