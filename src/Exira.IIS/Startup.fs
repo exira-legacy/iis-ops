@@ -5,9 +5,9 @@ open Microsoft.Owin.Extensions
 open System.Net
 open System.Web.Http
 open System.Web.Http.Cors
-open Newtonsoft.Json.Serialization
 open FSharp.Configuration
 
+open Exira.Jil
 open Exira.EventStore
 open Exira.EventStore.Owin
 
@@ -24,7 +24,9 @@ type Startup() =
 
     let configureFormatters (config: HttpConfiguration)  =
         config.Formatters.Remove config.Formatters.XmlFormatter |> ignore
-        config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- CamelCasePropertyNamesContractResolver()
+        config.Formatters.Remove config.Formatters.JsonFormatter |> ignore
+        config.Formatters.Add(JilMediaTypeFormatter()) |> ignore
+//        config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- CamelCasePropertyNamesContractResolver()
         config
 
     let configureCors (config: HttpConfiguration) =

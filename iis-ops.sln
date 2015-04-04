@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoveryTest", "tests\Disc
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.EventStore.Owin", "src\Exira.EventStore.Owin\Exira.EventStore.Owin.fsproj", "{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.Jil", "src\Exira.Jil\Exira.Jil.fsproj", "{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{2414B97B-CA6F-4E43-BD2D-D55CC8C52A34} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 		{8F95E21D-2C91-42DE-B07E-181A49110A50} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 		{F1D94EDA-F8CB-4D69-BC90-744E3662AB3D} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
+		{8B15C047-12AA-4BE1-ADEC-CE86A0F9C3E5} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
 	EndGlobalSection
 EndGlobal

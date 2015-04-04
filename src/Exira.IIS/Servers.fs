@@ -12,6 +12,17 @@ module Servers =
     type ServersController() =
         inherit ApiController()
 
+        let values =
+            [| { Name = "test"
+                 Dns = "win1.exira.com"
+                 Description = "Windows 2012 R2 @ Frankfurt" }
+               { Name = "test2"
+                 Dns = "win2.exira.com"
+                 Description = "Windows 2008 @ Dublin" } |]
+
+        [<VersionedRoute>]
+        member this.Get() = values
+
         [<VersionedRoute>]
         member this.Post dto =
             Dto.CreateServer dto |> application this |> await
