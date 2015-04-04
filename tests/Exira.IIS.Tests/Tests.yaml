@@ -1,0 +1,8 @@
+﻿# netsh http add urlacl url=http://+:13371/ user=DOMAIN\username
+
+EventStore:
+    TcpPort: 13371
+    HttpPort: 13372
+    Path: ges\EventStore-OSS-Win-v3.0.3\EventStore.ClusterNode.exe
+    Username: admin
+    Password: changeit

@@ -3,11 +3,14 @@
 open System
 open System.IO
 open System.Diagnostics
+open FSharp.Configuration
 open EventStore.ClientAPI
 
 module InMemoryEventStoreRunner =
     open System.Net
     open EventStore.ClientAPI.SystemData
+
+    type TestConfig = YamlConfig<"Tests.yaml">
 
     type EventStoreAccess =
         { Process: Process
@@ -15,22 +18,24 @@ module InMemoryEventStoreRunner =
           TcpPort: int
           HttpPort: int }
         interface IDisposable with
-         member this.Dispose() =
-             try
-                 this.Connection.Dispose()
-             with | ex ->
-                 Console.WriteLine(sprintf "Exception disposing connection %A" ex)
+            member this.Dispose() =
+                try
+                    this.Connection.Dispose()
+                with ex -> Console.WriteLine(sprintf "Exception disposing connection %A" ex)
 
-             this.Process.Kill()
-             this.Process.WaitForExit()
-             this.Process.Dispose()
+                this.Process.Kill()
+                this.Process.WaitForExit()
+                this.Process.Dispose()
 
-    let clusterNodeAbsolutePath = Path.Combine(IntegrationTests.buildDirectoryPath, "ges\EventStore-OSS-Win-v3.0.3\EventStore.ClusterNode.exe")
+    let testConfig = TestConfig()
+
+    let clusterNodeAbsolutePath = Path.Combine(IntegrationTests.buildDirectoryPath, testConfig.EventStore.Path)
     let clusterNodeProcessName = "EventStore.ClusterNode"
 
     let startNewProcess () =
-        let testTcpPort = IntegrationTests.findFreeTcpPort()
-        let testHttpPort = IntegrationTests.findFreeTcpPort()
+        let testTcpPort = testConfig.EventStore.TcpPort // IntegrationTests.findFreeTcpPort()
+        let testHttpPort = testConfig.EventStore.HttpPort // IntegrationTests.findFreeTcpPort()
+
         let processArguments =
             let timeoutOptions = "--Int-Tcp-Heartbeat-Timeout=50000 --Ext-Tcp-Heartbeat-Timeout=50000"
             let portOptions =
@@ -53,31 +58,34 @@ module InMemoryEventStoreRunner =
 
             while not started do
                 let line = eventStoreProcess.StandardOutput.ReadLine()
-                if line <> null then
-                    Console.WriteLine line
+                if line <> null then Console.WriteLine line
                 if line <> null && line.Contains("SystemInit") then started <- true
 
             Console.WriteLine eventStoreProcess
 
             (testTcpPort, testHttpPort, eventStoreProcess)
-        with | _ ->
+        with _ ->
             eventStoreProcess.Kill()
             reraise()
 
-    let connectToEventStore testTcpPort=
+    let connectToEventStore testTcpPort =
         let ipEndPoint = IPEndPoint(IPAddress.Loopback, testTcpPort)
         let connectionSettingsBuilder =
             ConnectionSettings
                 .Create()
-                .SetDefaultUserCredentials(UserCredentials("admin", "changeit"))
+                .SetDefaultUserCredentials(UserCredentials(testConfig.EventStore.Username, testConfig.EventStore.Password))
 
-        let connectionSettings : ConnectionSettings = ConnectionSettingsBuilder.op_Implicit(connectionSettingsBuilder)
+        let connectionSettings: ConnectionSettings = ConnectionSettingsBuilder.op_Implicit(connectionSettingsBuilder)
 
         let connection = EventStoreConnection.Create(connectionSettings, ipEndPoint)
 
         connection.ConnectAsync().Wait()
 
-        IntegrationTests.runUntilSuccess 100 (fun () -> connection.ReadAllEventsForwardAsync(EventStore.ClientAPI.Position.Start, 1, false) |> Async.AwaitTask |> Async.RunSynchronously) |> ignore
+        IntegrationTests.runUntilSuccess 100 (fun () ->
+            connection.ReadAllEventsForwardAsync(EventStore.ClientAPI.Position.Start, 1, false)
+            |> Async.AwaitTask
+            |> Async.RunSynchronously)
+        |> ignore
 
         connection
 

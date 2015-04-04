@@ -1,3 +1,4 @@
 TickSpec
 NUnit
 EventStore.Client
+FSharp.Configuration

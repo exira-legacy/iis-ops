@@ -16,8 +16,6 @@ module IntegrationTests =
             .Parent
             .FullName
 
-    let bookLibraryExecutableDirectory = Directory.GetCurrentDirectory()
-
     let findFreeTcpPort () =
         let l = TcpListener(IPAddress.Loopback, 0)
         l.Start()
@@ -40,9 +38,7 @@ module IntegrationTests =
         let rec loop attempt =
             try
                 f()
-            with | _ ->
-                if (attempt < maxTries) then
-                    loop (attempt + 1)
-                else
-                    reraise()
+            with _ ->
+                if (attempt < maxTries) then loop (attempt + 1)
+                else reraise()
         loop 0
