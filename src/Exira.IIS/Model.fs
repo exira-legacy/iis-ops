@@ -10,13 +10,13 @@ module Model =
         | CreateServer of CreateServerDto
         | DeleteServer of DeleteServerDto
 
-    and CreateServerDto = {
+    and [<CLIMutable>] CreateServerDto = {
         Name: string
         Dns: string
         Description: string
     }
 
-    and DeleteServerDto = {
+    and [<CLIMutable>] DeleteServerDto = {
         ServerId: Guid
     }
 

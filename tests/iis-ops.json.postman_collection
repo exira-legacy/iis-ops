@@ -36,7 +36,8 @@
 			"collectionId": "2b112f69-20f7-c12d-5867-5b67889440bd",
 			"responses": [],
 			"synced": false,
-			"rawModeData": ""
+			"rawModeData": "",
+			"owner": 0
 		},
 		{
 			"id": "6799708c-c0a8-d726-0b54-1149667cf609",
@@ -51,13 +52,13 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1427632700705,
+			"time": 1428182874421,
 			"name": "Create Server",
 			"description": "",
 			"collectionId": "2b112f69-20f7-c12d-5867-5b67889440bd",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    serverId: '00000000-0000-0000-0000-000000000001',\n    name: 'Bla',\n    dns: 'bla.cumps.be',\n    description: 'Blaat!'\n}"
+			"rawModeData": "{\n    \"name\": \"Bla\",\n    \"dns\": \"bla.cumps.be\",\n    \"description\": \"Blaat!\"\n}"
 		}
 	]
 }

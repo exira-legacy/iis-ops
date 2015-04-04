@@ -5,6 +5,8 @@
     Password: changeit
 
 Web:
+    JSON:
+        PrettyPrint: false
     CORS:
         AllowedOrigins:
             - http://localhost:9090
