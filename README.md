@@ -17,9 +17,3 @@ The only entry point to the domain is the command handler: [CommandHandler.fs](h
 After a check if a valid command has been used, it is dispatched to a specific command handler.
 
 All possible commands are listed in [Commands.fs](https://github.com/exira/iis-ops/blob/master/src/Exira.IIS.Domain/Commands.fs)
-
-## Notes
-
-There seems to be a current issue on build where Paket's auto-restore is not fetching all references.
-
-Running ```.paket\paket.exe install``` fixes this.
