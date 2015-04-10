@@ -48,6 +48,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Railway.fs" />
     <Compile Include="EventHandler.fs" />
     <Compile Include="Program.fs" />
     <None Include="Processor.yaml" />

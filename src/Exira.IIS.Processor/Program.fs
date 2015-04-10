@@ -5,14 +5,12 @@ module Program =
     open System.Net
     open FSharp.Configuration
     open EventStore.ClientAPI
-    open Microsoft.FSharp.Reflection
 
     open Exira.EventStore
-    open Exira.EventStore.Serialization
     open Exira.EventStore.EventStore
-    open Exira.IIS.Contracts.Events
 
-    open EventHandler
+    open Railway
+    open Exira.IIS.Processor.EventHandler
 
     type ProcessorConfig = YamlConfig<"Processor.yaml">
 
@@ -30,24 +28,21 @@ module Program =
 
     let checkpointStream = StreamId (sprintf "%s-checkpoint" processorConfig.Processor.Name)
 
-    let handleEvent resolvedEvent =
-        // TODO: Railway oriented way to do this
-        resolvedEvent
-        |> deserialize<Event>
-        |> handleDomainEvent
-
-        storeCheckpoint es checkpointStream resolvedEvent.OriginalPosition.Value |> Async.RunSynchronously
-
-    let possibleEvents =
-        FSharpType.GetUnionCases typeof<Event>
-        |> Seq.map (fun c -> c.Name)
+    let map error =
+        match error with
+        | UnknownEvent e ->  sprintf "Unknown event: '%s'" e
+        | DeserializeProblem e -> sprintf "Serializer problem: '%s'" e
 
     let eventAppeared = fun _ (resolvedEvent: ResolvedEvent) ->
-        possibleEvents
-        |> Seq.exists ((=) resolvedEvent.Event.EventType)
-        |> function
-            | true -> handleEvent resolvedEvent
-            | _ -> ()
+        let handledEvent = handleEvent resolvedEvent
+
+        match handledEvent with
+        | Success dummy ->
+            printf "%s" dummy
+            storeCheckpoint es checkpointStream resolvedEvent.OriginalPosition.Value |> Async.RunSynchronously
+        | Failure error ->
+            // TODO: On failure, should either retry, or stop processing
+            printfn "%s - %04i@%s" (map error) resolvedEvent.Event.EventNumber resolvedEvent.Event.EventStreamId
 
     let subscribe = fun reconnect ->
         let lastPosition = getCheckpoint es checkpointStream |> Async.RunSynchronously
