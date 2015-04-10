@@ -6,6 +6,7 @@ module Program =
     open ExtCore
     open FSharp.Configuration
     open EventStore.ClientAPI
+    open Microsoft.FSharp.Reflection
 
     open Exira.EventStore
     open Exira.EventStore.Serialization
@@ -25,6 +26,10 @@ module Program =
             Password = processorConfig.EventStore.Password
         }
 
+    let possibleEvents =
+        FSharpType.GetUnionCases typeof<Event>
+        |> Seq.map (fun c -> c.Name)
+
     let es = connect config |> Async.RunSynchronously
 
     let handleEvent resolvedEvent =
@@ -36,11 +41,11 @@ module Program =
 
     let eventAppeared = fun subscription (resolvedEvent: ResolvedEvent) ->
         (
-            let systemEvent =
-                resolvedEvent.Event.EventStreamId
-                |> String.startsWith "$"
+            let processEvent =
+                possibleEvents
+                |> Seq.exists ((=) resolvedEvent.Event.EventType)
 
-            if (not systemEvent) then
+            if (processEvent) then
                 printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType
                 printfn "%s" (handleEvent resolvedEvent)
         )
