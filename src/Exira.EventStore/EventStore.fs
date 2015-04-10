@@ -43,6 +43,8 @@ module EventStore =
                     .Create()
                     .UseConsoleLogger()
                     .SetDefaultUserCredentials(UserCredentials(configuration.Username, configuration.Password))
+                    .KeepReconnecting()
+                    .KeepRetrying()
                     .Build()
 
             let connection = EventStoreConnection.Create(esSettings, endpoint, null)

@@ -1,6 +1,6 @@
 ﻿namespace Exira.EventStore
 
-module internal Serialization =
+module Serialization =
     open System
     open System.Text
     open EventStore.ClientAPI
