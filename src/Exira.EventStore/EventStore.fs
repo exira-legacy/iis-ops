@@ -13,8 +13,6 @@ type Configuration = {
 
 type StreamId = StreamId of string
 
-
-
 module EventStore =
     open System
     open System.Net
@@ -41,6 +39,10 @@ module EventStore =
         member this.AsyncSubscribeToAll resolveLinkTos eventAppeared =
             Async.AwaitTask(this.SubscribeToAllAsync(resolveLinkTos, eventAppeared))
 
+        member this.AsyncGetStreamMetadata stream =
+            let (StreamId streamId) = stream
+            Async.AwaitTask(this.GetStreamMetadataAsync(streamId))
+
         member this.AsyncSetStreamMetadata stream expectedMetastreamVersion (metadata: StreamMetadata) =
             let (StreamId streamId) = stream
             Async.AwaitTask(this.SetStreamMetadataAsync(streamId, expectedMetastreamVersion, metadata))
@@ -49,7 +51,8 @@ module EventStore =
         | LastCheckPoint of LastCheckPointEvent
 
     and LastCheckPointEvent = {
-        LastPosition: Position
+        LastCommitPosition: int64
+        LastPreparePosition: int64
     }
 
     let connect configuration =
@@ -98,29 +101,40 @@ module EventStore =
             do! store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.Ignore
         }
 
-    let storeCheckpoint (store: IEventStoreConnection) stream position =
+    let initaliseCheckpoint (store: IEventStoreConnection) stream =
         async {
-            // TODO: Only need to set the meta data once
-            let metadata = StreamMetadata.Build().SetMaxCount(1).Build()
-            do! store.AsyncSetStreamMetadata stream ExpectedVersion.Any metadata |> Async.Ignore
+            let! lastMetaData = store.AsyncGetStreamMetadata stream
 
-            let checkpoint = LastCheckPoint ({ LastPosition = position })
+            if (lastMetaData.MetastreamVersion <> -1) then
+                return ()
+
+            let metadata = StreamMetadata.Build().SetMaxCount(1).Build()
+
+            do! store.AsyncSetStreamMetadata stream ExpectedVersion.Any metadata |> Async.Ignore
+        }
+
+    let storeCheckpoint (store: IEventStoreConnection) stream (position: Position) =
+        async {
+            let checkpoint = LastCheckPoint ({ LastCommitPosition = position.CommitPosition; LastPreparePosition = position.PreparePosition })
+
             do! appendToStream store stream ExpectedVersion.Any [checkpoint]
         }
 
     let getCheckpoint (store: IEventStoreConnection) stream =
         async {
-            let! lastEvent = store.AsyncReadEvent stream -1 false
-            // TODO: Check what happens if it doesnt exist yet (either lastEvent or lastEvent.Event
-
-            // TODO: For some reason this does not properly deserialize the Positionm it's always 0/0
-            let event =
-                lastEvent.Event.Value
+            let buildCheckpoint event =
+                event
                 |> deserialize<InternalEvent>
+                |> function
+                    | InternalEvent.LastCheckPoint e -> Nullable(Position(e.LastCommitPosition, e.LastPreparePosition))
+
+            let! lastEvent = store.AsyncReadEvent stream -1 false
 
             return
-                event
-                |> function
-                    | InternalEvent.LastCheckPoint e -> Nullable e.LastPosition
+                match lastEvent.Status with
+                    | EventReadStatus.Success ->
+                        match lastEvent.Event.HasValue with
+                        | true -> buildCheckpoint lastEvent.Event.Value
+                        | false -> AllCheckpoint.AllStart
                     | _ -> AllCheckpoint.AllStart
         }

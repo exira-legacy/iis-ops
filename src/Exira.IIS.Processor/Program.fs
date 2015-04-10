@@ -3,7 +3,6 @@
 module Program =
     open System
     open System.Net
-    open ExtCore
     open FSharp.Configuration
     open EventStore.ClientAPI
     open Microsoft.FSharp.Reflection
@@ -43,7 +42,7 @@ module Program =
         FSharpType.GetUnionCases typeof<Event>
         |> Seq.map (fun c -> c.Name)
 
-    let eventAppeared = fun subscription (resolvedEvent: ResolvedEvent) ->
+    let eventAppeared = fun _ (resolvedEvent: ResolvedEvent) ->
         possibleEvents
         |> Seq.exists ((=) resolvedEvent.Event.EventType)
         |> function
@@ -59,13 +58,13 @@ module Program =
             eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
             subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(reconnect))
 
-    let rec subscriptionDropped = fun subscription reason ex ->
+    let rec subscriptionDropped = fun _ reason _ ->
         printfn "Subscription Dropped: %O" reason
         subscribe subscriptionDropped |> ignore
 
     [<EntryPoint>]
-    let main argv =
-        printfn "Connecting to %O:%d" processorConfig.EventStore.Address processorConfig.EventStore.Port
+    let main _ =
+        initaliseCheckpoint es checkpointStream |> Async.RunSynchronously
 
         subscribe subscriptionDropped |> ignore
 
@@ -74,5 +73,3 @@ module Program =
         es.Close()
 
         0
-
-        //printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType
