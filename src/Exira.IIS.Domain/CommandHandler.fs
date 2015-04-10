@@ -12,8 +12,8 @@ module CommandHandler =
         | command -> Failure (UnknownCommand (getTypeName command))
 
     let private handleServer = function
-        | InitializeServer(serverCommand) -> handleInitializeServer serverCommand
-        | RetireServer(serverCommand) -> handleRetireServer serverCommand
+        | InitializeServer serverCommand -> handleInitializeServer serverCommand
+        | RetireServer serverCommand -> handleRetireServer serverCommand
 
     let handleCommand es = function
-        | Server(command) -> handleServer command es
+        | Server command -> handleServer command es

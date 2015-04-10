@@ -11,8 +11,9 @@ module Program =
     open Exira.EventStore
     open Exira.EventStore.Serialization
     open Exira.EventStore.EventStore
-
     open Exira.IIS.Domain.Events
+
+    open EventHandler
 
     type ProcessorConfig = YamlConfig<"Processor.yaml">
 
@@ -28,34 +29,34 @@ module Program =
 
     let es = connect config |> Async.RunSynchronously
 
+    let checkpointStream = StreamId (sprintf "%s-checkpoint" processorConfig.Processor.Name)
+
+    let handleEvent resolvedEvent =
+        // TODO: Railway oriented way to do this
+        resolvedEvent
+        |> deserialize<Event>
+        |> handleDomainEvent
+
+        storeCheckpoint es checkpointStream resolvedEvent.OriginalPosition.Value |> Async.RunSynchronously
+
     let possibleEvents =
         FSharpType.GetUnionCases typeof<Event>
         |> Seq.map (fun c -> c.Name)
 
-    let handleEvent resolvedEvent =
-        resolvedEvent
-        |> deserialize<Event>
-        |> function
-            | ServerCreated e -> sprintf "%A" e
-            | ServerDeleted e -> sprintf "%A" e
-
     let eventAppeared = fun subscription (resolvedEvent: ResolvedEvent) ->
-        let processEvent =
-            possibleEvents
-            |> Seq.exists ((=) resolvedEvent.Event.EventType)
-
-        if (processEvent) then
-            printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType
-            printfn "%s" (handleEvent resolvedEvent)
-
-    let liveProcessingStarted = fun subscription -> ()
+        possibleEvents
+        |> Seq.exists ((=) resolvedEvent.Event.EventType)
+        |> function
+            | true -> handleEvent resolvedEvent
+            | _ -> ()
 
     let subscribe = fun reconnect ->
+        let lastPosition = getCheckpoint es checkpointStream |> Async.RunSynchronously
+
         es.SubscribeToAllFrom(
-            lastCheckpoint = AllCheckpoint.AllStart,
+            lastCheckpoint = lastPosition,
             resolveLinkTos = true,
             eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
-            liveProcessingStarted = Action<EventStoreCatchUpSubscription>(liveProcessingStarted),
             subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(reconnect))
 
     let rec subscriptionDropped = fun subscription reason ex ->
@@ -66,10 +67,12 @@ module Program =
     let main argv =
         printfn "Connecting to %O:%d" processorConfig.EventStore.Address processorConfig.EventStore.Port
 
-        let subscription = subscribe subscriptionDropped
+        subscribe subscriptionDropped |> ignore
 
         Console.ReadLine() |> ignore
 
         es.Close()
 
         0
+
+        //printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType

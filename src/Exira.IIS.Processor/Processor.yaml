@@ -3,3 +3,6 @@
     Port: 1113
     Username: admin
     Password: changeit
+
+Processor:
+    Name: iis-processor
