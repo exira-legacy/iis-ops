@@ -55,13 +55,16 @@
     </Compile>
     <Compile Include="Railway.fs" />
     <Compile Include="Helpers.fs" />
-    <Compile Include="Commands.fs" />
-    <Compile Include="Events.fs" />
     <Compile Include="Server.fs" />
     <Compile Include="CommandHandler.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj">
+      <Name>Exira.IIS.Contracts</Name>
+      <Project>{c2f53f70-5db7-4431-8207-a73a8f164807}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>

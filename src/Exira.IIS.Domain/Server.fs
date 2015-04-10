@@ -2,8 +2,8 @@
 
 open Railway
 open Helpers
-open Commands
-open Events
+open Exira.IIS.Contracts.Commands
+open Exira.IIS.Contracts.Events
 
 module internal Server =
     open System

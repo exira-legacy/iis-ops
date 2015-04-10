@@ -15,7 +15,7 @@ module Serialization =
         let serializedEvent = JsonConvert.SerializeObject(event, jsonSettings)
         let data = Encoding.UTF8.GetBytes(serializedEvent)
         let case, _ = FSharpValue.GetUnionFields(event, typeof<'a>)
-        EventData(Guid.NewGuid(), case.Name, true, data, null)
+        EventData(Guid.NewGuid(), case.Name, isJson = true, data = data, metadata = null)
 
     let deserialize<'a> (event: ResolvedEvent) =
         let serializedString = Encoding.UTF8.GetString(event.Event.Data)

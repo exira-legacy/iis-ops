@@ -4,7 +4,7 @@ module Model =
     open System
 
     open Exira.IIS.Domain.Railway
-    open Exira.IIS.Domain.Commands
+    open Exira.IIS.Contracts.Commands
 
     type Dto =
         | CreateServer of CreateServerDto

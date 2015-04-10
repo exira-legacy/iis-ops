@@ -16,6 +16,7 @@ type StreamId = StreamId of string
 module EventStore =
     open System
     open System.Net
+    open Exira
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
     open Serialization

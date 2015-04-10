@@ -7,9 +7,9 @@ module WebsiteStepDefinitions =
 
     open System
     open Exira.IIS.Domain.Railway
-    open Exira.IIS.Domain.Commands
+    open Exira.IIS.Contracts.Commands
     open Exira.IIS.Domain.CommandHandler
-    open Exira.IIS.Domain.Events
+    open Exira.IIS.Contracts.Events
 
     let es = startInMemoryEventStore()
 

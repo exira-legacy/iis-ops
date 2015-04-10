@@ -60,9 +60,9 @@
       <Project>{2414b97b-ca6f-4e43-bd2d-d55cc8c52a34}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Exira.IIS.Domain\Exira.IIS.Domain.fsproj">
-      <Name>Exira.IIS.Domain</Name>
-      <Project>{8f95e21d-2c91-42de-b07e-181a49110a50}</Project>
+    <ProjectReference Include="..\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj">
+      <Name>Exira.IIS.Contracts</Name>
+      <Project>{c2f53f70-5db7-4431-8207-a73a8f164807}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

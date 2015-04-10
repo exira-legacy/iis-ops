@@ -10,7 +10,7 @@ module Program =
     open Exira.EventStore
     open Exira.EventStore.Serialization
     open Exira.EventStore.EventStore
-    open Exira.IIS.Domain.Events
+    open Exira.IIS.Contracts.Events
 
     open EventHandler
 

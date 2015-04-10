@@ -3,7 +3,7 @@
 module CommandHandler =
     open Exira
     open Railway
-    open Commands
+    open Exira.IIS.Contracts.Commands
     open ServerCommandHandler
 
     let parseCommand: obj -> Result<Command> = function

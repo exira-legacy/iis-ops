@@ -1,7 +1,7 @@
 ﻿namespace Exira.IIS.Processor
 
 module EventHandler =
-    open Exira.IIS.Domain.Events
+    open Exira.IIS.Contracts.Events
 
     let handleDomainEvent = function
         | ServerCreated e -> printf "%A\n" e
