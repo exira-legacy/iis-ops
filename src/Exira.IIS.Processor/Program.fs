@@ -26,11 +26,11 @@ module Program =
             Password = processorConfig.EventStore.Password
         }
 
+    let es = connect config |> Async.RunSynchronously
+
     let possibleEvents =
         FSharpType.GetUnionCases typeof<Event>
         |> Seq.map (fun c -> c.Name)
-
-    let es = connect config |> Async.RunSynchronously
 
     let handleEvent resolvedEvent =
         resolvedEvent
@@ -40,31 +40,33 @@ module Program =
             | ServerDeleted e -> sprintf "%A" e
 
     let eventAppeared = fun subscription (resolvedEvent: ResolvedEvent) ->
-        (
-            let processEvent =
-                possibleEvents
-                |> Seq.exists ((=) resolvedEvent.Event.EventType)
+        let processEvent =
+            possibleEvents
+            |> Seq.exists ((=) resolvedEvent.Event.EventType)
 
-            if (processEvent) then
-                printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType
-                printfn "%s" (handleEvent resolvedEvent)
-        )
+        if (processEvent) then
+            printfn "%s - %04i - %s" resolvedEvent.Event.EventStreamId resolvedEvent.Event.EventNumber resolvedEvent.Event.EventType
+            printfn "%s" (handleEvent resolvedEvent)
 
     let liveProcessingStarted = fun subscription -> ()
 
-    let subscriptionDropped = fun subscription reason ex -> () // TODO: Try Reconnect
+    let subscribe = fun reconnect ->
+        es.SubscribeToAllFrom(
+            lastCheckpoint = AllCheckpoint.AllStart,
+            resolveLinkTos = true,
+            eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
+            liveProcessingStarted = Action<EventStoreCatchUpSubscription>(liveProcessingStarted),
+            subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(reconnect))
+
+    let rec subscriptionDropped = fun subscription reason ex ->
+        printfn "Subscription Dropped: %O" reason
+        subscribe subscriptionDropped |> ignore
 
     [<EntryPoint>]
     let main argv =
         printfn "Connecting to %O:%d" processorConfig.EventStore.Address processorConfig.EventStore.Port
 
-        let subscription =
-            es.SubscribeToAllFrom(
-                lastCheckpoint = AllCheckpoint.AllStart,
-                resolveLinkTos = true,
-                eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
-                liveProcessingStarted = Action<EventStoreCatchUpSubscription>(liveProcessingStarted),
-                subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(subscriptionDropped))
+        let subscription = subscribe subscriptionDropped
 
         Console.ReadLine() |> ignore
 
