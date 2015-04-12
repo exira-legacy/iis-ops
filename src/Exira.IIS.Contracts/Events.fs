@@ -2,18 +2,19 @@
 
 module Events =
     open System
+    open DomainTypes
 
     type Event =
         | ServerCreated of ServerCreatedEvent
         | ServerDeleted of ServerDeletedEvent
 
     and ServerCreatedEvent = {
-        ServerId: Guid
+        ServerId: ServerId.T
         Name: string
-        Dns: string
+        Dns: Hostname.T
         Description: string
     }
 
     and ServerDeletedEvent = {
-        ServerId: Guid
+        ServerId: ServerId.T
     }

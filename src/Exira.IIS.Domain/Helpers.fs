@@ -7,6 +7,7 @@ module Helpers =
     open Exira
     open Exira.EventStore
     open Exira.EventStore.EventStore
+    open Exira.IIS.Contracts.DomainTypes
     open Railway
 
     let stateTransitionFail event state = Failure (InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName)))
@@ -33,3 +34,14 @@ module Helpers =
             do! appendToStream es id version events
             return Success events
         }
+
+    // TODO: This should go somewhere else
+    let construct t value =
+        value
+        |> t constructionSuccess constructionError
+
+    let constructServerId =
+        construct ServerId.createWithCont
+
+    let constructHostname =
+        construct Hostname.createWithCont

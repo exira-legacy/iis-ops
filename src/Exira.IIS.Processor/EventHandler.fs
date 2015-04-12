@@ -5,15 +5,16 @@ module EventHandler =
     open EventStore.ClientAPI
 
     open Exira.EventStore.Serialization
+    open Exira.IIS.Contracts.DomainTypes
     open Exira.IIS.Contracts.Events
 
     open Railway
 
     let handleDomainEvent = function
         | ServerCreated e ->
-            Success (sprintf "%A\n" e)
+            Success (sprintf "{ServerId = '%O'; Name = '%s'; Dns = '%s'; Description = '%s';}\n" (e.ServerId |> ServerId.value) e.Name (e.Dns |> Hostname.value) e.Description)
         | ServerDeleted e ->
-            Success (sprintf "%A\n" e)
+            Success (sprintf "{ServerId = '%O';}\n" (e.ServerId |> ServerId.value))
 
     let deserializeEvent (resolvedEvent: ResolvedEvent) =
         try

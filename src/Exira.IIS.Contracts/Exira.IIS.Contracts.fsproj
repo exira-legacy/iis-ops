@@ -42,6 +42,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainTypes.fsi" />
+    <Compile Include="DomainTypes.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Events.fs" />
   </ItemGroup>

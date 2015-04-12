@@ -2,6 +2,7 @@
 
 open Railway
 open Helpers
+open Exira.IIS.Contracts.DomainTypes
 open Exira.IIS.Contracts.Commands
 open Exira.IIS.Contracts.Events
 
@@ -9,9 +10,9 @@ module internal Server =
     open System
 
     type ServerInfo = {
-        ServerId: Guid // TODO: Change to ServerId type
+        ServerId: ServerId.T
         Name: string
-        Dns: string
+        Dns: Hostname.T
         Description: string
     }
 
@@ -44,7 +45,7 @@ module internal ServerState =
             match event with
             | _ -> stateTransitionFail event state
 
-    let toServerStreamId = toStreamId "server"
+    let toServerStreamId id = id |> ServerId.value |> toStreamId "server"
     let getServerState id = getState (evolve evolveOneServer) Init (toServerStreamId id)
 
 module internal ServerCommandHandler =

@@ -2,6 +2,7 @@
 
 module Commands =
     open System
+    open DomainTypes
 
     type Command =
         | Server of ServerCommand
@@ -11,12 +12,12 @@ module Commands =
         | RetireServer of RetireServerCommand
 
     and InitializeServerCommand = {
-        ServerId: Guid
+        ServerId: ServerId.T
         Name: string
-        Dns: string
+        Dns: Hostname.T
         Description: string
     }
 
     and RetireServerCommand = {
-        ServerId: Guid
+        ServerId: ServerId.T
     }

@@ -6,9 +6,11 @@ nuget ExtCore
 nuget FSharp.Configuration
 nuget GNaP.WebApi.Versioning
 nuget Jil
+nuget Microsoft.AspNet.WebApi.Core
 nuget Microsoft.Owin
 nuget Microsoft.AspNet.WebApi.Cors
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
 nuget tickspec
 nuget nunit
+nuget FsPickler.Json

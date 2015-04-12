@@ -9,15 +9,16 @@ module WebsiteStepDefinitions =
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Contracts.Commands
     open Exira.IIS.Domain.CommandHandler
+    open Exira.IIS.Contracts.DomainTypes
     open Exira.IIS.Contracts.Events
 
     let es = startInMemoryEventStore()
 
-    let mutable dto: RetireServerCommand = { RetireServerCommand.ServerId = Guid.NewGuid() }
+    let mutable dto: RetireServerCommand = { RetireServerCommand.ServerId = ServerId.newServerId }
     let mutable events: Result<list<Event>> = Success []
 
     let [<Given>] ``a server (.*)``  (serverName:string) =
-        dto <- { RetireServerCommand.ServerId = Guid.NewGuid() }
+        dto <- { RetireServerCommand.ServerId = ServerId.newServerId }
 
     let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
         ()
