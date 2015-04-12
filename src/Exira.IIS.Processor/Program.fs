@@ -66,7 +66,7 @@ module Program =
 
     [<EntryPoint>]
     let main _ =
-        initaliseCheckpoint es checkpointStream |> Async.RunSynchronously
+        initalizeCheckpoint es checkpointStream |> Async.RunSynchronously
 
         subscribe subscriptionDropped |> ignore
 

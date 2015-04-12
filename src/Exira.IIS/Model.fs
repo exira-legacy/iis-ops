@@ -27,6 +27,7 @@ module Model =
             let serverIdOpt = constructServerId(Guid.NewGuid())
             let hostnameOpt = constructHostname d.Dns
 
+            // TODO: This is really weird?
             match serverIdOpt, hostnameOpt with
             | Success serverId, Success hostname
                 -> Success ({ InitializeServerCommand.ServerId = serverId

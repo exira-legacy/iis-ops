@@ -23,7 +23,7 @@ module ServerPort =
     // unwrap directly
     let value e = apply id e
 
-// TODO: Add some more checking for valid options
+// TODO: How do I wrap this to make sure you can only create a valid configuration?
 type Configuration = {
     Address: IPAddress
     Port: ServerPort.T
@@ -31,4 +31,5 @@ type Configuration = {
     Password: string
 }
 
+// TODO: Not sure if there is a max streamid length?
 type StreamId = StreamId of string

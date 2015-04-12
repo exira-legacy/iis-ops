@@ -90,7 +90,7 @@ module EventStore =
             do! store.AsyncAppendToStream stream expectedVersion serializedEvents |> Async.Ignore
         }
 
-    let initaliseCheckpoint (store: IEventStoreConnection) stream =
+    let initalizeCheckpoint (store: IEventStoreConnection) stream =
         async {
             let! lastMetaData = store.AsyncGetStreamMetadata stream
 
