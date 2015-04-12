@@ -16,10 +16,17 @@ module Program =
 
     let processorConfig = ProcessorConfig()
 
+    let port =
+        processorConfig.EventStore.Port
+        |> ServerPort.create
+        |> function
+            | Some port -> port
+            | None -> failwith "Eventstore port is invalid."
+
     let config =
         {
             Address = IPAddress.Parse(processorConfig.EventStore.Address)
-            Port = ServerPort processorConfig.EventStore.Port
+            Port = port
             Username = processorConfig.EventStore.Username
             Password = processorConfig.EventStore.Password
         }

@@ -51,11 +51,18 @@ type Startup() =
         app.Map(basePath, fun inner -> configureApi inner config) |> ignore
 
     let registerEventStore (app: IAppBuilder) =
+        let port =
+            webConfig.EventStore.Port
+            |> ServerPort.create
+            |> function
+                | Some port -> port
+                | None -> failwith "Eventstore port is invalid."
+
         let config =
             EventStoreOptions(Configuration =
                 {
                     Address = IPAddress.Parse(webConfig.EventStore.Address)
-                    Port = ServerPort webConfig.EventStore.Port
+                    Port = port
                     Username = webConfig.EventStore.Username
                     Password = webConfig.EventStore.Password
                 })

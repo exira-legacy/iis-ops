@@ -6,16 +6,17 @@ open System.Net
 open System.Collections.Generic
 open System.Threading.Tasks
 open System.Runtime.CompilerServices
+
 open Exira.EventStore
 open Exira.EventStore.EventStore
 
-// TODO: Add some more checking for valid options
-
 type EventStoreOptions() =
+    let defaultPort = 1113 |> ServerPort.create
+
     let defaultConfiguration =
         {
             Address = IPAddress.Parse("127.0.0.1")
-            Port = ServerPort 1113
+            Port = defaultPort.Value // Not a nice way to use Option. but we need to provide a default valid configuration
             Username = "admin"
             Password = "changeit"
         }

@@ -50,9 +50,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="..\Utility.fs">
-      <Link>Utility.fs</Link>
-    </Compile>
+    <Compile Include="Types.fsi" />
+    <Compile Include="Types.fs" />
+    <Compile Include="AsyncExtensions.fs" />
     <Compile Include="Serialization.fs" />
     <Compile Include="EventStore.fs" />
     <None Include="paket.references" />

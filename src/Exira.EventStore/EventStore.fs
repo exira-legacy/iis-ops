@@ -1,24 +1,12 @@
 ﻿namespace Exira.EventStore
 
-open System.Net
-
-type ServerPort = ServerPort of int
-
-type Configuration = {
-    Address: IPAddress
-    Port: ServerPort
-    Username: string
-    Password: string
-}
-
-type StreamId = StreamId of string
-
 module EventStore =
     open System
     open System.Net
-    open Exira
     open EventStore.ClientAPI
     open EventStore.ClientAPI.SystemData
+
+    open AsyncExtensions
     open Serialization
 
     type private IEventStoreConnection with
@@ -48,7 +36,7 @@ module EventStore =
             let (StreamId streamId) = stream
             Async.AwaitTask(this.SetStreamMetadataAsync(streamId, expectedMetastreamVersion, metadata))
 
-    type InternalEvent =
+    type private InternalEvent =
         | LastCheckPoint of LastCheckPointEvent
 
     and LastCheckPointEvent = {
@@ -58,7 +46,7 @@ module EventStore =
 
     let connect configuration =
         async {
-            let (ServerPort port) = configuration.Port
+            let port = configuration.Port |> ServerPort.value
             let endpoint = IPEndPoint(configuration.Address, port)
             let esSettings =
                 ConnectionSettings

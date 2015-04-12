@@ -21,8 +21,6 @@ module DomainTypes =
             let failure _  = None
             createWithCont success failure value
 
-        let (|ServerId|) (ServerId x) = x
-
         // unwrap with continuation
         let apply f (ServerId e) = f e
 
@@ -47,8 +45,6 @@ module DomainTypes =
             let success e = Some e
             let failure _  = None
             createWithCont success failure value
-
-        let (|Hostname|) (Hostname x) = x
 
         // unwrap with continuation
         let apply f (Hostname e) = f e
