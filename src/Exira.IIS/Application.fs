@@ -15,9 +15,8 @@ module Application =
     let rec map = function
         | ErrorCollection errors ->
             errors
-            |> Seq.fold (fun str error ->
-                let errorText = map error
-                sprintf "%s\n%s" str errorText) ""
+            |> Seq.map (fun error -> map error)
+            |> String.concat "\n"
         | ConstructionError err -> sprintf "Could not create object '%s'" err
         | UnknownDto dto -> sprintf "Unknown dto '%s'" dto
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
