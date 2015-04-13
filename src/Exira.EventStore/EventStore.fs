@@ -36,7 +36,7 @@ module EventStore =
             let (StreamId streamId) = stream
             Async.AwaitTask(this.SetStreamMetadataAsync(streamId, expectedMetastreamVersion, metadata))
 
-    type private InternalEvent =
+    type InternalEvent =
         | LastCheckPoint of LastCheckPointEvent
 
     and LastCheckPointEvent = {

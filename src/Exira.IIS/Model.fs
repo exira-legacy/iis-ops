@@ -27,6 +27,8 @@ module Model =
             let serverIdOpt = constructServerId(Guid.NewGuid())
             let hostnameOpt = constructHostname d.Dns
 
+            // TODO: Collect errors in list?
+
             // TODO: This is really weird?
             match serverIdOpt, hostnameOpt with
             | Success serverId, Success hostname

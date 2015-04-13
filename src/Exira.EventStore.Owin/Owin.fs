@@ -11,12 +11,17 @@ open Exira.EventStore
 open Exira.EventStore.EventStore
 
 type EventStoreOptions() =
-    let defaultPort = 1113 |> ServerPort.create
+    let defaultPort =
+        1113
+        |> ServerPort.create
+        |> function
+            | Some defaultPort -> defaultPort
+            | None -> failwith "Default port is incorrect."
 
     let defaultConfiguration =
         {
             Address = IPAddress.Parse("127.0.0.1")
-            Port = defaultPort.Value // Not a nice way to use Option. but we need to provide a default valid configuration
+            Port = defaultPort
             Username = "admin"
             Password = "changeit"
         }

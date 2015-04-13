@@ -1,5 +1,7 @@
 ﻿namespace Exira.IIS.Processor
 
+// TODO: Would it make more sense to have 1 Railway for Exira.IIS in total?
+
 module Railway =
     type Error =
         | UnknownEvent of string

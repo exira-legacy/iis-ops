@@ -21,7 +21,7 @@ module EventHandler =
             let event = deserialize<Event> resolvedEvent
             Success event
         with
-        | ex -> Failure (DeserializeProblem(ex.Message))
+        | ex -> Failure (DeserializeProblem (ex.Message))
 
     let possibleEvents =
         FSharpType.GetUnionCases typeof<Event>
@@ -32,7 +32,7 @@ module EventHandler =
         |> Seq.exists ((=) resolvedEvent.Event.EventType)
         |> function
             | true -> Success resolvedEvent
-            | false -> Failure (UnknownEvent(resolvedEvent.Event.EventType))
+            | false -> Failure (UnknownEvent (resolvedEvent.Event.EventType))
 
     let handleEvent =
         validateEvent

@@ -45,7 +45,7 @@ module Program =
 
         match handledEvent with
         | Success dummy ->
-            printf "%s" dummy
+            printf "%04i@%s - %s" resolvedEvent.Event.EventNumber resolvedEvent.Event.EventStreamId dummy
             storeCheckpoint es checkpointStream resolvedEvent.OriginalPosition.Value |> Async.RunSynchronously
         | Failure error ->
             // TODO: On failure, should either retry, or stop processing
@@ -60,8 +60,8 @@ module Program =
             eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
             subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(reconnect))
 
-    let rec subscriptionDropped = fun _ reason _ ->
-        printfn "Subscription Dropped: %O" reason
+    let rec subscriptionDropped = fun _ reason ex  ->
+        printfn "Subscription Dropped: %O - %O" reason ex
         subscribe subscriptionDropped |> ignore
 
     [<EntryPoint>]
