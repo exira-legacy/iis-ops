@@ -12,8 +12,13 @@ module Application =
 
     open Model
 
-    let map error =
-        match error with
+    let rec map = function
+        | ErrorCollection errors ->
+            errors
+            |> Seq.fold (fun str error ->
+                let errorText = map error
+                sprintf "%s\n%s" str errorText) ""
+        | ConstructionError err -> sprintf "Could not create object '%s'" err
         | UnknownDto dto -> sprintf "Unknown dto '%s'" dto
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
         | _ -> "Doh!"

@@ -3,7 +3,6 @@
 module Model =
     open System
 
-    open Exira.IIS.Contracts.DomainTypes
     open Exira.IIS.Contracts.Commands
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Helpers
