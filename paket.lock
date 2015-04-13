@@ -11,8 +11,6 @@ NUGET
       Newtonsoft.Json (>= 6.0.5)
     GNaP.WebApi.Versioning (1.0.6.0)
       Microsoft.AspNet.WebApi.Core (>= 5.2.2)
-    Jil (2.9.0)
-      Sigil (>= 4.4.0)
     Microsoft.AspNet.Cors (5.2.3)
     Microsoft.AspNet.WebApi.Client (5.2.3)
       Microsoft.Net.Http (>= 2.2.22) - framework: portable-wp80+win+net45+wp81+wpa81
@@ -40,5 +38,4 @@ NUGET
     Newtonsoft.Json (6.0.8)
     NUnit (2.6.4)
     Owin (1.0)
-    Sigil (4.4.0)
     TickSpec (1.0.1.1)
