@@ -3,7 +3,7 @@ NUGET
   remote: https://nuget.org/api/v2
   specs:
     EventStore.Client (3.0.2)
-    Exira.EventStore (0.0.1)
+    Exira.EventStore (0.0.2)
       EventStore.Client
       FsPickler.Json
     Exira.EventStore.Owin (0.0.2)
@@ -35,7 +35,7 @@ NUGET
     Microsoft.Bcl (1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Bcl.Build (1.0.21)
-    Microsoft.Net.Http (2.2.29)
+    Microsoft.Net.Http (2.2.29) - framework: portable-wp80+win+net45+wp81+wpa81
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Owin (3.0.1)

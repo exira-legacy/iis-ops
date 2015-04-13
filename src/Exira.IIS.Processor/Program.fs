@@ -54,11 +54,7 @@ module Program =
     let subscribe = fun reconnect ->
         let lastPosition = getCheckpoint es checkpointStream |> Async.RunSynchronously
 
-        es.SubscribeToAllFrom(
-            lastCheckpoint = lastPosition,
-            resolveLinkTos = true,
-            eventAppeared = Action<EventStoreCatchUpSubscription, ResolvedEvent>(eventAppeared),
-            subscriptionDropped = Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception>(reconnect))
+        subscribeToAllFrom es lastPosition true eventAppeared (fun _ -> ()) reconnect
 
     let rec subscriptionDropped = fun _ reason ex  ->
         printfn "Subscription Dropped: %O - %O" reason ex
