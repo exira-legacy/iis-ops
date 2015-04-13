@@ -3,5 +3,4 @@ Microsoft.AspNet.WebApi.Owin
 Microsoft.Owin.Host.SystemWeb
 FSharp.Configuration
 GNaP.WebApi.Versioning
-EventStore.Client
-ExtCore
+Exira.EventStore.Owin

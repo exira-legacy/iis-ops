@@ -1,4 +1,3 @@
 FSharp.Configuration
-EventStore.Client
 ExtCore
-FsPickler.Json
+Exira.EventStore

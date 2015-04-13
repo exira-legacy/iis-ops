@@ -1,14 +1,11 @@
 redirects: on
 source https://nuget.org/api/v2
 
-nuget EventStore.Client
-nuget ExtCore
 nuget FSharp.Configuration
 nuget GNaP.WebApi.Versioning
-nuget Microsoft.Owin
 nuget Microsoft.AspNet.WebApi.Cors
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
 nuget tickspec
 nuget nunit
-nuget FsPickler.Json
+nuget Exira.EventStore.Owin

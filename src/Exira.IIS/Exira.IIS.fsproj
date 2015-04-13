@@ -127,16 +127,6 @@
     <Reference Include="System.Xml.Linq.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Exira.EventStore.Owin\Exira.EventStore.Owin.fsproj">
-      <Name>Exira.EventStore.Owin</Name>
-      <Project>{f1d94eda-f8cb-4d69-bc90-744e3662ab3d}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Exira.EventStore\Exira.EventStore.fsproj">
-      <Name>Exira.EventStore</Name>
-      <Project>{2414b97b-ca6f-4e43-bd2d-d55cc8c52a34}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj">
       <Name>Exira.IIS.Contracts</Name>
       <Project>{c2f53f70-5db7-4431-8207-a73a8f164807}</Project>
@@ -154,6 +144,28 @@
       <ItemGroup>
         <Reference Include="EventStore.ClientAPI">
           <HintPath>..\..\packages\EventStore.Client\lib\net40\EventStore.ClientAPI.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="Exira.EventStore">
+          <HintPath>..\..\packages\Exira.EventStore\lib\net452\Exira.EventStore.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="Exira.EventStore.Owin">
+          <HintPath>..\..\packages\Exira.EventStore.Owin\lib\net452\Exira.EventStore.Owin.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -190,6 +202,46 @@
         </Reference>
         <Reference Include="SharpYaml">
           <HintPath>..\..\packages\FSharp.Configuration\lib\net40\SharpYaml.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
+      <ItemGroup>
+        <Reference Include="FsPickler">
+          <HintPath>..\..\packages\FsPickler\lib\net40\FsPickler.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="FsPickler">
+          <HintPath>..\..\packages\FsPickler\lib\net45\FsPickler.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
+      <ItemGroup>
+        <Reference Include="FsPickler.Json">
+          <HintPath>..\..\packages\FsPickler.Json\lib\net40\FsPickler.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="FsPickler.Json">
+          <HintPath>..\..\packages\FsPickler.Json\lib\net45\FsPickler.Json.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
