@@ -14,11 +14,30 @@ module WebsiteStepDefinitions =
 
     let es = startInMemoryEventStore()
 
-    let mutable dto: RetireServerCommand = { RetireServerCommand.ServerId = ServerId.newServerId }
+    let hostname =
+        "dummy"
+        |> Hostname.create
+        |> function
+            | Some hostname -> hostname
+            | None -> failwith "Dummy hostname is invalid."
+
+    let mutable dto: InitializeServerCommand =
+        {
+            InitializeServerCommand.ServerId = ServerId.newServerId
+            Name = ""
+            Dns = hostname
+            Description = ""
+        }
+
     let mutable events: Result<list<Event>> = Success []
 
     let [<Given>] ``a server (.*)``  (serverName:string) =
-        dto <- { RetireServerCommand.ServerId = ServerId.newServerId }
+        dto <- {
+            InitializeServerCommand.ServerId = ServerId.newServerId
+            Name = "Test"
+            Dns = hostname
+            Description = "Testing"
+        }
 
     let [<Given>] ``a website (.*) on server (.*)`` (siteName:string, serverName:string) =
         ()

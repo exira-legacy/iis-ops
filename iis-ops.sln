@@ -2,27 +2,45 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{B16DCD5C-F3E1-44BF-B738-B884F8D52A9A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6EB3F2B3-9D36-4E67-BAF3-6280C7036B3D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Tests", "tests\Exira.IIS.Tests\Exira.IIS.Tests.fsproj", "{9F489D8C-4057-41BE-92A2-D5208EF83A53}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Contracts", "src\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj", "{39EE22B5-8186-4708-AF6E-609225754960}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02C0BCE8-BF05-445F-89B2-819C37DA4372}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
+	ProjectSection(SolutionItems) = preProject
+		build.fsx = build.fsx
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175-43B1-4C90-A1EE-8E351C33435D}"
+	ProjectSection(SolutionItems) = preProject
+		docs\tools\generate.fsx = docs\tools\generate.fsx
+		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
+	ProjectSection(SolutionItems) = preProject
+		docs\content\index.fsx = docs\content\index.fsx
+		docs\content\tutorial.fsx = docs\content\tutorial.fsx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD-2B06-4030-9F0F-DC548F98E1C4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Tests", "tests\Exira.IIS.Tests\Exira.IIS.Tests.fsproj", "{EAF96783-EA0E-4DE0-95C0-72231526858F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Domain", "src\Exira.IIS.Domain\Exira.IIS.Domain.fsproj", "{EA93246F-05D5-43CE-81A4-6C33DCB715DE}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Processor", "src\Exira.IIS.Processor\Exira.IIS.Processor.fsproj", "{E9DC14DE-1F7C-4D0F-A5A7-9688D0311E08}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS", "src\Exira.IIS\Exira.IIS.fsproj", "{7207AF8E-5D26-4C1B-9388-4ECF16871D03}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Domain", "src\Exira.IIS.Domain\Exira.IIS.Domain.fsproj", "{8F95E21D-2C91-42DE-B07E-181A49110A50}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoveryTest", "tests\DiscoveryTest\DiscoveryTest.csproj", "{85FF64ED-178E-43F8-AD20-BFDD1084F618}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Processor", "src\Exira.IIS.Processor\Exira.IIS.Processor.fsproj", "{B0F2131E-B090-4B12-AAE5-23A2DE6261A4}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Contracts", "src\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj", "{C2F53F70-5DB7-4431-8207-A73A8F164807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,39 +48,33 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F489D8C-4057-41BE-92A2-D5208EF83A53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39EE22B5-8186-4708-AF6E-609225754960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39EE22B5-8186-4708-AF6E-609225754960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39EE22B5-8186-4708-AF6E-609225754960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39EE22B5-8186-4708-AF6E-609225754960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA93246F-05D5-43CE-81A4-6C33DCB715DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA93246F-05D5-43CE-81A4-6C33DCB715DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA93246F-05D5-43CE-81A4-6C33DCB715DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA93246F-05D5-43CE-81A4-6C33DCB715DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9DC14DE-1F7C-4D0F-A5A7-9688D0311E08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9DC14DE-1F7C-4D0F-A5A7-9688D0311E08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9DC14DE-1F7C-4D0F-A5A7-9688D0311E08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9DC14DE-1F7C-4D0F-A5A7-9688D0311E08}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7207AF8E-5D26-4C1B-9388-4ECF16871D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7207AF8E-5D26-4C1B-9388-4ECF16871D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7207AF8E-5D26-4C1B-9388-4ECF16871D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7207AF8E-5D26-4C1B-9388-4ECF16871D03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F95E21D-2C91-42DE-B07E-181A49110A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F95E21D-2C91-42DE-B07E-181A49110A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F95E21D-2C91-42DE-B07E-181A49110A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F95E21D-2C91-42DE-B07E-181A49110A50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{85FF64ED-178E-43F8-AD20-BFDD1084F618}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0F2131E-B090-4B12-AAE5-23A2DE6261A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0F2131E-B090-4B12-AAE5-23A2DE6261A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0F2131E-B090-4B12-AAE5-23A2DE6261A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0F2131E-B090-4B12-AAE5-23A2DE6261A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2F53F70-5DB7-4431-8207-A73A8F164807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2F53F70-5DB7-4431-8207-A73A8F164807}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2F53F70-5DB7-4431-8207-A73A8F164807}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2F53F70-5DB7-4431-8207-A73A8F164807}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9F489D8C-4057-41BE-92A2-D5208EF83A53} = {6EB3F2B3-9D36-4E67-BAF3-6280C7036B3D}
-		{7207AF8E-5D26-4C1B-9388-4ECF16871D03} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
-		{8F95E21D-2C91-42DE-B07E-181A49110A50} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
-		{B0F2131E-B090-4B12-AAE5-23A2DE6261A4} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
-		{C2F53F70-5DB7-4431-8207-A73A8F164807} = {02C0BCE8-BF05-445F-89B2-819C37DA4372}
+		{83F16175-43B1-4C90-A1EE-8E351C33435D} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
+		{8E6D5255-776D-4B61-85F9-73C37AA1FB9A} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
+		{EAF96783-EA0E-4DE0-95C0-72231526858F} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
 	EndGlobalSection
 EndGlobal

@@ -1,11 +1,19 @@
 redirects: on
 source https://nuget.org/api/v2
 
+nuget FSharp.Formatting 2.8.0
+nuget FSharpVSPowerTools.Core 1.7.0
+nuget NUnit
+nuget NUnit.Runners
+nuget FAKE
+nuget SourceLink.Fake
+
 nuget FSharp.Configuration
 nuget GNaP.WebApi.Versioning
 nuget Microsoft.AspNet.WebApi.Cors
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
 nuget tickspec
-nuget nunit
 nuget Exira.EventStore.Owin
+
+github fsharp/FAKE modules/Octokit/Octokit.fsx
