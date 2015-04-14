@@ -2,7 +2,6 @@
 
 module Railway =
     type Error =
-        | ErrorCollection of Error list
         | ConstructionError of string
         | UnknownDto of string
         | UnknownCommand of string
@@ -11,7 +10,7 @@ module Railway =
 
     type Result<'T> =
         | Success of 'T
-        | Failure of Error
+        | Failure of Error list
 
     let bind switchFunction = function
         | Success s -> switchFunction s
@@ -25,18 +24,38 @@ module Railway =
         Success value
 
     let constructionError error =
-        Failure (ConstructionError (error))
+        Failure [ConstructionError error]
 
     let (>>=) input switchFunction = bind switchFunction input
     let (>>=!) input switchFunction = bindAsync switchFunction input
 
-    let combine f = function
-        | Success left, Success right -> f left right
-        | Failure e, Success _
-        | Success _, Failure e -> Failure e
-        | Failure left, Failure right ->
-            match left, right with
-            | ErrorCollection e1, ErrorCollection e2 -> Failure <| ErrorCollection(e1 @ e2)
-            | ErrorCollection e1, _ -> Failure <| ErrorCollection(e1 @ [right])
-            | _, ErrorCollection e2 -> Failure <| ErrorCollection(e2 @ [left])
-            | _, _ -> Failure <| ErrorCollection [left; right]
+    type ErrorStateBuilder() =
+        member this.Return(x) = Success x
+        member this.ReturnFrom(m) = m
+
+        member this.Bind((m: Result<'a>), f) =
+            match m with
+            | Failure a' -> Failure a'
+            | Success a' -> f a'
+
+        member this.Bind((m: Result<'a> * Result<'b>), f) =
+            match m with
+            | Failure a', Success b' -> Failure a'
+            | Success a', Failure b' -> Failure b'
+            | Failure a', Failure b' -> Failure (a' @ b')
+            | Success a', Success b' -> f (a', b')
+
+        member this.Bind((m: Result<'a> * Result<'b> * Result<'c>), f) =
+            match m with
+            | Failure a', Failure b', Failure c' -> Failure (a' @ b' @ c')
+            | Failure a', Failure b', Success c' -> Failure (a' @ b')
+            | Failure a', Success b', Failure c' -> Failure (a' @ c')
+            | Failure a', Success b', Success c' -> Failure a'
+            | Success a', Failure b', Failure c' -> Failure (b' @ c')
+            | Success a', Failure b', Success c' -> Failure b'
+            | Success a', Success b', Failure c' -> Failure c'
+            | Success a', Success b', Success c' -> f (a', b', c')
+
+        member this.Delay(f) = f()
+
+    let errorState = new ErrorStateBuilder()

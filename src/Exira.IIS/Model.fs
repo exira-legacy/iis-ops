@@ -23,15 +23,17 @@ module Model =
 
     let toCommand: Dto -> Result<obj> = function
         | Dto.CreateServer d ->
-            let serverIdOpt = constructServerId(Guid.NewGuid())
-            let hostnameOpt = constructHostname d.Dns
+            errorState {
+                let serverIdOpt = constructServerId(Guid.NewGuid())
+                let hostnameOpt = constructHostname d.Dns
 
-            (serverIdOpt, hostnameOpt)
-            |> combine (fun serverId hostname ->
-                    Success ({ InitializeServerCommand.ServerId = serverId
-                               Name = d.Name
-                               Dns = hostname
-                               Description = d.Description } :> obj))
+                let! (serverId, hostname) = (serverIdOpt, hostnameOpt)
+
+                return { InitializeServerCommand.ServerId = serverId
+                         Name = d.Name
+                         Dns = hostname
+                         Description = d.Description } :> obj
+            }
         | Dto.DeleteServer d ->
             let serverIdOpt = constructServerId d.ServerId
 

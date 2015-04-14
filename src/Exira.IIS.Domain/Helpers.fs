@@ -10,7 +10,7 @@ module Helpers =
     open Exira.IIS.Contracts.DomainTypes
     open Railway
 
-    let stateTransitionFail event state = Failure (InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName)))
+    let stateTransitionFail event state = Failure [InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName))]
 
     // Apply each event on itself to get to the final state
     let evolve evolveOne initState =

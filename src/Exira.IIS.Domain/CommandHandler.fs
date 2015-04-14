@@ -9,7 +9,7 @@ module CommandHandler =
     let parseCommand: obj -> Result<Command> = function
         | :? InitializeServerCommand as command -> Success (Server(InitializeServer(command)))
         | :? RetireServerCommand as command -> Success (Server(RetireServer(command)))
-        | command -> Failure (UnknownCommand (getTypeName command))
+        | command -> Failure [UnknownCommand (getTypeName command)]
 
     let private handleServer = function
         | InitializeServer serverCommand -> handleInitializeServer serverCommand

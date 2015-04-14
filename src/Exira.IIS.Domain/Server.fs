@@ -61,7 +61,7 @@ module internal ServerCommandHandler =
         // Anything else than coming from Init is invalid
         match state with
         | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
-        | _ -> Failure (InvalidState "Server")
+        | _ -> Failure [InvalidState "Server"]
 
     let deleteServer (command: RetireServerCommand) (version, state) =
         let serverDeleted = { ServerDeletedEvent.ServerId = command.ServerId }
@@ -69,7 +69,7 @@ module internal ServerCommandHandler =
         // Only previously created servers can be deleted
         match state with
         | Created _ -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
-        | _ -> Failure (InvalidState "Server")
+        | _ -> Failure [InvalidState "Server"]
 
     let handleInitializeServer (command: InitializeServerCommand) es =
         async {

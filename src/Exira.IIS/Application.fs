@@ -12,21 +12,22 @@ module Application =
 
     open Model
 
-    let rec private formatError = function
-        | ErrorCollection errors ->
-            errors
-            |> Seq.map formatError
-            |> String.concat "\n"
+    let private formatError = function
         | ConstructionError err -> sprintf "Could not create object '%s'" err
         | UnknownDto dto -> sprintf "Unknown dto '%s'" dto
         | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
         | _ -> "Doh!"
 
+    let private formatErrors errors =
+        errors
+        |> Seq.map formatError
+        |> String.concat "\n"
+
     // TODO: HttpStatusCode should also be mapped from FailureType
     let matchToResult (controller:'T when 'T :> ApiController) result =
         match result with
         | Success _ -> controller.Request.CreateResponse HttpStatusCode.Accepted
-        | Failure error -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (formatError error))
+        | Failure errors -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (formatErrors errors))
 
     let private getConnection (controller: ApiController) =
         let owinEnvironment = controller.Request.GetOwinEnvironment()
