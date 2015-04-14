@@ -26,20 +26,12 @@ module Model =
             let serverIdOpt = constructServerId(Guid.NewGuid())
             let hostnameOpt = constructHostname d.Dns
 
-            // TODO: Collect errors in list?
-
-            // TODO: This is really weird?
-            match serverIdOpt, hostnameOpt with
-            | Success serverId, Success hostname
-                -> Success ({ InitializeServerCommand.ServerId = serverId
-                              Name = d.Name
-                              Dns = hostname
-                              Description = d.Description } :> obj)
-
-            | Success _, Failure f -> Failure f
-            | Failure f, Success _ -> Failure f
-            | Failure f1, Failure f2 -> Failure (ErrorCollection ([f1; f2]))
-
+            (serverIdOpt, hostnameOpt)
+            |> combine (fun serverId hostname ->
+                    Success ({ InitializeServerCommand.ServerId = serverId
+                               Name = d.Name
+                               Dns = hostname
+                               Description = d.Description } :> obj))
         | Dto.DeleteServer d ->
             let serverIdOpt = constructServerId d.ServerId
 
