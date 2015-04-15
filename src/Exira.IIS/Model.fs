@@ -22,8 +22,7 @@ module Model =
     }
 
     /// Parses a DTO to a Command object
-    let toCommand dto : Result<obj> =
-        match dto with
+    let toCommand: Dto -> Result<obj> = function
         | Dto.CreateServer d ->
             errorState {
                 let serverIdOpt = constructServerId(Guid.NewGuid())
