@@ -36,10 +36,6 @@ module Helpers =
         }
 
     // TODO: This should go somewhere else
-    let construct t value =
-        value
-        |> t constructionSuccess constructionError
-
     let constructServerId =
         construct ServerId.createWithCont
 

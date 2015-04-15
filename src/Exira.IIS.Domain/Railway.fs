@@ -26,6 +26,10 @@ module Railway =
     let constructionError error =
         Failure [ConstructionError error]
 
+    let construct t value =
+        value
+        |> t constructionSuccess constructionError
+
     let (>>=) input switchFunction = bind switchFunction input
     let (>>=!) input switchFunction = bindAsync switchFunction input
 
