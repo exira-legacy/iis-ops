@@ -1,7 +1,6 @@
 ﻿namespace Exira.IIS.Contracts
 
 module Events =
-    open System
     open DomainTypes
 
     type Event =

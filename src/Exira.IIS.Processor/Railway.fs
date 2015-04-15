@@ -1,6 +1,7 @@
 ﻿namespace Exira.IIS.Processor
 
 // TODO: Would it make more sense to have 1 Railway for Exira.IIS in total?
+// TODO: We can probably go to a generic Result, and just have Error types per project
 
 module Railway =
     type Error =

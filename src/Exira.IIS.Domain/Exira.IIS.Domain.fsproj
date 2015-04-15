@@ -51,9 +51,6 @@
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="..\Utility.fs">
-      <Link>Utility.fs</Link>
-    </Compile>
     <Compile Include="Railway.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Server.fs" />

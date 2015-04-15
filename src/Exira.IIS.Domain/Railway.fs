@@ -8,9 +8,13 @@ module Railway =
         | InvalidState of string
         | InvalidStateTransition of string
 
+    // TODO: Have a look at making this <'a, 'b>
     type Result<'T> =
         | Success of 'T
         | Failure of Error list
+
+    type AsyncResult<'T> =
+       Async<Result<'T>>
 
     let bind switchFunction = function
         | Success s -> switchFunction s
@@ -33,6 +37,7 @@ module Railway =
     let (>>=) input switchFunction = bind switchFunction input
     let (>>=!) input switchFunction = bindAsync switchFunction input
 
+    // TODO: Can get rid of this when we refactor applicative validation
     type ErrorStateBuilder() =
         member this.Return(x) = Success x
         member this.ReturnFrom(m) = m

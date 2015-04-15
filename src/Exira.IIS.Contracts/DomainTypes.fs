@@ -7,7 +7,7 @@ module DomainTypes =
 
         type T = ServerId of Guid
 
-        let newServerId = ServerId(Guid.NewGuid())
+        let newServerId() = ServerId (Guid.NewGuid())
 
         // create with continuation
         let createWithCont success failure value =

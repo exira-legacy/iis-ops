@@ -8,7 +8,7 @@ module DomainTypes =
         type T
 
         // new valid type
-        val newServerId : T
+        val newServerId : unit -> T
 
         // create with continuation
         val createWithCont: success: (T -> 'a) -> failure: (string -> 'a) -> value: Guid -> 'a

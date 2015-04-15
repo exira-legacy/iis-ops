@@ -35,6 +35,5 @@ module Application =
 
     let application controller =
         toCommand
-        >> bind parseCommand
         >> bindAsync (controller |> getConnection |> handleCommand)
         >> Async.map (matchToResult controller)

@@ -7,7 +7,6 @@ open Exira.IIS.Contracts.Commands
 open Exira.IIS.Contracts.Events
 
 module internal Server =
-    open System
 
     type ServerInfo = {
         ServerId: ServerId.T
@@ -60,7 +59,7 @@ module internal ServerCommandHandler =
 
         // Anything else than coming from Init is invalid
         match state with
-        | Init -> Success ((toServerStreamId command.ServerId), version, [Event.ServerCreated(serverCreated)])
+        | Init -> Success ((toServerStreamId command.ServerId), version, [ServerCreated serverCreated])
         | _ -> Failure [InvalidState "Server"]
 
     let deleteServer (command: RetireServerCommand) (version, state) =
@@ -68,13 +67,14 @@ module internal ServerCommandHandler =
 
         // Only previously created servers can be deleted
         match state with
-        | Created _ -> Success ((toServerStreamId command.ServerId), version, [Event.ServerDeleted(serverDeleted)])
+        | Created _ -> Success ((toServerStreamId command.ServerId), version, [ServerDeleted serverDeleted])
         | _ -> Failure [InvalidState "Server"]
 
     let handleInitializeServer (command: InitializeServerCommand) es =
         async {
             let! state = getServerState command.ServerId es
 
+            // TODO: If we use async from the top, this will read nicer
             return!
                 state
                 >>= createServer command
@@ -85,6 +85,7 @@ module internal ServerCommandHandler =
         async {
             let! state = getServerState command.ServerId es
 
+            // TODO: If we use async from the top, this will read nicer
             return!
                 state
                 >>= deleteServer command

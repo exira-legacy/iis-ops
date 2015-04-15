@@ -5,7 +5,6 @@ module WebsiteStepDefinitions =
     open TickSpec
     open NUnit.Framework
 
-    open System
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Contracts.Commands
     open Exira.IIS.Domain.CommandHandler
@@ -21,9 +20,9 @@ module WebsiteStepDefinitions =
             | Some hostname -> hostname
             | None -> failwith "Dummy hostname is invalid."
 
-    let mutable dto: InitializeServerCommand =
+    let mutable command: InitializeServerCommand =
         {
-            InitializeServerCommand.ServerId = ServerId.newServerId
+            InitializeServerCommand.ServerId = ServerId.newServerId()
             Name = ""
             Dns = hostname
             Description = ""
@@ -32,8 +31,8 @@ module WebsiteStepDefinitions =
     let mutable events: Result<list<Event>> = Success []
 
     let [<Given>] ``a server (.*)``  (serverName:string) =
-        dto <- {
-            InitializeServerCommand.ServerId = ServerId.newServerId
+        command <- {
+            InitializeServerCommand.ServerId = ServerId.newServerId()
             Name = "Test"
             Dns = hostname
             Description = "Testing"
@@ -44,20 +43,9 @@ module WebsiteStepDefinitions =
 
     let [<When>] ``I request a new website (.*) on server (.*)`` (siteName:string, serverName:string) =
         async {
-            let parsedCommandResult = parseCommand dto
-
-            match parsedCommandResult with
-            | Success parsedCommand ->
-                let! handled = handleCommand es.Connection parsedCommand
-
-                events <- handled
-            | Failure _ ->
-                events <- Success []
+            let! newEvents = handleCommand es.Connection (InitializeServer command)
+            events <- newEvents
         } |> Async.RunSynchronously
-
-//        events <-
-//            parseCommand dto
-//            |> bind (handleCommand es.Connection)
         ()
 
     let [<Then>] ``a new website (.*) should be added to server (.*)`` (siteName:string, serverName:string) =
