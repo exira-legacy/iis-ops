@@ -24,7 +24,7 @@ module Application =
         |> String.concat "\n"
 
     // TODO: HttpStatusCode should also be mapped from FailureType
-    let matchToResult (controller:'T when 'T :> ApiController) result =
+    let private matchToResult (controller:'T when 'T :> ApiController) result =
         match result with
         | Success _ -> controller.Request.CreateResponse HttpStatusCode.Accepted
         | Failure errors -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (formatErrors errors))

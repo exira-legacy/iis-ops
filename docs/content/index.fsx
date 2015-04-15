@@ -4,64 +4,20 @@
 #I "../../bin"
 
 (**
-Exira.IIS.Contracts
-======================
+iis-ops
+========
 
-Documentation
-
-<div class="row">
-  <div class="span1"></div>
-  <div class="span6">
-    <div class="well well-small" id="nuget">
-      The Exira.IIS.Contracts library can be <a href="https://nuget.org/packages/Exira.IIS.Contracts">installed from NuGet</a>:
-      <pre>PM> Install-Package Exira.IIS.Contracts</pre>
-    </div>
-  </div>
-  <div class="span1"></div>
-</div>
-
-Example
--------
-
-This example demonstrates using a function defined in this sample library.
-
-*)
-#r "Exira.IIS.Contracts.dll"
-open Exira.IIS.Contracts
-
-printfn "hello = %i" <| Library.hello 0
-
-(**
-Some more info
-
-Samples & documentation
------------------------
-
-The library comes with comprehensible documentation. 
-It can include tutorials automatically generated from `*.fsx` files in [the content folder][content]. 
-The API reference is automatically generated from Markdown comments in the library implementation.
-
- * [Tutorial](tutorial.html) contains a further explanation of this sample library.
-
- * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
-   and functions in the library. This includes additional brief samples on using most of the
-   functions.
- 
 Contributing and copyright
 --------------------------
 
-The project is hosted on [GitHub][gh] where you can [report issues][issues], fork 
-the project and submit pull requests. If you're adding a new public API, please also 
-consider adding [samples][content] that can be turned into a documentation. You might
-also want to read the [library design notes][readme] to understand how it works.
+The project is hosted on [GitHub][gh] where you can [report issues][issues], fork
+the project and submit pull requests.
 
-The library is available under Public Domain license, which allows modification and 
-redistribution for both commercial and non-commercial purposes. For more information see the 
-[License file][license] in the GitHub repository. 
+For more information see the [License file][license].
 
-  [content]: https://github.com/fsprojects/Exira.IIS.Contracts/tree/master/docs/content
-  [gh]: https://github.com/fsprojects/Exira.IIS.Contracts
-  [issues]: https://github.com/fsprojects/Exira.IIS.Contracts/issues
-  [readme]: https://github.com/fsprojects/Exira.IIS.Contracts/blob/master/README.md
-  [license]: https://github.com/fsprojects/Exira.IIS.Contracts/blob/master/LICENSE.txt
+  [content]: https://github.com/exira/iis-ops/tree/master/docs/content
+  [gh]: https://github.com/exira/iis-ops
+  [issues]: https://github.com/exira/iis-ops/issues
+  [readme]: https://github.com/exira/iis-ops/blob/master/README.md
+  [license]: license.html
 *)

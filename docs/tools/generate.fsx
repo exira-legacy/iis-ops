@@ -17,7 +17,7 @@ let githubLink = "http://github.com/exira/iis-ops"
 
 // Specify more information about your project
 let info =
-  [ "project-name", "Exira.IIS"
+  [ "project-name", "iis-ops"
     "project-author", "exira"
     "project-summary", "Manage IIS through a REST API."
     "project-github", githubLink
