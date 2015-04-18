@@ -1,6 +1,7 @@
 redirects: on
 source https://nuget.org/api/v2
 
+nuget FSharp.Core
 nuget FSharp.Formatting 2.8.0
 nuget FSharpVSPowerTools.Core 1.7.0
 nuget NUnit

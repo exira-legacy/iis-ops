@@ -1,3 +1,4 @@
+FSharp.Core
 Microsoft.AspNet.WebApi.Cors
 Microsoft.AspNet.WebApi.Owin
 Microsoft.Owin.Host.SystemWeb
