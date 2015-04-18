@@ -6,10 +6,10 @@ module WebsiteStepDefinitions =
     open NUnit.Framework
 
     open Exira.IIS.Domain.Railway
-    open Exira.IIS.Contracts.Commands
+    open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
-    open Exira.IIS.Contracts.DomainTypes
-    open Exira.IIS.Contracts.Events
+    open Exira.IIS.Domain.DomainTypes
+    open Exira.IIS.Domain.Events
 
     let es = startInMemoryEventStore()
 

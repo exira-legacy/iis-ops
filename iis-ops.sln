@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Exira.IIS.Contracts", "src\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj", "{39EE22B5-8186-4708-AF6E-609225754960}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
@@ -48,10 +46,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{39EE22B5-8186-4708-AF6E-609225754960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{39EE22B5-8186-4708-AF6E-609225754960}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{39EE22B5-8186-4708-AF6E-609225754960}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{39EE22B5-8186-4708-AF6E-609225754960}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF96783-EA0E-4DE0-95C0-72231526858F}.Release|Any CPU.ActiveCfg = Release|Any CPU

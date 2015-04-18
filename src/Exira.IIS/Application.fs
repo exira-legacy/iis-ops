@@ -33,7 +33,8 @@ module Application =
         let owinEnvironment = controller.Request.GetOwinEnvironment()
         owinEnvironment.["ges.connection"] :?> IEventStoreConnection
 
-    let application controller =
-        toCommand
-        >> bindAsync (controller |> getConnection |> handleCommand)
-        >> Async.map (matchToResult controller)
+    let application controller dto =
+        dto
+        |> toCommand
+        |> bindAsync (controller |> getConnection |> handleCommand)
+        |> Async.map (matchToResult controller)

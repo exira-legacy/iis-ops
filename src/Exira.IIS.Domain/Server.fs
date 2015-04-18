@@ -2,9 +2,9 @@
 
 open Railway
 open Helpers
-open Exira.IIS.Contracts.DomainTypes
-open Exira.IIS.Contracts.Commands
-open Exira.IIS.Contracts.Events
+open Exira.IIS.Domain.DomainTypes
+open Exira.IIS.Domain.Commands
+open Exira.IIS.Domain.Events
 
 module internal Server =
 

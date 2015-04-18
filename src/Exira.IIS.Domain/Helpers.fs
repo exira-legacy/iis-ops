@@ -6,8 +6,8 @@ module Helpers =
 
     open Exira.EventStore
     open Exira.EventStore.EventStore
-    open Exira.IIS.Contracts.DomainTypes
     open Railway
+    open DomainTypes
 
     let getTypeName o = o.GetType().Name
     let stateTransitionFail event state = Failure [InvalidStateTransition (sprintf "Invalid event %s for state %s" (event |> getTypeName) (state |> getTypeName))]

@@ -84,11 +84,6 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj">
-      <Name>Exira.IIS.Contracts</Name>
-      <Project>{39ee22b5-8186-4708-af6e-609225754960}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Exira.IIS.Domain\Exira.IIS.Domain.fsproj">
       <Name>Exira.IIS.Domain</Name>
       <Project>{ea93246f-05d5-43ce-81a4-6c33dcb715de}</Project>

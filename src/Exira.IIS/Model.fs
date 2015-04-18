@@ -3,7 +3,7 @@
 module Model =
     open System
 
-    open Exira.IIS.Contracts.Commands
+    open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Helpers
 
@@ -23,23 +23,23 @@ module Model =
 
     /// Parses a DTO to a Command object
     let toCommand : Dto -> Result<Command> = function
-        | Dto.CreateServer d ->
+        | Dto.CreateServer dto ->
             errorState {
                 let serverIdOpt = constructServerId(Guid.NewGuid())
-                let hostnameOpt = constructHostname d.Dns
+                let hostnameOpt = constructHostname dto.Dns
 
                 // TODO: Use applicative things for this
 
                 let! (serverId, hostname) = (serverIdOpt, hostnameOpt)
 
                 return InitializeServer { InitializeServerCommand.ServerId = serverId
-                                          Name = d.Name
+                                          Name = dto.Name
                                           Dns = hostname
-                                          Description = d.Description }
+                                          Description = dto.Description }
             }
-        | Dto.DeleteServer d ->
+        | Dto.DeleteServer dto ->
             errorState {
-                let serverIdOpt = constructServerId d.ServerId
+                let serverIdOpt = constructServerId dto.ServerId
 
                 // TODO: Use applicative things for this
 

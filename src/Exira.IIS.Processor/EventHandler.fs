@@ -5,8 +5,8 @@ module EventHandler =
     open EventStore.ClientAPI
 
     open Exira.EventStore.Serialization
-    open Exira.IIS.Contracts.DomainTypes
-    open Exira.IIS.Contracts.Events
+    open Exira.IIS.Domain.DomainTypes
+    open Exira.IIS.Domain.Events
 
     open Railway
 

@@ -52,6 +52,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Railway.fs" />
+    <Compile Include="DomainTypes.fsi" />
+    <Compile Include="DomainTypes.fs" />
+    <Compile Include="Commands.fs" />
+    <Compile Include="Events.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Server.fs" />
     <Compile Include="CommandHandler.fs" />
@@ -65,13 +69,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Exira.IIS.Contracts\Exira.IIS.Contracts.fsproj">
-      <Name>Exira.IIS.Contracts</Name>
-      <Project>{39ee22b5-8186-4708-af6e-609225754960}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,7 @@
 ﻿namespace Exira.IIS.Domain
 
 module CommandHandler =
-    open Exira.IIS.Contracts.Commands
+    open Exira.IIS.Domain.Commands
     open ServerCommandHandler
 
     let handleCommand es = function

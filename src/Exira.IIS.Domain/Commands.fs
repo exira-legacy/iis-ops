@@ -1,4 +1,4 @@
-﻿namespace Exira.IIS.Contracts
+﻿namespace Exira.IIS.Domain
 
 module Commands =
     open DomainTypes
