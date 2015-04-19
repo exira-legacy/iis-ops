@@ -7,6 +7,7 @@ module Application =
     open ExtCore.Control
     open EventStore.ClientAPI
 
+    open Exira.Railway
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.CommandHandler
 

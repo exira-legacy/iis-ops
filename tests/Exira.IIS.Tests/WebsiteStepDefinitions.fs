@@ -5,6 +5,7 @@ module WebsiteStepDefinitions =
     open TickSpec
     open NUnit.Framework
 
+    open Exira.Railway
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
@@ -28,7 +29,7 @@ module WebsiteStepDefinitions =
             Description = ""
         }
 
-    let mutable events: Result<list<Event>> = Success []
+    let mutable events: Result<Event list, Error list> = Success []
 
     let [<Given>] ``a server (.*)``  (serverName:string) =
         command <- {

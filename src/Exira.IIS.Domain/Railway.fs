@@ -1,70 +1,45 @@
-﻿namespace Exira.IIS.Domain
+﻿namespace Exira
 
 module Railway =
-    type Error =
-        | ConstructionError of string
-        | UnknownDto of string
-        | UnknownCommand of string
-        | InvalidState of string
-        | InvalidStateTransition of string
+    // the two-track type
+    type Result<'TSuccess, 'TFailure> =
+        | Success of 'TSuccess
+        | Failure of 'TFailure
 
-    // TODO: Have a look at making this <'a, 'b>
-    type Result<'T> =
-        | Success of 'T
-        | Failure of Error list
+//    type AsyncResult<'TSuccess, 'TFailure> =
+//       Async<Result<'TSuccess, 'TFailure>>
 
-    type AsyncResult<'T> =
-       Async<Result<'T>>
+    // convert a single value into a two-track result
+    let succeed x =
+        Success x
 
-    let bind switchFunction = function
-        | Success s -> switchFunction s
-        | Failure f -> Failure f
+    // convert a single value into a two-track result
+    let fail x =
+        Failure x
 
-    let bindAsync switchFunction = function
-        | Success s -> switchFunction s
-        | Failure f -> async { return Failure f }
+    let failAsync x =
+        async { return Failure x }
 
-    let constructionSuccess value =
-        Success value
+    // apply either a success function or failure function
+    let either successFunc failureFunc twoTrackInput =
+        match twoTrackInput with
+        | Success s -> successFunc s
+        | Failure f -> failureFunc f
 
-    let constructionError error =
-        Failure [ConstructionError error]
+    // convert a switch function into a two-track function
+    let bind f = either f fail
 
-    let construct t value =
-        value
-        |> t constructionSuccess constructionError
+    // convert a one-track function into a switch
+    let switch f = f >> succeed
 
-    let (>>=) input switchFunction = bind switchFunction input
-    let (>>=!) input switchFunction = bindAsync switchFunction input
+    // convert a one-track function into a two-track function
+    let map f = either (f >> succeed) fail
 
-    // TODO: Can get rid of this when we refactor applicative validation
-    type ErrorStateBuilder() =
-        member this.Return(x) = Success x
-        member this.ReturnFrom(m) = m
+    // convert a dead-end function into a one-track function
+    let tee f x = f x; x
 
-        member this.Bind((m: Result<'a>), f) =
-            match m with
-            | Failure a' -> Failure a'
-            | Success a' -> f a'
+    // convert a switch function into a two-track function
+    let bindAsync f = either f failAsync
 
-        member this.Bind((m: Result<'a> * Result<'b>), f) =
-            match m with
-            | Failure a', Success b' -> Failure a'
-            | Success a', Failure b' -> Failure b'
-            | Failure a', Failure b' -> Failure (a' @ b')
-            | Success a', Success b' -> f (a', b')
-
-        member this.Bind((m: Result<'a> * Result<'b> * Result<'c>), f) =
-            match m with
-            | Failure a', Failure b', Failure c' -> Failure (a' @ b' @ c')
-            | Failure a', Failure b', Success c' -> Failure (a' @ b')
-            | Failure a', Success b', Failure c' -> Failure (a' @ c')
-            | Failure a', Success b', Success c' -> Failure a'
-            | Success a', Failure b', Failure c' -> Failure (b' @ c')
-            | Success a', Failure b', Success c' -> Failure b'
-            | Success a', Success b', Failure c' -> Failure c'
-            | Success a', Success b', Success c' -> f (a', b', c')
-
-        member this.Delay(f) = f()
-
-    let errorState = new ErrorStateBuilder()
+//    let (>>=) input switchFunction = bind switchFunction input
+//    let (>>=!) input switchFunction = bindAsync switchFunction input

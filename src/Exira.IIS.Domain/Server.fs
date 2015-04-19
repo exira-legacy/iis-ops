@@ -1,5 +1,6 @@
 ﻿namespace Exira.IIS.Domain
 
+open Exira.Railway
 open Railway
 open Helpers
 open Exira.IIS.Domain.DomainTypes
@@ -77,8 +78,8 @@ module internal ServerCommandHandler =
             // TODO: If we use async from the top, this will read nicer
             return!
                 state
-                >>= createServer command
-                >>=! save es
+                |> bind (createServer command)
+                |> bindAsync (save es)
         }
 
     let handleRetireServer (command: RetireServerCommand) es =
@@ -88,6 +89,6 @@ module internal ServerCommandHandler =
             // TODO: If we use async from the top, this will read nicer
             return!
                 state
-                >>= deleteServer command
-                >>=! save es
+                |> bind (deleteServer command)
+                |> bindAsync (save es)
         }

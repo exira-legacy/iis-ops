@@ -3,6 +3,7 @@
 module Model =
     open System
 
+    open Exira.Railway
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.Railway
     open Exira.IIS.Domain.Helpers
@@ -22,7 +23,7 @@ module Model =
     }
 
     /// Parses a DTO to a Command object
-    let toCommand : Dto -> Result<Command> = function
+    let toCommand : Dto -> Result<Command, Error list> = function
         | Dto.CreateServer dto ->
             errorState {
                 let serverIdOpt = constructServerId(Guid.NewGuid())

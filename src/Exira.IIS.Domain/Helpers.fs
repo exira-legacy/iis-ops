@@ -4,6 +4,7 @@ module Helpers =
     open System
     open ExtCore.Control
 
+    open Exira.Railway
     open Exira.EventStore
     open Exira.EventStore.EventStore
     open Railway
@@ -17,9 +18,9 @@ module Helpers =
         List.fold
             (fun result event ->
                 result
-                >>= fun (version, state) ->
+                |> bind (fun (version, state) ->
                     evolveOne state event
-                    >>= fun state -> Success (version + 1, state))
+                    |> bind (fun state -> Success (version + 1, state))))
             (Success (-1, initState))
 
     let getState evolveOne initState id es =
