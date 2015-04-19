@@ -1,24 +1,22 @@
 ﻿namespace Exira.IIS.Domain
 
-module Railway =
+module ErrorHandling =
     open Exira.Railway
 
     type Error =
-        | ConstructionError of string
-        | UnknownDto of string
-        | UnknownCommand of string
+        | ConstructionError of string * string
         | InvalidState of string
         | InvalidStateTransition of string
 
     let private constructionSuccess value =
         succeed value
 
-    let private constructionError error =
-        fail [ConstructionError error]
+    let private constructionError ``type`` error =
+        fail [ConstructionError (``type``, error)]
 
-    let construct t value =
+    let construct ctor ``type`` value =
         value
-        |> t constructionSuccess constructionError
+        |> ctor constructionSuccess (constructionError ``type``)
 
     // TODO: Can get rid of this when we refactor applicative validation
     type ErrorStateBuilder() =

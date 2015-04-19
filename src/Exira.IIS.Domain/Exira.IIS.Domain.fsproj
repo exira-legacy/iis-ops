@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Railway.fs" />
-    <Compile Include="Errors.fs" />
+    <Compile Include="ErrorHandling.fs" />
     <Compile Include="DomainTypes.fsi" />
     <Compile Include="DomainTypes.fs" />
     <Compile Include="Commands.fs" />

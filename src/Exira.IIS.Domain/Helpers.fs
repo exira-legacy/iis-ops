@@ -7,8 +7,7 @@ module Helpers =
     open Exira.Railway
     open Exira.EventStore
     open Exira.EventStore.EventStore
-    open Railway
-    open DomainTypes
+    open ErrorHandling
 
     let getTypeName o = o.GetType().Name
 
@@ -51,10 +50,3 @@ module Helpers =
             do! appendToStream es id version events
             return succeed events
         }
-
-    // TODO: This should go somewhere else
-    let constructServerId =
-        construct ServerId.createWithCont
-
-    let constructHostname =
-        construct Hostname.createWithCont

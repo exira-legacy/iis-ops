@@ -3,8 +3,9 @@
 module Model =
     open System
 
+    open Exira.IIS.Domain.DomainTypes
     open Exira.IIS.Domain.Commands
-    open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.ErrorHandling
     open Exira.IIS.Domain.Helpers
 
     type Dto =

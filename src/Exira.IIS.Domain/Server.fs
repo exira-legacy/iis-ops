@@ -1,7 +1,7 @@
 ﻿namespace Exira.IIS.Domain
 
 open Exira.Railway
-open Railway
+open ErrorHandling
 open Helpers
 open Exira.IIS.Domain.DomainTypes
 open Exira.IIS.Domain.Commands

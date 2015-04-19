@@ -6,11 +6,12 @@ module Program =
     open FSharp.Configuration
     open EventStore.ClientAPI
 
+    open Exira.Railway
     open Exira.EventStore
     open Exira.EventStore.EventStore
 
-    open Railway
-    open Exira.IIS.Processor.EventHandler
+    open ErrorHandling
+    open EventHandler
 
     type ProcessorConfig = YamlConfig<"Processor.yaml">
 

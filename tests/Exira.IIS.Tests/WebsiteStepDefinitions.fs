@@ -6,7 +6,7 @@ module WebsiteStepDefinitions =
     open NUnit.Framework
 
     open Exira.Railway
-    open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.ErrorHandling
     open Exira.IIS.Domain.Commands
     open Exira.IIS.Domain.CommandHandler
     open Exira.IIS.Domain.DomainTypes

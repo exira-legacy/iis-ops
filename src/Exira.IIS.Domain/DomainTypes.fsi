@@ -2,6 +2,8 @@
 
 module DomainTypes =
     open System
+    open Exira.Railway
+    open ErrorHandling
 
     module ServerId =
         // encapsulated type
@@ -37,3 +39,6 @@ module DomainTypes =
 
         // unwrap directly
         val value: e: T -> string
+
+    val constructServerId: (Guid -> Result<ServerId.T, Error list>)
+    val constructHostname: (string -> Result<Hostname.T, Error list>)

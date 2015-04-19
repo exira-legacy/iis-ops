@@ -8,27 +8,32 @@ module Application =
     open EventStore.ClientAPI
 
     open Exira.Railway
-    open Exira.IIS.Domain.Railway
+    open Exira.IIS.Domain.ErrorHandling
     open Exira.IIS.Domain.CommandHandler
 
     open Model
 
     let private formatError = function
-        | ConstructionError err -> sprintf "Could not create object '%s'" err
-        | UnknownDto dto -> sprintf "Unknown dto '%s'" dto
-        | UnknownCommand cmd -> sprintf "Unknown command '%s'" cmd
+        | ConstructionError (``type``, err) ->
+            sprintf "Could not create object '%s': %s" ``type`` err
         | _ -> "Doh!"
 
-    let private formatErrors errors =
+    let private format errors =
         errors
         |> Seq.map formatError
         |> String.concat "\n"
+
+    let private determineErrorCode errors =
+        // ConstructionError = BadRequest
+        // InvalidState = BadRequest
+        // InvalidStateTransition = InternalServerError
+        HttpStatusCode.InternalServerError
 
     // TODO: HttpStatusCode should also be mapped from FailureType
     let private matchToResult (controller:'T when 'T :> ApiController) result =
         match result with
         | Success _ -> controller.Request.CreateResponse HttpStatusCode.Accepted
-        | Failure errors -> controller.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, (formatErrors errors))
+        | Failure errors -> controller.Request.CreateErrorResponse((errors |> determineErrorCode), (errors |> format))
 
     let private getConnection (controller: ApiController) =
         let owinEnvironment = controller.Request.GetOwinEnvironment()

@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Railway.fs" />
+    <Compile Include="ErrorHandling.fs" />
     <Compile Include="EventHandler.fs" />
     <Compile Include="Program.fs" />
     <None Include="Processor.yaml">

@@ -1,6 +1,7 @@
 ﻿namespace Exira.IIS.Domain
 
 module DomainTypes =
+    open ErrorHandling
 
     module ServerId =
         open System
@@ -51,3 +52,9 @@ module DomainTypes =
 
         // unwrap directly
         let value e = apply id e
+
+    let constructServerId =
+        construct ServerId.createWithCont "ServerId"
+
+    let constructHostname =
+        construct Hostname.createWithCont "Hostname"
