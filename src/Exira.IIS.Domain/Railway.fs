@@ -1,13 +1,9 @@
 ﻿namespace Exira
 
 module Railway =
-    // the two-track type
     type Result<'TSuccess, 'TFailure> =
         | Success of 'TSuccess
         | Failure of 'TFailure
-
-//    type AsyncResult<'TSuccess, 'TFailure> =
-//       Async<Result<'TSuccess, 'TFailure>>
 
     // convert a single value into a two-track result
     let succeed x =
@@ -40,6 +36,3 @@ module Railway =
 
     // convert a switch function into a two-track function
     let bindAsync f = either f failAsync
-
-//    let (>>=) input switchFunction = bind switchFunction input
-//    let (>>=!) input switchFunction = bindAsync switchFunction input

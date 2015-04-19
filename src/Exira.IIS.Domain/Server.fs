@@ -24,12 +24,12 @@ module internal Server =
 module internal ServerState =
     open Server
 
-    let evolveOneServer state event =
+    let applyServerEvent state event =
         match state with
         | Init ->
             match event with
             | ServerCreated e ->
-                Success (Created { ServerId = e.ServerId
+                succeed (Created { ServerId = e.ServerId
                                    Name = e.Name
                                    Dns = e.Dns
                                    Description = e.Description })
@@ -38,7 +38,7 @@ module internal ServerState =
         | Created _ ->
             match event with
             | ServerDeleted _ ->
-                Success (Deleted)
+                succeed (Deleted)
             | _ -> stateTransitionFail event state
 
         | Deleted ->
@@ -46,7 +46,7 @@ module internal ServerState =
             | _ -> stateTransitionFail event state
 
     let toServerStreamId id = id |> ServerId.value |> toStreamId "server"
-    let getServerState id = getState (evolve evolveOneServer) Init (toServerStreamId id)
+    let getServerState id = getState (applyEvents applyServerEvent) Init (toServerStreamId id)
 
 module internal ServerCommandHandler =
     open Server
@@ -60,16 +60,16 @@ module internal ServerCommandHandler =
 
         // Anything else than coming from Init is invalid
         match state with
-        | Init -> Success ((toServerStreamId command.ServerId), version, [ServerCreated serverCreated])
-        | _ -> Failure [InvalidState "Server"]
+        | Init -> succeed ((toServerStreamId command.ServerId), version, [ServerCreated serverCreated])
+        | _ -> fail [InvalidState "Server"]
 
     let deleteServer (command: RetireServerCommand) (version, state) =
         let serverDeleted = { ServerDeletedEvent.ServerId = command.ServerId }
 
         // Only previously created servers can be deleted
         match state with
-        | Created _ -> Success ((toServerStreamId command.ServerId), version, [ServerDeleted serverDeleted])
-        | _ -> Failure [InvalidState "Server"]
+        | Created _ -> succeed ((toServerStreamId command.ServerId), version, [ServerDeleted serverDeleted])
+        | _ -> fail [InvalidState "Server"]
 
     let handleInitializeServer (command: InitializeServerCommand) es =
         async {

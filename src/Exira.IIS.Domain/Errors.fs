@@ -10,11 +10,11 @@ module Railway =
         | InvalidState of string
         | InvalidStateTransition of string
 
-    let constructionSuccess value =
-        Success value
+    let private constructionSuccess value =
+        succeed value
 
-    let constructionError error =
-        Failure [ConstructionError error]
+    let private constructionError error =
+        fail [ConstructionError error]
 
     let construct t value =
         value
