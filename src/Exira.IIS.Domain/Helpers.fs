@@ -7,7 +7,7 @@ module Helpers =
     open Exira.Railway
     open Exira.EventStore
     open Exira.EventStore.EventStore
-    open ErrorHandling
+    open DomainModel
 
     let getTypeName o = o.GetType().Name
 

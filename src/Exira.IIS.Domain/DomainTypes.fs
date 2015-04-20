@@ -1,7 +1,13 @@
 ﻿namespace Exira.IIS.Domain
 
 module DomainTypes =
-    open ErrorHandling
+    type GuidError =
+    | Missing
+    | MustNotBeEmpty
+
+    type StringError =
+    | Missing
+    | DoesntMatchPattern of string
 
     module ServerId =
         open System
@@ -14,7 +20,7 @@ module DomainTypes =
         let createWithCont success failure value =
             if value <> Guid.Empty
                 then success (ServerId value)
-                else failure "ServerId cannot be an empty Guid"
+                else failure MustNotBeEmpty // "ServerId cannot be an empty Guid"
 
         // create directly
         let create value =
@@ -37,9 +43,10 @@ module DomainTypes =
 
         // create with continuation
         let createWithCont success failure value =
-            if Regex.IsMatch(value, validHostnameRegex)
-                then success (Hostname value)
-                else failure "Invalid hostname according to RFC 1123"
+            match value with
+            | null -> failure StringError.Missing
+            | _ when (Regex.IsMatch(value, validHostnameRegex)) -> success (Hostname value)
+            | _ -> failure (DoesntMatchPattern validHostnameRegex) //"Invalid hostname according to RFC 1123"
 
         // create directly
         let create value =
@@ -52,9 +59,3 @@ module DomainTypes =
 
         // unwrap directly
         let value e = apply id e
-
-    let constructServerId =
-        construct ServerId.createWithCont "ServerId"
-
-    let constructHostname =
-        construct Hostname.createWithCont "Hostname"

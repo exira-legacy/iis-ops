@@ -1,28 +1,12 @@
 ﻿namespace Exira.IIS.Domain
 
 open Exira.Railway
-open ErrorHandling
+open DomainModel
 open Helpers
-open Exira.IIS.Domain.DomainTypes
-open Exira.IIS.Domain.Commands
-open Exira.IIS.Domain.Events
+open Events
 
 module internal Server =
-
-    type ServerInfo = {
-        ServerId: ServerId.T
-        Name: string
-        Dns: Hostname.T
-        Description: string
-    }
-
-    type Server =
-        | Init
-        | Created of ServerInfo
-        | Deleted
-
-module internal ServerState =
-    open Server
+    open DomainTypes
 
     let applyServerEvent state event =
         match state with
@@ -49,8 +33,8 @@ module internal ServerState =
     let getServerState id = getState (applyEvents applyServerEvent) Init (toServerStreamId id)
 
 module internal ServerCommandHandler =
+    open Commands
     open Server
-    open ServerState
 
     let createServer (command: InitializeServerCommand) (version, state) =
         let serverCreated = { ServerCreatedEvent.ServerId = command.ServerId

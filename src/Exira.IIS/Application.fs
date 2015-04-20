@@ -8,14 +8,14 @@ module Application =
     open EventStore.ClientAPI
 
     open Exira.Railway
-    open Exira.IIS.Domain.ErrorHandling
+    open Exira.IIS.Domain.DomainModel
     open Exira.IIS.Domain.CommandHandler
 
     open Model
 
     let private formatError = function
-        | ConstructionError (``type``, err) ->
-            sprintf "Could not create object '%s': %s" ``type`` err
+//        | ConstructionError (``type``, err) ->
+//            sprintf "Could not create object '%s': %s" ``type`` err
         | _ -> "Doh!"
 
     let private format errors =
