@@ -23,24 +23,25 @@ module Model =
     }
 
     /// Parses a DTO to a Command object
-    let toCommand = function
-        | Dto.CreateServer dto ->
+    let toCommand dto =
+        match dto with
+        | Dto.CreateServer d ->
             errorState {
                 let serverIdOpt = constructServerId(Guid.NewGuid())
-                let hostnameOpt = constructHostname dto.Dns
+                let hostnameOpt = constructHostname d.Dns
 
                 // TODO: Use applicative things for this
 
                 let! (serverId, hostname) = (serverIdOpt, hostnameOpt)
 
                 return InitializeServer { InitializeServerCommand.ServerId = serverId
-                                          Name = dto.Name
+                                          Name = d.Name
                                           Dns = hostname
-                                          Description = dto.Description }
+                                          Description = d.Description }
             }
-        | Dto.DeleteServer dto ->
+        | Dto.DeleteServer d ->
             errorState {
-                let serverIdOpt = constructServerId dto.ServerId
+                let serverIdOpt = constructServerId d.ServerId
 
                 // TODO: Use applicative things for this
 
