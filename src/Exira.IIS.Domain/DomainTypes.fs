@@ -1,6 +1,8 @@
 ﻿namespace Exira.IIS.Domain
 
 module DomainTypes =
+    open System.Text.RegularExpressions
+
     type GuidError =
     | Missing
     | MustNotBeEmpty
@@ -8,6 +10,10 @@ module DomainTypes =
     type StringError =
     | Missing
     | DoesntMatchPattern of string
+
+    let private (|Match|_|) pattern input =
+        let m = Regex.Match(input, pattern) in
+        if m.Success then Some (List.tail [ for g in m.Groups -> g.Value ]) else None
 
     module ServerId =
         open System
@@ -35,8 +41,6 @@ module DomainTypes =
         let value e = apply id e
 
     module Hostname =
-        open System.Text.RegularExpressions
-
         type T = Hostname of string
 
         let validHostnameRegex = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
@@ -45,8 +49,8 @@ module DomainTypes =
         let createWithCont success failure value =
             match value with
             | null -> failure StringError.Missing
-            | _ when (Regex.IsMatch(value, validHostnameRegex)) -> success (Hostname value)
-            | _ -> failure (DoesntMatchPattern validHostnameRegex) //"Invalid hostname according to RFC 1123"
+            | Match validHostnameRegex _ -> success (Hostname value)
+            | _ -> failure (DoesntMatchPattern validHostnameRegex)  //"Invalid hostname according to RFC 1123"
 
         // create directly
         let create value =
