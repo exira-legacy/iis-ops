@@ -13,7 +13,37 @@ module Application =
 
     open Model
 
-    let private formatError = function
+    type private ResponseMessage =
+        | NotFound
+        | BadRequest of string
+        | InternalServerError of string
+
+    let private classify msg =
+        match msg with
+        | ConstructionError (_, _)
+        | InvalidState _ ->
+            BadRequest (sprintf "%A" msg)
+
+        | InvalidStateTransition _ ->
+            InternalServerError (sprintf "%A" msg)
+
+    let private primaryError errors =
+        errors
+        |> List.map classify
+        |> List.sort
+        |> List.head
+
+    let private determineErrorCode errors =
+        match primaryError errors with
+        | NotFound ->
+            HttpStatusCode.NotFound
+        | BadRequest _ ->
+            HttpStatusCode.BadRequest
+        | InternalServerError _ ->
+            HttpStatusCode.InternalServerError
+
+    let private formatError error =
+        match error with
         | ConstructionError (``type``, err) ->
             sprintf "Could not create object '%s': %s" ``type`` err
         | _ -> "Doh!"
@@ -23,13 +53,6 @@ module Application =
         |> Seq.map formatError
         |> String.concat "\n"
 
-    let private determineErrorCode errors =
-        // ConstructionError = BadRequest
-        // InvalidState = BadRequest
-        // InvalidStateTransition = InternalServerError
-        HttpStatusCode.InternalServerError
-
-    // TODO: HttpStatusCode should also be mapped from FailureType
     let private matchToResult (controller:'T when 'T :> ApiController) result =
         match result with
         | Success _ -> controller.Request.CreateResponse HttpStatusCode.Accepted
