@@ -8,24 +8,32 @@ module Application =
     open EventStore.ClientAPI
 
     open Exira.Railway
-    open Exira.IIS.Domain.ErrorHandling
+    open Exira.IIS.Domain.DomainModel
     open Exira.IIS.Domain.CommandHandler
 
     open Model
 
     type private ResponseMessage =
-        | NotFound
-        | BadRequest of string
-        | InternalServerError of string
+    | NotFound
+    | BadRequest of string
+    | InternalServerError of string
 
-    let private classify msg =
-        match msg with
-        | ConstructionError (_, _)
-        | InvalidState _ ->
-            BadRequest (sprintf "%A" msg)
+    let private classify error =
+        match error with
+        | ServerDoesNotExist ->
+            NotFound
 
+        | ServerIdIsRequired
+        | ServerIdMustNotBeEmpty
+        | HostnameIsRequired
+        | HostnameMustBeValid
+        | ServerAlreadyCreated
+        | ServerAlreadyDeleted ->
+            BadRequest (sprintf "%A" error)
+
+        | InvalidState _
         | InvalidStateTransition _ ->
-            InternalServerError (sprintf "%A" msg)
+            InternalServerError (sprintf "%A" error)
 
     let private primaryError errors =
         errors
@@ -44,9 +52,17 @@ module Application =
 
     let private formatError error =
         match error with
-        | ConstructionError (``type``, err) ->
-            sprintf "Could not create object '%s': %s" ``type`` err
-        | _ -> "Doh!"
+        | ServerIdIsRequired -> sprintf "ServerId is required."
+        | ServerIdMustNotBeEmpty -> sprintf "ServerId cannot be an empty Guid."
+        | HostnameIsRequired -> sprintf "Hostname is required."
+        | HostnameMustBeValid -> sprintf "Invalid hostname according to RFC 1123."
+
+        | ServerDoesNotExist -> sprintf "Server does not exist."
+        | ServerAlreadyCreated -> sprintf "Server has already been created."
+        | ServerAlreadyDeleted -> sprintf "Server has already been deleted."
+
+        | InvalidState _
+        | InvalidStateTransition _ -> "Doh!"
 
     let private format errors =
         errors

@@ -2,8 +2,14 @@
 
 module DomainTypes =
     open System
-    open Exira.Railway
-    open ErrorHandling
+
+    type GuidError =
+    | Missing
+    | MustNotBeEmpty
+
+    type StringError =
+    | Missing
+    | DoesntMatchPattern of string
 
     module ServerId =
         // encapsulated type
@@ -13,7 +19,7 @@ module DomainTypes =
         val newServerId : unit -> T
 
         // create with continuation
-        val createWithCont: success: (T -> 'a) -> failure: (string -> 'a) -> value: Guid -> 'a
+        val createWithCont: success: (T -> 'a) -> failure: (GuidError -> 'a) -> value: Guid -> 'a
 
         // create directly
         val create: value: Guid -> T option
@@ -29,7 +35,7 @@ module DomainTypes =
         type T
 
         // create with continuation
-        val createWithCont: success: (T -> 'a) -> failure: (string -> 'a) -> value: string -> 'a
+        val createWithCont: success: (T -> 'a) -> failure: (StringError -> 'a) -> value: string -> 'a
 
         // create directly
         val create: value: string -> T option
@@ -39,6 +45,3 @@ module DomainTypes =
 
         // unwrap directly
         val value: e: T -> string
-
-    val constructServerId: (Guid -> Result<ServerId.T, Error list>)
-    val constructHostname: (string -> Result<Hostname.T, Error list>)

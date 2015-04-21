@@ -3,14 +3,13 @@
 module Model =
     open System
 
-    open Exira.IIS.Domain.DomainTypes
+    open Exira.Railway
+    open Exira.IIS.Domain.DomainModel
     open Exira.IIS.Domain.Commands
-    open Exira.IIS.Domain.ErrorHandling
-    open Exira.IIS.Domain.Helpers
 
     type Dto =
-        | CreateServer of CreateServerDto
-        | DeleteServer of DeleteServerDto
+    | CreateServer of CreateServerDto
+    | DeleteServer of DeleteServerDto
 
     and CreateServerDto = {
         Name: string
@@ -27,8 +26,8 @@ module Model =
         match dto with
         | Dto.CreateServer d ->
             errorState {
-                let serverIdOpt = constructServerId(Guid.NewGuid())
-                let hostnameOpt = constructHostname d.Dns
+                let serverIdOpt = createServerId(Guid.NewGuid())
+                let hostnameOpt = createHostname d.Dns
 
                 // TODO: Use applicative things for this
 
@@ -41,7 +40,7 @@ module Model =
             }
         | Dto.DeleteServer d ->
             errorState {
-                let serverIdOpt = constructServerId d.ServerId
+                let serverIdOpt = createServerId d.ServerId
 
                 // TODO: Use applicative things for this
 

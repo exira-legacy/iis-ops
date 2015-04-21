@@ -4,8 +4,8 @@ module Commands =
     open DomainTypes
 
     type Command =
-        | InitializeServer of InitializeServerCommand
-        | RetireServer of RetireServerCommand
+    | InitializeServer of InitializeServerCommand
+    | RetireServer of RetireServerCommand
 
     and InitializeServerCommand = {
         ServerId: ServerId.T

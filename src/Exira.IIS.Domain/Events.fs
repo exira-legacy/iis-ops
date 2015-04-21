@@ -4,8 +4,8 @@ module Events =
     open DomainTypes
 
     type Event =
-        | ServerCreated of ServerCreatedEvent
-        | ServerDeleted of ServerDeletedEvent
+    | ServerCreated of ServerCreatedEvent
+    | ServerDeleted of ServerDeletedEvent
 
     and ServerCreatedEvent = {
         ServerId: ServerId.T
