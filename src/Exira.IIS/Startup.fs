@@ -5,6 +5,7 @@ open Microsoft.Owin.Extensions
 open System.Net
 open System.Web.Http
 open System.Web.Http.Cors
+open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open FSharp.Configuration
 
@@ -25,6 +26,7 @@ type Startup() =
     let configureFormatters (config: HttpConfiguration)  =
         config.Formatters.Remove config.Formatters.XmlFormatter |> ignore
         config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- CamelCasePropertyNamesContractResolver()
+        config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling <- ReferenceLoopHandling.Ignore
         config
 
     let configureCors (config: HttpConfiguration) =
