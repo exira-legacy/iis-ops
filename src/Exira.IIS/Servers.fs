@@ -11,6 +11,7 @@ module Servers =
     let await f =
         f |> Async.StartAsTask
 
+    [<Authorize>]
     [<RoutePrefix("servers")>]
     type ServersController() =
         inherit ApiController()

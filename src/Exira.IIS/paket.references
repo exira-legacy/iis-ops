@@ -2,6 +2,7 @@ FSharp.Core
 Microsoft.AspNet.WebApi.Cors
 Microsoft.AspNet.WebApi.Owin
 Microsoft.Owin.Host.SystemWeb
+Microsoft.Owin.Security.Jwt
 FSharp.Configuration
 GNaP.WebApi.Versioning
 Exira.EventStore.Owin

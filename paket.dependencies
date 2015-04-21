@@ -14,6 +14,7 @@ nuget GNaP.WebApi.Versioning
 nuget Microsoft.AspNet.WebApi.Cors
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
+nuget Microsoft.Owin.Security.Jwt
 nuget tickspec
 nuget Exira.EventStore.Owin
 

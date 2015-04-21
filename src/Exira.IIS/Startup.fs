@@ -2,7 +2,10 @@
 
 open Owin
 open Microsoft.Owin.Extensions
+open Microsoft.Owin.Security
+open Microsoft.Owin.Security.Jwt
 open System.Net
+open System.Text
 open System.Web.Http
 open System.Web.Http.Cors
 open Newtonsoft.Json
@@ -18,6 +21,16 @@ type WebConfig = YamlConfig<"Web.yaml">
 type Startup() =
 
     let webConfig = WebConfig()
+
+    let registerAuthentication (app: IAppBuilder) =
+        let secret = Encoding.UTF8.GetBytes webConfig.Web.JWT.TokenSigningKey
+        let options = JwtBearerAuthenticationOptions(
+                        AuthenticationMode = AuthenticationMode.Active,
+                        AllowedAudiences = webConfig.Web.JWT.Audiences,
+                        IssuerSecurityTokenProviders =
+                            [SymmetricKeyIssuerSecurityTokenProvider(webConfig.Web.JWT.Issuer, secret)])
+
+        app.UseJwtBearerAuthentication options |> ignore
 
     let configureRouting (config: HttpConfiguration) =
         config.MapHttpAttributeRoutes()
@@ -72,6 +85,7 @@ type Startup() =
         app.UseEventStore(config) |> ignore
 
     member __.Configuration(app: IAppBuilder) =
+        registerAuthentication app
         registerEventStore app
         registerWebApi app "/api"
         app.Run(fun c -> c.Response.WriteAsync("Hello iis-ops!"))
