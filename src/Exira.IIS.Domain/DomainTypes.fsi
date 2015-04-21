@@ -11,6 +11,10 @@ module DomainTypes =
     | Missing
     | DoesntMatchPattern of string
 
+    type UriError =
+    | Missing
+    | Unknown
+
     module ServerId =
         // encapsulated type
         type T
@@ -35,7 +39,7 @@ module DomainTypes =
         type T
 
         // create with continuation
-        val createWithCont: success: (T -> 'a) -> failure: (StringError -> 'a) -> value: string -> 'a
+        val createWithCont: success: (T -> 'a) -> failure: (UriError -> 'a) -> value: string -> 'a
 
         // create directly
         val create: value: string -> T option

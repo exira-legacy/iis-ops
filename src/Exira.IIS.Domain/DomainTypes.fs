@@ -11,6 +11,10 @@ module DomainTypes =
     | Missing
     | DoesntMatchPattern of string
 
+    type UriError =
+    | Missing
+    | Unknown
+
     let private (|Match|_|) pattern input =
         let m = Regex.Match(input, pattern) in
         if m.Success then Some (List.tail [ for g in m.Groups -> g.Value ]) else None
@@ -41,16 +45,17 @@ module DomainTypes =
         let value e = apply id e
 
     module Hostname =
-        type T = Hostname of string
+        open System
 
-        let validHostnameRegex = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
+        type T = Hostname of string
 
         // create with continuation
         let createWithCont success failure value =
-            match value with
-            | null -> failure StringError.Missing
-            | Match validHostnameRegex _ -> success (Hostname value)
-            | _ -> failure (DoesntMatchPattern validHostnameRegex)  //"Invalid hostname according to RFC 1123"
+            match value, Uri.CheckHostName value with
+            | null, _ -> failure UriError.Missing
+            | _, UriHostNameType.Unknown
+            | _, UriHostNameType.Basic -> failure UriError.Unknown
+            | _ -> success (Hostname value)
 
         // create directly
         let create value =

@@ -53,8 +53,8 @@ module DomainModel =
 
     let createHostname hostname =
         let map = function
-        | StringError.Missing -> HostnameIsRequired
-        | DoesntMatchPattern _ -> HostnameMustBeValid
+        | UriError.Missing -> HostnameIsRequired
+        | Unknown -> HostnameMustBeValid
 
         hostname
         |> construct Hostname.createWithCont
