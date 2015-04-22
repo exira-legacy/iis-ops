@@ -6,7 +6,8 @@ module Program =
     open FSharp.Configuration
     open EventStore.ClientAPI
 
-    open Exira.Railway
+    open Exira.ErrorHandling
+
     open Exira.EventStore
     open Exira.EventStore.EventStore
 

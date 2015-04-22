@@ -1,7 +1,8 @@
 ﻿namespace Exira.IIS.Domain
 
 module DomainModel =
-    open Exira.Railway
+    open Exira.ErrorHandling
+
     open DomainTypes
 
     type ServerInfo = {

@@ -1,3 +1,4 @@
 FSharp.Core
 ExtCore
 Exira.EventStore
+Exira.ErrorHandling

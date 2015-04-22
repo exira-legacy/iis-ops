@@ -3,3 +3,4 @@ TickSpec
 NUnit
 EventStore.Client
 FSharp.Configuration
+Exira.ErrorHandling

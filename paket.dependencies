@@ -17,5 +17,6 @@ nuget Microsoft.Owin.Host.SystemWeb
 nuget Microsoft.Owin.Security.Jwt
 nuget tickspec
 nuget Exira.EventStore.Owin
+nuget Exira.ErrorHandling
 
 github fsharp/FAKE modules/Octokit/Octokit.fsx

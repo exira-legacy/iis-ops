@@ -2,3 +2,4 @@ FSharp.Core
 FSharp.Configuration
 ExtCore
 Exira.EventStore
+Exira.ErrorHandling

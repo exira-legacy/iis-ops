@@ -3,7 +3,8 @@
 module Model =
     open System
 
-    open Exira.Railway
+    open Exira.ErrorHandling
+
     open Exira.IIS.Domain.DomainModel
     open Exira.IIS.Domain.Commands
 

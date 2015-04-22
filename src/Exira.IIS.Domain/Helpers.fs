@@ -4,7 +4,8 @@ module Helpers =
     open System
     open ExtCore.Control
 
-    open Exira.Railway
+    open Exira.ErrorHandling
+
     open Exira.EventStore
     open Exira.EventStore.EventStore
     open DomainModel

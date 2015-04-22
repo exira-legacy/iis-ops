@@ -4,7 +4,8 @@ module EventHandler =
     open Microsoft.FSharp.Reflection
     open EventStore.ClientAPI
 
-    open Exira.Railway
+    open Exira.ErrorHandling
+
     open Exira.EventStore.Serialization
     open Exira.IIS.Domain.DomainTypes
     open Exira.IIS.Domain.Events

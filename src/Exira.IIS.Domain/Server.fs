@@ -1,6 +1,6 @@
 ﻿namespace Exira.IIS.Domain
 
-open Exira.Railway
+open Exira.ErrorHandling
 open DomainModel
 open Helpers
 open Events

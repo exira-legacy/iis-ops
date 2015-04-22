@@ -6,3 +6,4 @@ Microsoft.Owin.Security.Jwt
 FSharp.Configuration
 GNaP.WebApi.Versioning
 Exira.EventStore.Owin
+Exira.ErrorHandling
