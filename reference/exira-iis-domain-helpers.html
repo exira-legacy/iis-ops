@@ -50,51 +50,15 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '11', 11)" onmouseover="showTip(event, '11', 11)">
-            constructHostname 
-          </code>
-          <div class="tip" id="11">
-            <strong>Signature:</strong> string -&gt; Result&lt;T&gt;<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L42-42" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
-          <code onmouseout="hideTip(event, '12', 12)" onmouseover="showTip(event, '12', 12)">
-            constructServerId 
-          </code>
-          <div class="tip" id="12">
-            <strong>Signature:</strong> Guid -&gt; Result&lt;T&gt;<br />
-                      </div>
-        </td>
-        <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L39-39" class="github-link">
-              <img src="../content/img/github.png" class="normal" />
-              <img src="../content/img/github-blue.png" class="hover" />
-            </a>
-          
-        </td>
-      </tr>
-      <tr>
-        <td class="member-name">
-
           <code onmouseout="hideTip(event, '13', 13)" onmouseover="showTip(event, '13', 13)">
-            evolve evolveOne initState
+            applyEvents applyEvent initState events
           </code>
           <div class="tip" id="13">
-            <strong>Signature:</strong> evolveOne:(&#39;?6224 -&gt; &#39;?6225 -&gt; Result&lt;&#39;?6224&gt;) -&gt; initState:&#39;?6224 -&gt; &#39;?6225 list -&gt; Result&lt;int * &#39;?6224&gt;<br />
-                          <strong>Type parameters:</strong> '?6224, '?6225          </div>
+            <strong>Signature:</strong> applyEvent:(&#39;?6113 -&gt; &#39;?6114 -&gt; Result&lt;&#39;?6113,&#39;?6115&gt;) -&gt; initState:&#39;?6113 -&gt; events:&#39;?6114 list -&gt; Result&lt;(int * &#39;?6113),&#39;?6115&gt;<br />
+                          <strong>Type parameters:</strong> '?6113, '?6114, '?6115          </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L16-16" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L20-20" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -105,14 +69,14 @@
         <td class="member-name">
 
           <code onmouseout="hideTip(event, '14', 14)" onmouseover="showTip(event, '14', 14)">
-            getState evolveOne initState id es
+            getState applyEvents initState id es
           </code>
           <div class="tip" id="14">
-            <strong>Signature:</strong> evolveOne:(&#39;?6227 -&gt; &#39;?6228 list -&gt; &#39;?6229) -&gt; initState:&#39;?6227 -&gt; id:StreamId -&gt; es:IEventStoreConnection -&gt; Async&lt;&#39;?6229&gt;<br />
-                          <strong>Type parameters:</strong> '?6227, '?6228, '?6229          </div>
+            <strong>Signature:</strong> applyEvents:(&#39;?6117 -&gt; &#39;?6118 list -&gt; &#39;?6119) -&gt; initState:&#39;?6117 -&gt; id:StreamId -&gt; es:IEventStoreConnection -&gt; Async&lt;&#39;?6119&gt;<br />
+                          <strong>Type parameters:</strong> '?6117, '?6118, '?6119          </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L25-25" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L42-42" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -126,11 +90,11 @@
             getTypeName o
           </code>
           <div class="tip" id="15">
-            <strong>Signature:</strong> o:&#39;?6218 -&gt; string<br />
-                          <strong>Type parameters:</strong> '?6218          </div>
+            <strong>Signature:</strong> o:&#39;?6107 -&gt; string<br />
+                          <strong>Type parameters:</strong> '?6107          </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L12-12" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L13-13" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -144,11 +108,11 @@
             save es (id, version, events)
           </code>
           <div class="tip" id="16">
-            <strong>Signature:</strong> es:IEventStoreConnection -&gt; (id:StreamId * version:int * events:&#39;?6232 list) -&gt; Async&lt;Result&lt;&#39;?6232 list&gt;&gt;<br />
-                          <strong>Type parameters:</strong> '?6232          </div>
+            <strong>Signature:</strong> es:IEventStoreConnection -&gt; (id:StreamId * version:int * events:&#39;?6122 list) -&gt; Async&lt;Result&lt;&#39;?6122 list,&#39;?6123&gt;&gt;<br />
+                          <strong>Type parameters:</strong> '?6122, '?6123          </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L32-32" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L49-49" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -162,11 +126,11 @@
             stateTransitionFail event state
           </code>
           <div class="tip" id="17">
-            <strong>Signature:</strong> event:&#39;?6220 -&gt; state:&#39;?6221 -&gt; Result&lt;&#39;?6222&gt;<br />
-                          <strong>Type parameters:</strong> '?6220, '?6221, '?6222          </div>
+            <strong>Signature:</strong> event:&#39;?6109 -&gt; state:&#39;?6110 -&gt; Result&lt;&#39;?6111,Error list&gt;<br />
+                          <strong>Type parameters:</strong> '?6109, '?6110, '?6111          </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L13-13" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L15-15" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
@@ -184,7 +148,7 @@
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L30-30" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/Helpers.fs#L47-47" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>

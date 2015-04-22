@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>CommandHandler - iis-ops</title>
+    <title>DomainModel - iis-ops</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content="exira"/>
@@ -35,11 +35,40 @@
 
 
 
-<h1>CommandHandler</h1>
+<h1>DomainModel</h1>
 <div class="xmldoc">
 </div>
 
 <!-- Render nested types and modules, if there are any -->
+  <h2>Nested types and modules</h2>
+  <div>
+      <table class="table table-bordered type-list">
+    <thead>
+      <tr><td>Type</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="type-name">
+            <a href="exira-iis-domain-domainmodel-error.html">Error</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="exira-iis-domain-domainmodel-server.html">Server</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+        <tr>
+          <td class="type-name">
+            <a href="exira-iis-domain-domainmodel-serverinfo.html">ServerInfo</a>
+          </td>
+          <td class="xmldoc"></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
 
   <h3>Functions and values</h3>
   <table class="table table-bordered member-list">
@@ -50,15 +79,33 @@
       <tr>
         <td class="member-name">
 
-          <code onmouseout="hideTip(event, '1', 1)" onmouseover="showTip(event, '1', 1)">
-            handleCommand es command
+          <code onmouseout="hideTip(event, '2', 2)" onmouseover="showTip(event, '2', 2)">
+            createHostname hostname
           </code>
-          <div class="tip" id="1">
-            <strong>Signature:</strong> es:IEventStoreConnection -&gt; command:Command -&gt; Async&lt;Result&lt;Event list,Error list&gt;&gt;<br />
+          <div class="tip" id="2">
+            <strong>Signature:</strong> hostname:string -&gt; Result&lt;T,Error list&gt;<br />
                       </div>
         </td>
         <td class="xmldoc">
-            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/CommandHandler.fs#L7-7" class="github-link">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/DomainModel.fs#L55-55" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '3', 3)" onmouseover="showTip(event, '3', 3)">
+            createServerId serverId
+          </code>
+          <div class="tip" id="3">
+            <strong>Signature:</strong> serverId:Guid -&gt; Result&lt;T,Error list&gt;<br />
+                      </div>
+        </td>
+        <td class="xmldoc">
+            <a href="http://github.com/exira/iis-ops/tree/master/src/Exira.IIS.Domain/DomainModel.fs#L46-46" class="github-link">
               <img src="../content/img/github.png" class="normal" />
               <img src="../content/img/github-blue.png" class="hover" />
             </a>
