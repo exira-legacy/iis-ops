@@ -26,26 +26,24 @@ module Model =
     let toCommand dto =
         match dto with
         | Dto.CreateServer d ->
-            errorState {
-                let serverIdOpt = createServerId(Guid.NewGuid())
-                let hostnameOpt = createHostname d.Dns
+            let serverIdOpt = createServerId(Guid.NewGuid())
+            let hostnameOpt = createHostname d.Dns
 
-                // TODO: Use applicative things for this
+            let createInitializeServer serverId hostname =
+                InitializeServer { InitializeServerCommand.ServerId = serverId
+                                   Name = d.Name
+                                   Dns = hostname
+                                   Description = d.Description }
 
-                let! (serverId, hostname) = (serverIdOpt, hostnameOpt)
+            createInitializeServer
+            <!> serverIdOpt
+            <*> hostnameOpt
 
-                return InitializeServer { InitializeServerCommand.ServerId = serverId
-                                          Name = d.Name
-                                          Dns = hostname
-                                          Description = d.Description }
-            }
         | Dto.DeleteServer d ->
-            errorState {
-                let serverIdOpt = createServerId d.ServerId
+            let serverIdOpt = createServerId d.ServerId
 
-                // TODO: Use applicative things for this
+            let createRetireServer serverId =
+                RetireServer { RetireServerCommand.ServerId = serverId }
 
-                let! (serverId) = (serverIdOpt)
-
-                return RetireServer { RetireServerCommand.ServerId = serverId }
-            }
+            createRetireServer
+            <!> serverIdOpt
