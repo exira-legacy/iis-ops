@@ -44,8 +44,6 @@ module Helpers =
         |> Async.map (fun (events, _, _) -> events)
         |> Async.map (applyEvents initState)
 
-    let toStreamId prefix (id: Guid) = sprintf "%s-%O" prefix id |> StreamId
-
     let save es (id, version, events) =
         async {
             do! appendToStream es id version events

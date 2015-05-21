@@ -1,6 +1,7 @@
 ﻿namespace Exira.IIS.Domain
 
 open Exira.ErrorHandling
+open Exira.EventStore.EventStore
 open DomainModel
 open Helpers
 open Events
